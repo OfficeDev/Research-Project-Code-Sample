@@ -1,0 +1,42 @@
+﻿<div data-ng-controller="referenceList as vm">
+  <h4>Project References</h4>
+
+  <div>
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr data-ng-show="!vm.hasReferences">
+          <td>No references have been added to this project</td>
+        </tr>
+        <tr data-ng-repeat="ref in vm.references">
+          <td>
+            <div style="float: left; margin-right: 10px;">
+              <button class="btn btn-success" title="go to reference"
+                      data-ng-click="vm.goReference(ref)">
+                <i class="glyphicon glyphicon-share-alt"></i>
+              </button>
+              <button class="btn btn-primary" title="edit reference"
+                      data-ng-click="vm.goEdit(ref)"><i class="glyphicon glyphicon-pencil"></i></button>
+            </div>
+            <div>
+              <strong>{{ref.Title}}</strong><br />
+              <em>{{ref.Notes}}</em>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <button class="btn btn-primary"
+                    data-ng-click="vm.goNewReference()">
+              <i class="glyphicon glyphicon-plus"></i>&nbsp;add reference
+            </button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- modal dialog used for edit & delete -->
+  <div data-ng-include="'/App/references/detailEdit.html'"></div>
+</div>

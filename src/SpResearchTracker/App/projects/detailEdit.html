@@ -1,0 +1,29 @@
+﻿<script type="text/ng-template" id="myProjectModalContent.html">
+  <div class="modal-header">
+    <h2 data-ng-bind="pageTitle"></h2>
+  </div>
+  <div class="modal-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="projectName">Project: </label>
+        <input type="text" class="form-control" id="projectName"
+               data-ng-model="project.Title"
+               data-z-validate
+               placeholder="project name" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary"
+            data-ng-disabled="!entityIsDirty"
+            data-ng-click="goSave()">save
+    </button>
+    <button type="button" class="btn btn-default"
+            data-ng-click="goCancel()">cancel
+    </button>
+    <button type="button" class="btn btn-danger"
+            data-ng-show="templateMode=='edit'"
+            data-ng-click="goDelete()">delete
+    </button>
+  </div>
+</script>

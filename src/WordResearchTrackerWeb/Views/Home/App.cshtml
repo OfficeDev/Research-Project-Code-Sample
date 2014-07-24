@@ -1,0 +1,160 @@
+﻿@model WordResearchTrackerWeb.Models.ViewModel
+
+@{
+    ViewBag.Title = "Research Tracker";
+}
+
+<!-- Project List -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Research Projects
+            </div>
+            <div class="panel-body">
+                @Html.DropDownList("projectName", new SelectList(Model.Projects, "Id", "Title", Model.SelectedProject), new { style = "width:200px" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Busy indicator-->
+<div id="busyRow" class="row">
+    <div class="col-sm-12">
+        <img src="~/Images/PROGRESS.GIF" />
+    </div>
+</div>
+
+<!-- Reference Links-->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="referencesTable" class="hide table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Reference</th>
+                        <th>URL</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reference in Model.References)
+                    {
+                        <tr style="cursor:pointer">
+                            <td>
+                                @reference.Project
+                            </td>
+                            <td>
+                                @reference.Title
+                            </td>
+                            <td>
+                                <a href="@reference.Url">@reference.Url</a>
+                            </td>
+                            <td>
+                                @reference.Notes
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add to document -->
+<div class="row">
+    <div class="col-sm-12">
+        <button id="insertRefs" type="submit" class="btn btn-link">
+            Insert Selected Link Information
+        </button>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+        (function () {
+            "use strict";
+            Office.initialize = function (reason) {
+
+                (function () {
+                    "use strict";
+
+                    jQuery(function () {
+
+                        //data table
+                        var refTable = $("#referencesTable").dataTable({
+                            "bLengthChange": false,
+                            "iDisplayLength": 5,
+                            "bFilter": true,
+                            "sDom": "lrtip"
+                        });
+                        $("#referencesTable").DataTable().column(0).visible(false);
+                        refTable.fnFilter($("#projectName").val());
+                        $("#referencesTable").removeClass("hide");
+                        $("#busyRow").addClass("hide");
+
+                        $('#referencesTable tbody').on('click', 'tr', function () {
+                            $(this).toggleClass('selected');
+                        });
+
+                        //projects list
+                        $("#projectName").change(function (evt) {
+                            refTable.fnFilter($(this).val());
+                        })
+
+                        //insert links button
+                        $("#insertRefs").click(function () {
+
+                            var tableData = $('#referencesTable tbody tr.selected').map(function () {
+                                var $row = $(this);
+                                return {
+                                    url: $row.find(':nth-child(2)').find(':nth-child(1)').text(),
+                                    notes: $row.find(':nth-child(3)').text()
+                                };
+                            }).get();
+
+                            var tableHtml =
+                              "<table style='font-family:Segoe UI'>" +
+                                "<caption style='background-color:#283E75;color:white'>" + $("#projectName").find('option:selected').text() + "</caption>" +
+                                "<thead style='background-color:#283E75;color:white'>" +
+                                  "<tr><th>Reference</th><th>Notes</th></tr>" +
+                                "</thead>" +
+                                "<tbody>";
+
+                            for (var i = 0; i < tableData.length; i++) {
+                                tableHtml +=
+                                "<tr><td><a href='" + tableData[i].url + "'>" + tableData[i].url + "</a></td>" +
+                                "<td>" + tableData[i].notes + "</td></tr>";
+                            }
+
+                            tableHtml += "</tbody></table>";
+
+
+                            Office.context.document.setSelectedDataAsync(tableHtml, { coercionType: "html" },
+                                function (result) {
+                                    var error = result.error
+                                    if (result.status === "failed") {
+                                        toastr.error(error.message)
+                                    }
+                                });
+
+
+                        })
+
+
+                    });
+
+                }());
+
+            };
+
+        }());
+
+    </script>
+}
+
+
+
+

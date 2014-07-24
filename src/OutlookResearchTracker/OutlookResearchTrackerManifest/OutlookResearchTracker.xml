@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp">
+  <Id>edf8aebc-6288-4c5a-b38e-146cb4fb7101</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Microsoft</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Research Tracker" />
+  <Description DefaultValue="Allows saving URLs from e-mails into research projects."/>
+  <AppDomains>
+    <AppDomain>https://login.windows.net</AppDomain>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
+    <AppDomain>https://outlook.office365.com</AppDomain>
+  </AppDomains>
+  <Capabilities>
+    <Capability Name="Mailbox" />
+  </Capabilities>
+  <DesktopSettings>
+    <SourceLocation DefaultValue="~remoteAppUrl/Home" />
+    <RequestedHeight>450</RequestedHeight>
+  </DesktopSettings>
+  <Permissions>ReadItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="And">
+    <Rule xsi:type="ItemIs" ItemType="Message"/>
+    <Rule xsi:type="ItemHasRegularExpressionMatch" PropertyName="BodyAsPlaintext" RegExName="Link" RegExValue="(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+</OfficeApp>

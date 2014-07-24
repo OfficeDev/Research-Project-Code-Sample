@@ -1,0 +1,40 @@
+﻿<script type="text/ng-template" id="myReferenceModalContent.html">
+  <div class="modal-header">
+    <h2 data-ng-bind="pageTitle"></h2>
+  </div>
+  <div class="modal-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="referenceUrl">URL:</label>
+        <input type="text" class="form-control" id="referenceUrl"
+               data-ng-model="reference.Url"
+               data-z-validate
+               placeholder="reference item URL" />
+      </div>
+      <div class="form-group">
+        <label for="referenceTitle">Name: </label>
+        <input type="text" class="form-control" id="referenceTitle"
+               data-ng-model="reference.Title"
+               placeholder="reference title" />
+        <span class="help-block">If left blank, the title of the target URL will be used.</span>
+      </div>
+      <div class="form-group">
+        <label for="referenceComments">Comments: </label>
+        <input type="text" class="form-control" id="referenceComments"
+               data-ng-model="reference.Notes"
+               placeholder="reference comments" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary"
+            data-ng-disabled="!entityIsDirty"
+            data-ng-click="goSave()">save</button>
+    <button type="button" class="btn btn-default"
+            data-ng-click="goCancel()">cancel</button>
+    <button type="button" class="btn btn-danger"
+            data-ng-show="templateMode=='edit'"
+            data-ng-click="goDelete()">delete
+    </button>
+  </div>
+</script>

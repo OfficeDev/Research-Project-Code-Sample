@@ -1,0 +1,17 @@
+﻿<div data-ng-controller="projectDetailView as vm">
+  <h2 data-ng-bind-html="vm.pageTitle"></h2>
+
+  <div>
+    <button type="button" class="btn btn-primary" data-ng-click="vm.goEdit()">edit project</button>
+    <button type="button" class="btn btn-default" data-ng-click="vm.goList()">back to project list</button>
+  </div>
+
+  <div style="margin-top: 20px; margin-bottom: 20px;">
+    <h3>Project: {{vm.project.Title}}</h3>
+
+    <div data-ng-include="'/App/references/list.html'"></div>
+  </div>
+  
+  <!-- modal dialog used for edit & delete -->
+  <div data-ng-include="'/App/projects/detailEdit.html'"></div>
+</div>

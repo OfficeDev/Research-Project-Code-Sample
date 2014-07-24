@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpResearchTracker", "SpResearchTracker\SpResearchTracker.csproj", "{39C5B897-1BB3-4088-ACEC-8F820071667C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{DAB5783D-0BF1-4F8E-9FA2-586541949F93}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{16551462-E759-4C84-813F-F90B322B8B5B}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\SpResearchTracker-WAWS-dev.json = PublishScripts\Configurations\SpResearchTracker-WAWS-dev.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlookResearchTracker", "OutlookResearchTracker\OutlookResearchTracker.csproj", "{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlookResearchTrackerWeb", "OutlookResearchTrackerWeb\OutlookResearchTrackerWeb.csproj", "{6CA0E913-9D96-472D-BDF5-9698F8ECB7BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordResearchTracker", "WordResearchTracker\WordResearchTracker.csproj", "{7D2E847F-1386-4594-BA95-07D725AF9DAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordResearchTrackerWeb", "WordResearchTrackerWeb\WordResearchTrackerWeb.csproj", "{3A35D170-8AAE-457A-9809-9FC2BF7266D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39C5B897-1BB3-4088-ACEC-8F820071667C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C5B897-1BB3-4088-ACEC-8F820071667C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C5B897-1BB3-4088-ACEC-8F820071667C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C5B897-1BB3-4088-ACEC-8F820071667C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8A994E-49E3-4DD0-A333-AC9795FE8FBC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6CA0E913-9D96-472D-BDF5-9698F8ECB7BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA0E913-9D96-472D-BDF5-9698F8ECB7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA0E913-9D96-472D-BDF5-9698F8ECB7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA0E913-9D96-472D-BDF5-9698F8ECB7BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D2E847F-1386-4594-BA95-07D725AF9DAB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3A35D170-8AAE-457A-9809-9FC2BF7266D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A35D170-8AAE-457A-9809-9FC2BF7266D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A35D170-8AAE-457A-9809-9FC2BF7266D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A35D170-8AAE-457A-9809-9FC2BF7266D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16551462-E759-4C84-813F-F90B322B8B5B} = {DAB5783D-0BF1-4F8E-9FA2-586541949F93}
+	EndGlobalSection
+EndGlobal

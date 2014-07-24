@@ -1,0 +1,21 @@
+﻿<div data-ng-controller="shell as vm">
+  <!-- splash page -->
+  <div id="splash-page" data-ng-show="vm.showSplashPage" class="dissolve-animation">
+    <div class="page-splash">
+      <div class="page-splash-message">
+        Initializing ...
+      </div>
+    </div>
+  </div>
+  
+  <!-- main content area -->
+  <section id="content" class="view-container">
+    <!-- working animation when app is busy -->
+    <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+      <div data-msft-spinner="vm.spinnerOptions"></div>
+      <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+    </div>
+    <!-- main view container -->
+    <div data-ng-view class="shuffle-animation"></div>
+  </section>
+</div>

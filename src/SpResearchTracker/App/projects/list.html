@@ -1,0 +1,31 @@
+﻿<div data-ng-controller="projectList as vm">
+  <h2>Projects</h2>
+  <button type="button" class="btn btn-primary"
+          data-ng-click="vm.goNewProject()">
+    <i class="glyphicon glyphicon-plus"></i>&nbsp; new project
+  </button>
+  <button type="button" class="btn btn-default"
+          data-ng-click="vm.goRefresh()">
+    <i class="glyphicon glyphicon-refresh"></i>&nbsp; refresh project list
+  </button>
+
+  <div class="clearfix">&nbsp;</div>
+  
+  <!-- list of projects, each project in separate table row -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Project Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="proj in vm.projects"
+          data-ng-click="vm.goProjectDetail(proj)">
+        <td>{{proj.Title}}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- modal dialog used for new -->
+  <div data-ng-include="'/App/projects/detailEdit.html'"></div>
+</div>

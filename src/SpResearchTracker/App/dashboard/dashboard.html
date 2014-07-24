@@ -1,0 +1,24 @@
+﻿<div data-ng-controller="dashboard as vm">
+  <h2>Welcome to the Project Research Tracker Reference App!</h2>
+  <p>
+    Start using the application by jumping straight to the <strong><a href="/Home/SPA#/projects">PROJECT LIST</a></strong>.
+  </p>
+
+  <h2>Overview of the Reference Application</h2>
+  <p>
+    The user has the ability to create / view / delete / update projects which contain references. The user can also manually add / view / delete references to and from a project. If the user does not specify the title of a reference, the WebAPI interface will extract the target page's title meta property and use that.
+  </p>
+  <p>
+    In addition the user can also install the bookmarklet below by dragging it into their favorites in their browser. Then, when on a page on any other site, if they click this button a popup will appear allowing the user to select a project and enter additional information about the reference to add to the project
+  </p>
+  <p>
+    <a href="javascript:(function(){ var regex = new RegExp('2F','gi'); var target = 'https://localhost:44362/Home/SPA#/addreference/' + encodeURIComponent(window.location.href).replace(regex,'5C'); var opener = function(){ if (!window.open(target,'prtav1','location=1,links=0,scrollbars=0,toolbar=0,width=800,height=525')) location.href = target; }; opener(); })()">+project reference</a> - install add project reference bookmarklet
+  </p>
+  <h2>Understanding the Reference Application Makeup</h2>
+  <p>
+    This is a single page application (SPA) that is launched from a ASP.NET MVC application hosted in <a href="http://azure.microsoft.com/en-us/services/web-sites/">Microsoft Azure Web Site</a>. An application has also been created in Azure Active Directory and granted permissions within SharePoint Online within Office 365. In order to launch the SPA, the user must authenticate using a valid Organization ID (OrgID) from their Office 365 subscription. The Azure Active Directory that the OrgID belongs to is in the same Azure subscription that contains the ASP.NET MVC application running in the Azure Web Site. All communication with Office 365 is handled by the ASP.NET WebAPI interface within the ASP.NET MVC application.
+  </p>
+  <p>
+    When a user logs in, the ASP.NET application first ensures the necessary lists reside in the specified SharePoint Online site. If they do not exist, they are created at that time... this is what is happening when the app says it is "initializing".
+  </p>
+</div>

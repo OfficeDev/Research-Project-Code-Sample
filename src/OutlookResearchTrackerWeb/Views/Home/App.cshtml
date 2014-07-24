@@ -1,0 +1,135 @@
+﻿@model OutlookResearchTrackerWeb.Models.ViewModel
+@{
+    ViewBag.Title = "Research Tracker";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Research Projects
+                </div>
+                <div class="panel-body">
+                    @Html.DropDownList("projectName", new SelectList(Model.Projects, "Id", "Title", Model.SelectedProject), new { style = "width:200px" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Discovered Links
+                </div>
+                <div class="panel-body">
+                    <select id="referenceLink" name="referenceLink" style="width:200px;"><option>Select...</option></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <button id="addRef" type="submit" class="btn btn-link">
+                Add Link to Project
+            </button>
+        </div>
+
+        @Html.Hidden("referenceEntityType", Model.ReferenceEntityType)
+
+    </div>
+}
+
+<!-- Busy indicator-->
+<div id="busyRow" class="row">
+    <div class="col-sm-12">
+        <img src="~/Images/PROGRESS.GIF" />
+    </div>
+</div>
+
+<!-- Reference Links-->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="referencesTable" class="hide table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Title</th>
+                        <th>Reference</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reference in Model.References)
+                    {
+                        <tr>
+                            <td>
+                                @reference.Project
+                            </td>
+                            <td>
+                                @reference.Title
+                            </td>
+                            <td>
+                                <a href="@reference.Url">@reference.Url</a>
+                            </td>
+                            <td>
+                                @reference.Notes
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+        (function () {
+            "use strict";
+            Office.initialize = function (reason) {
+
+                (function () {
+                    "use strict";
+
+                    jQuery(function () {
+
+                        //load the list
+                        var item = Office.cast.item.toItemRead(Office.context.mailbox.item);
+                        var matches = item.getRegExMatches().Link;
+                        for (var i = 0; i < matches.length; i++) {
+                            $("#referenceLink").append("<option value='" + matches[i] + "'>" + matches[i] + "</option>");
+                        }
+
+                        //data table
+                        var refTable = $("#referencesTable").dataTable({
+                            "bLengthChange": false,
+                            "iDisplayLength": 5,
+                            "bFilter": true,
+                            "sDom": "lrtip"
+                        });
+                        $("#referencesTable").DataTable().column(0).visible(false);
+                        refTable.fnFilter($("#projectName").val());
+                        $("#referencesTable").removeClass("hide");
+                        $("#busyRow").addClass("hide");
+
+                        //projects list
+                        $("#projectName").change(function (evt) {
+                            refTable.fnFilter($(this).val());
+                        })
+
+                        //submit button
+                        $("#addRef").click(function () {
+                            $("#busyRow").removeClass("hide");
+                        })
+                    });
+
+                }());
+
+            };
+
+        }());
+
+    </script>
+}

@@ -1,0 +1,47 @@
+﻿<div data-ng-controller="addbookmarklet as vm">
+  <h2>Add Reference</h2>
+  <form role="form">
+    <div class="form-group">
+      <label for="referenceProject">Project:</label>
+      <select class="form-control" id="referenceProject"
+              data-ng-model="vm.currentProject"
+              data-ng-options="p.Title for p in vm.projects">
+      </select>
+      <span class="help-block">You must select a project to add the reference to.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="referenceUrl">URL:</label>
+      <input type="text" class="form-control" id="referenceUrl"
+             data-ng-model="vm.reference.Url"
+             data-z-validate
+             placeholder="reference item URL" />
+    </div>
+
+    <div class="form-group">
+      <label for="referenceTitle">Name: </label>
+      <input type="text" class="form-control" id="referenceTitle"
+             data-ng-model="vm.reference.Title"
+             placeholder="reference title" />
+      <span class="help-block">If left blank, the title of the target URL will be used.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="referenceComments">Comments: </label>
+      <input type="text" class="form-control" id="referenceComments"
+             data-ng-model="vm.reference.Notes"
+             placeholder="reference comments" />
+    </div>
+  </form>
+
+  <div>
+    <button type="button" class="btn btn-primary"
+            data-ng-click="vm.goSave()">
+      save
+    </button>
+    <button type="button" class="btn btn-default"
+            data-ng-click="vm.goCancel()">
+      cancel
+    </button>
+  </div>
+</div>
