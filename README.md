@@ -14,6 +14,7 @@ The three sample applications can all be found within the [src](src) folder. Eac
 
 ### Web App - Single Page Application (SPA)
 ![](/images/spascrnsht.png)
+
 The Web App is the primary way to interact with the Project Reference Tracker. It is implemented as an ASP.NET MVC5, WebAPI for the backend & single page app (SPA) for the front end experience. The user can create, edit, delete and view projects & references that are stored in SharePoint lists.
 
 **Visual Studio Project(s):**
@@ -25,6 +26,7 @@ You will find setup instructions within the **[README.md](/src/SpResearchTracker
 
 ### Office Outlook App
 ![](/images/outlookscrnsht.png)
+
 The Outlook App installs in the Outlook Web App and automatically activates when it detects a URL within the selected email. The user can then select an exiting project and the link(s) it wants to add to the project.
 
 **Visual Studio Project(s):**
@@ -37,6 +39,7 @@ You will find setup instructions within the **[README.md](/src/OutlookResearchTr
 
 ### Office Word App
 ![](/images/wordscrnsht.png)
+
 The Word App installs in the Office Word desktop App as a new task pane. Once the user logs in, they can select an existing project and one or more references to add as a table to the current Word document.
 
 **Visual Studio Project(s):**
