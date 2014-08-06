@@ -5,6 +5,8 @@ This repository contains three (3) reference implementation applications demonst
 
 A presentation on all samples can be found in the [presentation folder](presentation) within this repository.
 
+An on-demand web cast recorded by Andrew Connell can be found on [Channel 9](http://channel9.msdn.com/Blogs/Office-365-Dev/Getting-started-with-the-Research-Project-Tracker-AngularJS-Office-365-API-Code-Sample).
+
 ##Sample Applications
 The three sample applications can all be found within the [src](src) folder. Each app has mandatory setup steps in both Microsoft Azure & within the `web.config` within the project. The projects within in the Visual Studio solution are as follows:
 
