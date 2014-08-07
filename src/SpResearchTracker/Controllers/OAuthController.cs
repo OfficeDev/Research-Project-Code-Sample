@@ -203,7 +203,7 @@ namespace SpResearchTracker.Controllers
                 ClientCredential clientcred = new ClientCredential(clientId, appKey);
                 string authority = string.Format(aadInstance, tenantId);
                 AuthenticationContext authcontext = new AuthenticationContext(authority);
-                result = authcontext.AcquireTokenByRefreshToken(refreshToken, clientId, clientcred, resourceId);
+                result = authcontext.AcquireTokenByRefreshToken(refreshToken, clientcred, resourceId);
 
                 //
                 // Save the authorization header for this resource and the refresh token in separate cookies

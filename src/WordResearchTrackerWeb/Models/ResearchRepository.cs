@@ -36,7 +36,7 @@ namespace WordResearchTrackerWeb.Models
 
             StringBuilder requestUri = new StringBuilder()
                 .Append(this.SharePointServiceRoot)
-                .Append("_api/web/lists/getbyTitle('")
+                .Append("/_api/web/lists/getbyTitle('")
                 .Append(this.ProjectsListName)
                 .Append("')/items?$select=ID,Title");
 
@@ -63,7 +63,7 @@ namespace WordResearchTrackerWeb.Models
 
             StringBuilder requestUri = new StringBuilder()
                 .Append(this.SharePointServiceRoot)
-                .Append("_api/web/lists/getbyTitle('")
+                .Append("/_api/web/lists/getbyTitle('")
                 .Append(this.ReferencesListName)
                 .Append("')/items?$select=ID,Title,URL,Comments,Project");
 
