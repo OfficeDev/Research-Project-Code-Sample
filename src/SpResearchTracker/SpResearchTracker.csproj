@@ -77,6 +77,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.8.10804.1442-rc\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office365.OAuth">
+      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.1-alpha\lib\net45\Microsoft.Office365.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office365.OAuth.Web">
+      <HintPath>..\packages\Microsoft.Office365.OAuth.AspNet.0.1.1-alpha\lib\net45\Microsoft.Office365.OAuth.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
@@ -292,6 +298,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\intergen-research-tracker.pubxml" />
     <None Include="Properties\PublishProfiles\SpResearchTracker.pubxml" />
     <Content Include="Scripts\angular.min.js.map">
       <DependentUpon>angular.js</DependentUpon>
@@ -351,7 +358,9 @@
       <DependentUpon>toastr.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\toastr.min.js.map">
       <DependentUpon>toastr.js</DependentUpon>
     </Content>

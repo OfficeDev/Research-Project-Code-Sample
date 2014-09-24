@@ -16,8 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 // The following using statements were added for this sample.
@@ -37,19 +35,17 @@ namespace SpResearchTracker.Controllers
         // The Post Logout Redirect Uri is the URL where the user will be redirected after they sign out.
         //
 
-        static string clientId = ConfigurationManager.AppSettings["ida:ClientID"];
-        static string appKey = ConfigurationManager.AppSettings["ida:AppKey"];
-        static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
-        static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
-        static string resource = ConfigurationManager.AppSettings["ida:Resource"];
+        private static readonly string APP_CLIENT_ID = ConfigurationManager.AppSettings["ida:ClientID"];
+        private static readonly string APP_KEY       = ConfigurationManager.AppSettings["ida:AppKey"];
+        private static readonly string AAD_INSTANCE  = ConfigurationManager.AppSettings["ida:AADInstance"];
+        private static readonly string TENANT        = ConfigurationManager.AppSettings["ida:Tenant"];
+        private static readonly string RESOURCE      = ConfigurationManager.AppSettings["ida:Resource"];
         
-        string authority = String.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
-
-        private static readonly string authorizeUrl = string.Format(
-            CultureInfo.InvariantCulture,
-            aadInstance,
-            "common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}&state={3}");
-
+        private static readonly string AUTHORIZE_URL_FORMAT = String.Format(CultureInfo.InvariantCulture, AAD_INSTANCE, TENANT) +
+                                                                    "/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}&state={3}";
+        
+        private string _authority = String.Format(CultureInfo.InvariantCulture, AAD_INSTANCE, TENANT);
+        
         //
         // This method will be invoked as a call-back from an authentication service (e.g., https://login.windows.net/).
         // It is not intended to be called directly, or to be called without first invoking the "GetAuthorizationUrl" method.
@@ -100,8 +96,8 @@ namespace SpResearchTracker.Controllers
             //
             try
             {
-                ClientCredential credential = new ClientCredential(clientId, appKey);
-                string authority = string.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
+                ClientCredential credential = new ClientCredential(APP_CLIENT_ID, APP_KEY);
+                string authority = string.Format(CultureInfo.InvariantCulture, AAD_INSTANCE, TENANT);
                 AuthenticationContext authContext = new AuthenticationContext(authority);
                 AuthenticationResult result = authContext.AcquireTokenByAuthorizationCode(
                     code, new Uri(Request.Url.GetLeftPart(UriPartial.Path)), credential);
@@ -149,8 +145,8 @@ namespace SpResearchTracker.Controllers
 
             // Construct the authorization request URL.
             return String.Format(CultureInfo.InvariantCulture,
-                authorizeUrl,
-                Uri.EscapeDataString(clientId),
+                AUTHORIZE_URL_FORMAT,
+                Uri.EscapeDataString(APP_CLIENT_ID),
                 Uri.EscapeDataString(resourceId),
                 Uri.EscapeDataString(redirectUri),
                 Uri.EscapeDataString(stateValue));
@@ -200,8 +196,8 @@ namespace SpResearchTracker.Controllers
                 //
                 // Redeem the refresh token for an access token
                 //
-                ClientCredential clientcred = new ClientCredential(clientId, appKey);
-                string authority = string.Format(aadInstance, tenantId);
+                ClientCredential clientcred = new ClientCredential(APP_CLIENT_ID, APP_KEY);
+                string authority = string.Format(AAD_INSTANCE, tenantId);
                 AuthenticationContext authcontext = new AuthenticationContext(authority);
                 result = authcontext.AcquireTokenByRefreshToken(refreshToken, clientcred, resourceId);
 

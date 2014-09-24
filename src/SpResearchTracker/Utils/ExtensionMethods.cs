@@ -64,7 +64,6 @@ namespace SpResearchTracker.Utils
             }
 
             AntiForgery.Validate(cookieToken, formToken);
-
         }
     }
 }
