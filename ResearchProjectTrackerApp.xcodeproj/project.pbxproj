@@ -10,6 +10,8 @@
 		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
 		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
 		D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */; };
+		D9855AF719D9923A004D8698 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D9855AF619D9923A004D8698 /* Project.m */; };
+		D9855AFA19D99258004D8698 /* Reference.m in Sources */ = {isa = PBXBuildFile; fileRef = D9855AF919D99258004D8698 /* Reference.m */; };
 		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
 		D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */; };
 		D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
@@ -164,6 +166,10 @@
 		D94CEC5E19D5C82300A52949 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = SOURCE_ROOT; };
 		D94CEC6719D5E9ED00A52949 /* ReferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferencesViewController.h; path = ResearchProjectTrackerApp/ReferencesViewController.h; sourceTree = SOURCE_ROOT; };
 		D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferencesViewController.m; path = ResearchProjectTrackerApp/ReferencesViewController.m; sourceTree = SOURCE_ROOT; };
+		D9855AF519D9923A004D8698 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Project.h; path = ResearchProjectTrackerApp/Entity/Project.h; sourceTree = SOURCE_ROOT; };
+		D9855AF619D9923A004D8698 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Project.m; path = ResearchProjectTrackerApp/Entity/Project.m; sourceTree = SOURCE_ROOT; };
+		D9855AF819D99258004D8698 /* Reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reference.h; path = ResearchProjectTrackerApp/Entity/Reference.h; sourceTree = SOURCE_ROOT; };
+		D9855AF919D99258004D8698 /* Reference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reference.m; path = ResearchProjectTrackerApp/Entity/Reference.m; sourceTree = SOURCE_ROOT; };
 		D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPad_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPad_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPhone_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPhone_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -272,6 +278,7 @@
 		3CC805CB1958BA4D00E9590E /* ResearchProjectTrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				D9855AF419D991EE004D8698 /* Entity */,
 				D9DE4F4119D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist */,
 				D9DE4ED019D5B80C00CCDEC5 /* AppDelegate.h */,
 				D9DE4ED119D5B80C00CCDEC5 /* AppDelegate.m */,
@@ -303,13 +310,24 @@
 				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
 				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
 				D9DE4EDC19D5B83900CCDEC5 /* FilesTableViewController.h */,
+				D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */,
 				D9DE4EDD19D5B83900CCDEC5 /* FileTableViewCell.h */,
 				D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */,
-				D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */,
 				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
 				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
 			);
 			name = controllers;
+			sourceTree = "<group>";
+		};
+		D9855AF419D991EE004D8698 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				D9855AF519D9923A004D8698 /* Project.h */,
+				D9855AF619D9923A004D8698 /* Project.m */,
+				D9855AF819D99258004D8698 /* Reference.h */,
+				D9855AF919D99258004D8698 /* Reference.m */,
+			);
+			name = Entity;
 			sourceTree = "<group>";
 		};
 		D9DE4EF919D5B9F900CCDEC5 /* Products */ = {
@@ -585,9 +603,11 @@
 				D9DE4EE319D5B83900CCDEC5 /* FileTableViewCell.m in Sources */,
 				D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */,
 				D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */,
+				D9855AF719D9923A004D8698 /* Project.m in Sources */,
 				D9DE4EE419D5B83900CCDEC5 /* FileTableViewController.m in Sources */,
 				D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */,
 				3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */,
+				D9855AFA19D99258004D8698 /* Reference.m in Sources */,
 				D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */,
 				D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */,
 			);

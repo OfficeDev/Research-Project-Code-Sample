@@ -9,8 +9,9 @@
 #import "FileTableViewCell.h"
 #import "office365-files-sdk/FileEntity.h"
 #import "office365-files-sdk/FileClient.h"
-
+#import "ReferencesViewController.h"
 #import "office365-base-sdk/OAuthentication.h"
+#import "Project.h"
 
 @implementation FileTableViewController
 
@@ -54,7 +55,7 @@ NSURLSessionDownloadTask* task;
     
     [spinner startAnimating];
     
-    FileClient* client = [self getClient];
+    /*FileClient* client = [self getClient];
     
     NSURLSessionTask* task = [client getFiles:^(NSMutableArray *files, NSError *error) {
         self.fileItems  = files;
@@ -63,7 +64,24 @@ NSURLSessionDownloadTask* task;
             [self.tableView reloadData];
             [spinner stopAnimating];
         });
-    }];
+    }];*/
+    Project *p1 =  [Project new];
+    p1.name = @"Project1";
+    
+    Project *p2 =  [Project new];
+    p2.name = @"Project2";
+    
+    Project *p3 =  [Project new];
+    p3.name = @"Project3";
+    
+    Project *p4 =  [Project new];
+    p4.name = @"Project4";
+    
+    Project *p5 =  [Project new];
+    p5.name = @"Project5";
+    
+    self.fileItems = [NSMutableArray arrayWithObjects:p1, p2, p3, p4, p5, nil];
+    [spinner stopAnimating];
     
     [task resume];
 }
@@ -73,8 +91,8 @@ NSURLSessionDownloadTask* task;
     NSString* identifier = @"FileListCell";
     FileTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    cell.DownloadButton.hidden = true;
-    FileEntity *item = [self.fileItems objectAtIndex:indexPath.row];
+//    cell.DownloadButton.hidden = true;
+    Project *item = [self.fileItems objectAtIndex:indexPath.row];
     cell.FileName.text = item.Name;
     
     return cell;
