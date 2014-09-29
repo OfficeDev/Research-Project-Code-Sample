@@ -1,0 +1,864 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
+		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
+		D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */; };
+		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
+		D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */; };
+		D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
+		D9DE4ECF19D5B15A00CCDEC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ECD19D5B15A00CCDEC5 /* InfoPlist.strings */; };
+		D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4ED119D5B80C00CCDEC5 /* AppDelegate.m */; };
+		D9DE4ED819D5B80C00CCDEC5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */; };
+		D9DE4ED919D5B80C00CCDEC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */; };
+		D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */; };
+		D9DE4EE319D5B83900CCDEC5 /* FileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */; };
+		D9DE4EE419D5B83900CCDEC5 /* FileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */; };
+		D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EE119D5B83900CCDEC5 /* ViewController.m */; };
+		D9DE4EE819D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EE619D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
+		D9DE4EEB19D5B87D00CCDEC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EE919D5B87D00CCDEC5 /* InfoPlist.strings */; };
+		D9DE4EF219D5B8CD00CCDEC5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EF019D5B8CD00CCDEC5 /* Info.plist */; };
+		D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EF119D5B8CD00CCDEC5 /* main.m */; };
+		D9DE4EF619D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EF419D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard */; };
+		D9DE4EF719D5B93900CCDEC5 /* IPAL_iPhone_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EF519D5B93900CCDEC5 /* IPAL_iPhone_Storyboard.storyboard */; };
+		D9DE4F3C19D5BA7600CCDEC5 /* libADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DE4F0019D5B9F900CCDEC5 /* libADALiOS.a */; };
+		D9DE4F3D19D5BA7600CCDEC5 /* liboffice365-base-sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DE4F0B19D5BA0200CCDEC5 /* liboffice365-base-sdk.a */; };
+		D9DE4F3E19D5BA7600CCDEC5 /* liboffice365-exchange-sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DE4F1D19D5BA3100CCDEC5 /* liboffice365-exchange-sdk.a */; };
+		D9DE4F3F19D5BA7600CCDEC5 /* liboffice365-files-sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DE4F2619D5BA3700CCDEC5 /* liboffice365-files-sdk.a */; };
+		D9DE4F4019D5BA7600CCDEC5 /* liboffice365-lists-sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9DE4F2F19D5BA3F00CCDEC5 /* liboffice365-lists-sdk.a */; };
+		D9DE4F4219D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4F4119D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3CC805E31958BA4D00E9590E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3CC805C11958BA4D00E9590E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CC805C81958BA4D00E9590E;
+			remoteInfo = "file-app";
+		};
+		D9DE4EFF19D5B9F900CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B0965AA17F25770002BDFB8;
+			remoteInfo = ADALiOS;
+		};
+		D9DE4F0119D5B9F900CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B0965BA17F25770002BDFB8;
+			remoteInfo = ADALiOSTests;
+		};
+		D9DE4F0319D5B9F900CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8BFEF05C182DA57800122C0C;
+			remoteInfo = ADALiOSBundle;
+		};
+		D9DE4F0A19D5BA0200CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EC0535E1197D9109009D45F4;
+			remoteInfo = "office365-base-sdk";
+		};
+		D9DE4F0C19D5BA0200CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EC0535F1197D9109009D45F4;
+			remoteInfo = "office365-base-sdkTests";
+		};
+		D9DE4F1C19D5BA3100CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECF3EBAF19A390E800D05D8B;
+			remoteInfo = "office365-exchange-sdk";
+		};
+		D9DE4F1E19D5BA3100CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECF3EBBF19A390E900D05D8B;
+			remoteInfo = "office365-exchange-sdkTests";
+		};
+		D9DE4F2519D5BA3700CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECE57141197EAFC200FDAE94;
+			remoteInfo = "office365-files-sdk";
+		};
+		D9DE4F2719D5BA3700CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECE57151197EAFC200FDAE94;
+			remoteInfo = "office365-files-sdkTests";
+		};
+		D9DE4F2E19D5BA3F00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECE57188197EEAAE00FDAE94;
+			remoteInfo = "office365-lists-sdk";
+		};
+		D9DE4F3019D5BA3F00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ECE57198197EEAAE00FDAE94;
+			remoteInfo = "office365-lists-sdkTests";
+		};
+		D9DE4F3219D5BA6D00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EC0535E0197D9109009D45F4;
+			remoteInfo = "office365-base-sdk";
+		};
+		D9DE4F3419D5BA6D00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ECE57187197EEAAE00FDAE94;
+			remoteInfo = "office365-lists-sdk";
+		};
+		D9DE4F3619D5BA6D00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ECE57140197EAFC200FDAE94;
+			remoteInfo = "office365-files-sdk";
+		};
+		D9DE4F3819D5BA6D00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ECF3EBAE19A390E800D05D8B;
+			remoteInfo = "office365-exchange-sdk";
+		};
+		D9DE4F3A19D5BA6D00CCDEC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B0965A917F25770002BDFB8;
+			remoteInfo = ADALiOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3C88DE791958BB0E00D105A6 /* file_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = file_app.xcdatamodel; sourceTree = "<group>"; };
+		3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResearchProjectTrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchProjectTrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94CEC5E19D5C82300A52949 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = SOURCE_ROOT; };
+		D94CEC6719D5E9ED00A52949 /* ReferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferencesViewController.h; path = ResearchProjectTrackerApp/ReferencesViewController.h; sourceTree = SOURCE_ROOT; };
+		D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferencesViewController.m; path = ResearchProjectTrackerApp/ReferencesViewController.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPad_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPad_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
+		D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPhone_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPhone_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
+		D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D9DE4ECB19D5B11D00CCDEC5 /* ADALiOSBundle-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ADALiOSBundle-Prefix.pch"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		D9DE4ECE19D5B15A00CCDEC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = lib/ADALiOS/ADALiOSBundle/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		D9DE4ED019D5B80C00CCDEC5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ResearchProjectTrackerApp/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		D9DE4ED119D5B80C00CCDEC5 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ResearchProjectTrackerApp/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ResearchProjectTrackerApp/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ResearchProjectTrackerApp/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateViewController.h; path = ResearchProjectTrackerApp/CreateViewController.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateViewController.m; path = ResearchProjectTrackerApp/CreateViewController.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EDC19D5B83900CCDEC5 /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilesTableViewController.h; path = ResearchProjectTrackerApp/FilesTableViewController.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EDD19D5B83900CCDEC5 /* FileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileTableViewCell.h; path = ResearchProjectTrackerApp/FileTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileTableViewCell.m; path = ResearchProjectTrackerApp/FileTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileTableViewController.m; path = ResearchProjectTrackerApp/FileTableViewController.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EE019D5B83900CCDEC5 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ResearchProjectTrackerApp/ViewController.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EE119D5B83900CCDEC5 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ResearchProjectTrackerApp/ViewController.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EE619D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D9DE4EE719D5B86D00CCDEC5 /* ADALiOSBundle-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ADALiOSBundle-Prefix.pch"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		D9DE4EEA19D5B87D00CCDEC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = lib/ADALiOS/ADALiOSBundle/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		D9DE4EF019D5B8CD00CCDEC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ResearchProjectTrackerApp/Info.plist; sourceTree = SOURCE_ROOT; };
+		D9DE4EF119D5B8CD00CCDEC5 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ResearchProjectTrackerApp/main.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EF419D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = IPAL_iPad_Storyboard.storyboard; path = ResearchProjectTrackerApp/IPAL_iPad_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
+		D9DE4EF519D5B93900CCDEC5 /* IPAL_iPhone_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = IPAL_iPhone_Storyboard.storyboard; path = ResearchProjectTrackerApp/IPAL_iPhone_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
+		D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ADALiOS.xcodeproj; path = lib/ADALiOS/ADALiOS.xcodeproj; sourceTree = "<group>"; };
+		D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "office365-base-sdk.xcodeproj"; path = "lib/office365-base-sdk/office365-base-sdk.xcodeproj"; sourceTree = "<group>"; };
+		D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "office365-exchange-sdk.xcodeproj"; path = "lib/office365-exchange-sdk/office365-exchange-sdk.xcodeproj"; sourceTree = "<group>"; };
+		D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "office365-files-sdk.xcodeproj"; path = "lib/office365-files-sdk/office365-files-sdk.xcodeproj"; sourceTree = "<group>"; };
+		D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "office365-lists-sdk.xcodeproj"; path = "lib/office365-lists-sdk/office365-lists-sdk.xcodeproj"; sourceTree = "<group>"; };
+		D9DE4F4119D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ResearchProjectApp-Info.plist"; path = "ResearchProjectTrackerApp/ResearchProjectApp-Info.plist"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3CC805C61958BA4D00E9590E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9DE4F3C19D5BA7600CCDEC5 /* libADALiOS.a in Frameworks */,
+				D9DE4F3D19D5BA7600CCDEC5 /* liboffice365-base-sdk.a in Frameworks */,
+				D9DE4F3E19D5BA7600CCDEC5 /* liboffice365-exchange-sdk.a in Frameworks */,
+				D9DE4F3F19D5BA7600CCDEC5 /* liboffice365-files-sdk.a in Frameworks */,
+				D9DE4F4019D5BA7600CCDEC5 /* liboffice365-lists-sdk.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC805DF1958BA4D00E9590E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3C2B76EA19991661006156A3 /* ADALiOSBundle */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */,
+				D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */,
+				D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */,
+				D9DE4ECB19D5B11D00CCDEC5 /* ADALiOSBundle-Prefix.pch */,
+				D9DE4ECD19D5B15A00CCDEC5 /* InfoPlist.strings */,
+			);
+			name = ADALiOSBundle;
+			path = ../ADALiOSBundle;
+			sourceTree = "<group>";
+		};
+		3C88DE811958BB1900D105A6 /* ADALiOSBundle */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4EF419D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard */,
+				D9DE4EF519D5B93900CCDEC5 /* IPAL_iPhone_Storyboard.storyboard */,
+				D9DE4EE619D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist */,
+				D9DE4EE719D5B86D00CCDEC5 /* ADALiOSBundle-Prefix.pch */,
+				D9DE4EE919D5B87D00CCDEC5 /* InfoPlist.strings */,
+				3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */,
+			);
+			name = ADALiOSBundle;
+			sourceTree = "<group>";
+		};
+		3CC805C01958BA4D00E9590E = {
+			isa = PBXGroup;
+			children = (
+				3C2B76EA19991661006156A3 /* ADALiOSBundle */,
+				ECF2F6E51975A2C800F74623 /* Frameworks */,
+				3CC805CB1958BA4D00E9590E /* ResearchProjectTrackerApp */,
+				3CC805CA1958BA4D00E9590E /* Products */,
+				D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */,
+				D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */,
+				D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */,
+				D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */,
+				D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		3CC805CA1958BA4D00E9590E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */,
+				3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3CC805CB1958BA4D00E9590E /* ResearchProjectTrackerApp */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F4119D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist */,
+				D9DE4ED019D5B80C00CCDEC5 /* AppDelegate.h */,
+				D9DE4ED119D5B80C00CCDEC5 /* AppDelegate.m */,
+				D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */,
+				D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */,
+				D94CEC5E19D5C82300A52949 /* office365.png */,
+				3CCE264C1959EC6100CBD116 /* controllers */,
+				3CC805CC1958BA4D00E9590E /* Supporting Files */,
+			);
+			name = ResearchProjectTrackerApp;
+			path = "file-app";
+			sourceTree = "<group>";
+		};
+		3CC805CC1958BA4D00E9590E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4EF019D5B8CD00CCDEC5 /* Info.plist */,
+				D9DE4EF119D5B8CD00CCDEC5 /* main.m */,
+				3C88DE811958BB1900D105A6 /* ADALiOSBundle */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3CCE264C1959EC6100CBD116 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D94CEC6719D5E9ED00A52949 /* ReferencesViewController.h */,
+				D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */,
+				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
+				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
+				D9DE4EDC19D5B83900CCDEC5 /* FilesTableViewController.h */,
+				D9DE4EDD19D5B83900CCDEC5 /* FileTableViewCell.h */,
+				D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */,
+				D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */,
+				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
+				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		D9DE4EF919D5B9F900CCDEC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F0019D5B9F900CCDEC5 /* libADALiOS.a */,
+				D9DE4F0219D5B9F900CCDEC5 /* ADALiOSTests.xctest */,
+				D9DE4F0419D5B9F900CCDEC5 /* ADALiOS.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9DE4F0619D5BA0200CCDEC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F0B19D5BA0200CCDEC5 /* liboffice365-base-sdk.a */,
+				D9DE4F0D19D5BA0200CCDEC5 /* office365-base-sdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9DE4F1819D5BA3000CCDEC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F1D19D5BA3100CCDEC5 /* liboffice365-exchange-sdk.a */,
+				D9DE4F1F19D5BA3100CCDEC5 /* office365-exchange-sdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9DE4F2119D5BA3700CCDEC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F2619D5BA3700CCDEC5 /* liboffice365-files-sdk.a */,
+				D9DE4F2819D5BA3700CCDEC5 /* office365-files-sdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9DE4F2A19D5BA3F00CCDEC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9DE4F2F19D5BA3F00CCDEC5 /* liboffice365-lists-sdk.a */,
+				D9DE4F3119D5BA3F00CCDEC5 /* office365-lists-sdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ECF2F6E51975A2C800F74623 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CC805EC1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerApp" */;
+			buildPhases = (
+				3CC805C51958BA4D00E9590E /* Sources */,
+				3CC805C61958BA4D00E9590E /* Frameworks */,
+				3CC805C71958BA4D00E9590E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D9DE4F3319D5BA6D00CCDEC5 /* PBXTargetDependency */,
+				D9DE4F3519D5BA6D00CCDEC5 /* PBXTargetDependency */,
+				D9DE4F3719D5BA6D00CCDEC5 /* PBXTargetDependency */,
+				D9DE4F3919D5BA6D00CCDEC5 /* PBXTargetDependency */,
+				D9DE4F3B19D5BA6D00CCDEC5 /* PBXTargetDependency */,
+			);
+			name = ResearchProjectTrackerApp;
+			productName = "file-app";
+			productReference = 3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3CC805E11958BA4D00E9590E /* ResearchProjectTrackerAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CC805EF1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerAppTests" */;
+			buildPhases = (
+				3CC805DE1958BA4D00E9590E /* Sources */,
+				3CC805DF1958BA4D00E9590E /* Frameworks */,
+				3CC805E01958BA4D00E9590E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CC805E41958BA4D00E9590E /* PBXTargetDependency */,
+			);
+			name = ResearchProjectTrackerAppTests;
+			productName = "file-appTests";
+			productReference = 3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CC805C11958BA4D00E9590E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = microsoft;
+				TargetAttributes = {
+					3CC805C81958BA4D00E9590E = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					3CC805E11958BA4D00E9590E = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 3CC805C81958BA4D00E9590E;
+					};
+				};
+			};
+			buildConfigurationList = 3CC805C41958BA4D00E9590E /* Build configuration list for PBXProject "ResearchProjectTrackerApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3CC805C01958BA4D00E9590E;
+			productRefGroup = 3CC805CA1958BA4D00E9590E /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D9DE4EF919D5B9F900CCDEC5 /* Products */;
+					ProjectRef = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
+				},
+				{
+					ProductGroup = D9DE4F0619D5BA0200CCDEC5 /* Products */;
+					ProjectRef = D9DE4F0519D5BA0200CCDEC5 /* office365-base-sdk.xcodeproj */;
+				},
+				{
+					ProductGroup = D9DE4F1819D5BA3000CCDEC5 /* Products */;
+					ProjectRef = D9DE4F1719D5BA3000CCDEC5 /* office365-exchange-sdk.xcodeproj */;
+				},
+				{
+					ProductGroup = D9DE4F2119D5BA3700CCDEC5 /* Products */;
+					ProjectRef = D9DE4F2019D5BA3700CCDEC5 /* office365-files-sdk.xcodeproj */;
+				},
+				{
+					ProductGroup = D9DE4F2A19D5BA3F00CCDEC5 /* Products */;
+					ProjectRef = D9DE4F2919D5BA3F00CCDEC5 /* office365-lists-sdk.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */,
+				3CC805E11958BA4D00E9590E /* ResearchProjectTrackerAppTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D9DE4F0019D5B9F900CCDEC5 /* libADALiOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libADALiOS.a;
+			remoteRef = D9DE4EFF19D5B9F900CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F0219D5B9F900CCDEC5 /* ADALiOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ADALiOSTests.xctest;
+			remoteRef = D9DE4F0119D5B9F900CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F0419D5B9F900CCDEC5 /* ADALiOS.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ADALiOS.bundle;
+			remoteRef = D9DE4F0319D5B9F900CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F0B19D5BA0200CCDEC5 /* liboffice365-base-sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "liboffice365-base-sdk.a";
+			remoteRef = D9DE4F0A19D5BA0200CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F0D19D5BA0200CCDEC5 /* office365-base-sdkTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "office365-base-sdkTests.xctest";
+			remoteRef = D9DE4F0C19D5BA0200CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F1D19D5BA3100CCDEC5 /* liboffice365-exchange-sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "liboffice365-exchange-sdk.a";
+			remoteRef = D9DE4F1C19D5BA3100CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F1F19D5BA3100CCDEC5 /* office365-exchange-sdkTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "office365-exchange-sdkTests.xctest";
+			remoteRef = D9DE4F1E19D5BA3100CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F2619D5BA3700CCDEC5 /* liboffice365-files-sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "liboffice365-files-sdk.a";
+			remoteRef = D9DE4F2519D5BA3700CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F2819D5BA3700CCDEC5 /* office365-files-sdkTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "office365-files-sdkTests.xctest";
+			remoteRef = D9DE4F2719D5BA3700CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F2F19D5BA3F00CCDEC5 /* liboffice365-lists-sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "liboffice365-lists-sdk.a";
+			remoteRef = D9DE4F2E19D5BA3F00CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D9DE4F3119D5BA3F00CCDEC5 /* office365-lists-sdkTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "office365-lists-sdkTests.xctest";
+			remoteRef = D9DE4F3019D5BA3F00CCDEC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CC805C71958BA4D00E9590E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */,
+				D9DE4ED919D5B80C00CCDEC5 /* Main.storyboard in Resources */,
+				D9DE4EE819D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */,
+				D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */,
+				D9DE4EF619D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard in Resources */,
+				D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */,
+				D94CEC5F19D5C82300A52949 /* office365.png in Resources */,
+				D9DE4F4219D5BB7100CCDEC5 /* ResearchProjectApp-Info.plist in Resources */,
+				D9DE4ED819D5B80C00CCDEC5 /* Images.xcassets in Resources */,
+				D9DE4EF219D5B8CD00CCDEC5 /* Info.plist in Resources */,
+				D9DE4EF719D5B93900CCDEC5 /* IPAL_iPhone_Storyboard.storyboard in Resources */,
+				D9DE4ECF19D5B15A00CCDEC5 /* InfoPlist.strings in Resources */,
+				D9DE4EEB19D5B87D00CCDEC5 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC805E01958BA4D00E9590E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CC805C51958BA4D00E9590E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9DE4EE319D5B83900CCDEC5 /* FileTableViewCell.m in Sources */,
+				D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */,
+				D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */,
+				D9DE4EE419D5B83900CCDEC5 /* FileTableViewController.m in Sources */,
+				D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */,
+				3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */,
+				D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */,
+				D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC805DE1958BA4D00E9590E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3CC805E41958BA4D00E9590E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */;
+			targetProxy = 3CC805E31958BA4D00E9590E /* PBXContainerItemProxy */;
+		};
+		D9DE4F3319D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "office365-base-sdk";
+			targetProxy = D9DE4F3219D5BA6D00CCDEC5 /* PBXContainerItemProxy */;
+		};
+		D9DE4F3519D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "office365-lists-sdk";
+			targetProxy = D9DE4F3419D5BA6D00CCDEC5 /* PBXContainerItemProxy */;
+		};
+		D9DE4F3719D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "office365-files-sdk";
+			targetProxy = D9DE4F3619D5BA6D00CCDEC5 /* PBXContainerItemProxy */;
+		};
+		D9DE4F3919D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "office365-exchange-sdk";
+			targetProxy = D9DE4F3819D5BA6D00CCDEC5 /* PBXContainerItemProxy */;
+		};
+		D9DE4F3B19D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ADALiOS;
+			targetProxy = D9DE4F3A19D5BA6D00CCDEC5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D9DE4ECD19D5B15A00CCDEC5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D9DE4ECE19D5B15A00CCDEC5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D9DE4EE919D5B87D00CCDEC5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D9DE4EEA19D5B87D00CCDEC5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3CC805EA1958BA4D00E9590E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3CC805EB1958BA4D00E9590E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3CC805ED1958BA4D00E9590E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/ResearchProjectTrackerApp/ResearchProjectApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = ResearchProjectTrackerApp;
+			};
+			name = Debug;
+		};
+		3CC805EE1958BA4D00E9590E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/ResearchProjectTrackerApp/ResearchProjectApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = ResearchProjectTrackerApp;
+			};
+			name = Release;
+		};
+		3CC805F01958BA4D00E9590E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/file-app.app/file-app";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "file-appTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Office365-gdhsdeljuyoldrfikcbcrpthjmzp/Build/Products/Debug-iphoneos",
+					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-files-sdk/build/Debug-iphoneos",
+					"/Users/gustavo/Documents/azure-activedirectory-library-for-ios/ADALiOS/build/Debug-iphoneos",
+					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-base-sdk/build/Debug-iphoneos",
+				);
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = ResearchProjectTrackerAppTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		3CC805F11958BA4D00E9590E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/file-app.app/file-app";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "file-appTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Office365-gdhsdeljuyoldrfikcbcrpthjmzp/Build/Products/Debug-iphoneos",
+					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-files-sdk/build/Debug-iphoneos",
+					"/Users/gustavo/Documents/azure-activedirectory-library-for-ios/ADALiOS/build/Debug-iphoneos",
+					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-base-sdk/build/Debug-iphoneos",
+				);
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = ResearchProjectTrackerAppTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CC805C41958BA4D00E9590E /* Build configuration list for PBXProject "ResearchProjectTrackerApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC805EA1958BA4D00E9590E /* Debug */,
+				3CC805EB1958BA4D00E9590E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CC805EC1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC805ED1958BA4D00E9590E /* Debug */,
+				3CC805EE1958BA4D00E9590E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CC805EF1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC805F01958BA4D00E9590E /* Debug */,
+				3CC805F11958BA4D00E9590E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3C88DE791958BB0E00D105A6 /* file_app.xcdatamodel */,
+			);
+			currentVersion = 3C88DE791958BB0E00D105A6 /* file_app.xcdatamodel */;
+			path = file_app.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 3CC805C11958BA4D00E9590E /* Project object */;
+}
