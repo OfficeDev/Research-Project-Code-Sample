@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Research Tracker</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_add_new">Add New</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="action_refresh">Refresh</string>
+
+    <string name="label_sign_in">Sign in</string>
+    <string name="label_ok">OK</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_retry">Retry</string>
+    <string name="label_go_back">Go back</string>
+    <string name="label_continue">Continue</string>
+    <string name="label_delete">Delete</string>
+
+    <string name="auth_manager_error_no_refresh_token">Unable to locate refresh token</string>
+
+    <string name="dialog_auth_failed_title">Authentication failed</string>
+    <string name="dialog_auth_failed_message">You must authenticate to continue</string>
+
+    <string name="dialog_session_expired_title">Session expired</string>
+    <string name="dialog_session_expired_message">You must authenticate to continue</string>
+
+    <string name="activity_login_sign_in_complete">Signed in</string>
+    <string name="activity_login_title">Research Tracker</string>
+
+    <string name="activity_list_projects_title">Projects</string>
+
+    <string name="title_activity_list_projects">ListProjectsActivity</string>
+
+
+</resources>

@@ -1,0 +1,27 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.microsoft.researchtracker.ListProjectsActivity" >
+
+    <!--
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="never" />
+    -->
+
+    <item
+        android:id="@+id/action_add_new"
+        android:title="@string/action_add_new"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="100" />
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="100" />
+
+</menu>
