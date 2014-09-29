@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReferencesViewController : UIViewController
+@interface ProjectDetailsViewController : UIViewController
 
 - (IBAction)CreateReference:(id)sender;
 

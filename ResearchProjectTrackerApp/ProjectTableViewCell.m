@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 microsoft. All rights reserved.
 //
 
-#import "FileTableViewCell.h"
+#import "ProjectTableViewCell.h"
 
-@implementation FileTableViewCell
+@implementation ProjectTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

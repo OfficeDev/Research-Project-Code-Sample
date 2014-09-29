@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 microsoft. All rights reserved.
 //
 
-#import "ReferencesViewController.h"
+#import "ProjectDetailsViewController.h"
 
 #import "office365-base-sdk/OAuthentication.h"
 #import "office365-files-sdk/FileClient.h"
 
-@implementation ReferencesViewController
+@implementation ProjectDetailsViewController
 
 -(void)viewDidLoad{
     self.ContentText.layer.borderWidth = 0.5f;

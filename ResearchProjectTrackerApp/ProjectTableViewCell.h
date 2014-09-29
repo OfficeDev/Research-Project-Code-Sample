@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FileTableViewCell : UITableViewCell
+@interface ProjectTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *DownloadButton;
 @property (weak, nonatomic) IBOutlet UILabel *FileName;

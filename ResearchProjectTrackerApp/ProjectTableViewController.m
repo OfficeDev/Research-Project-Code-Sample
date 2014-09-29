@@ -1,19 +1,12 @@
-//
-//  FileTableViewController.m
-//  file-app
-//
-//  Created by Lagash on 6/23/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-#import "FilesTableViewController.h"
-#import "FileTableViewCell.h"
-#import "office365-files-sdk/FileEntity.h"
+#import "ProjectTableViewController.h"
+#import "ProjectTableViewCell.h"
+
 #import "office365-files-sdk/FileClient.h"
-#import "ReferencesViewController.h"
+#import "ProjectDetailsViewController.h"
 #import "office365-base-sdk/OAuthentication.h"
 #import "Project.h"
 
-@implementation FileTableViewController
+@implementation ProjectTableViewController
 
 UIView* popUpView;
 UILabel* popUpLabel;
@@ -89,7 +82,7 @@ NSURLSessionDownloadTask* task;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* identifier = @"FileListCell";
-    FileTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
+    ProjectTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
 //    cell.DownloadButton.hidden = true;
     Project *item = [self.fileItems objectAtIndex:indexPath.row];
@@ -113,7 +106,7 @@ NSURLSessionDownloadTask* task;
 
 - (void)goToReferencesView:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    ReferencesViewController *controller = (ReferencesViewController *)segue.destinationViewController;
+    ProjectDetailsViewController *controller = (ProjectDetailsViewController *)segue.destinationViewController;
     controller.token = self.token;
 }
 
@@ -181,15 +174,15 @@ NSURLSessionDownloadTask* task;
     
     if(lastSelected != NSIntegerMax){
         NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
-        FileTableViewCell* lastCell = (FileTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
+        ProjectTableViewCell* lastCell = (ProjectTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
         lastCell.DownloadButton.hidden = true;
     }
     
-    FileTableViewCell* cell =(FileTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
     currentEntity= [self.fileItems objectAtIndex:indexPath.row];
     
-    if(![currentEntity isFolder]) cell.DownloadButton.hidden = false;
+    //if(![currentEntity isFolder]) cell.DownloadButton.hidden = false;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle

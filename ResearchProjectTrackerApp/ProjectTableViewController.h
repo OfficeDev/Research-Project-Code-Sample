@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "CreateViewController.h"
 
-@interface FileTableViewController : UITableViewController
+@interface ProjectTableViewController : UITableViewController
 
 @property NSMutableArray *fileItems;
 @property NSString* token;

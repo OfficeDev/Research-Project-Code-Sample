@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "FilesTableViewController.h"
+#import "ProjectTableViewController.h"
 #import "office365-base-sdk/Credentials.h"
 #import <office365-base-sdk/LoginClient.h>
 @interface ViewController ()
@@ -60,7 +60,7 @@ NSString* token;
         {*/
             token = t;
             
-            FileTableViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"filesvc"];
+            ProjectTableViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"filesvc"];
             controller.token = t;
             
             [self.navigationController pushViewController:controller animated:YES];

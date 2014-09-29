@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
 		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
-		D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */; };
+		D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */; };
 		D9855AF719D9923A004D8698 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D9855AF619D9923A004D8698 /* Project.m */; };
 		D9855AFA19D99258004D8698 /* Reference.m in Sources */ = {isa = PBXBuildFile; fileRef = D9855AF919D99258004D8698 /* Reference.m */; };
 		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
@@ -20,8 +20,8 @@
 		D9DE4ED819D5B80C00CCDEC5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */; };
 		D9DE4ED919D5B80C00CCDEC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */; };
 		D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */; };
-		D9DE4EE319D5B83900CCDEC5 /* FileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */; };
-		D9DE4EE419D5B83900CCDEC5 /* FileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */; };
+		D9DE4EE319D5B83900CCDEC5 /* ProjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */; };
+		D9DE4EE419D5B83900CCDEC5 /* ProjectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */; };
 		D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9DE4EE119D5B83900CCDEC5 /* ViewController.m */; };
 		D9DE4EE819D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EE619D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
 		D9DE4EEB19D5B87D00CCDEC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EE919D5B87D00CCDEC5 /* InfoPlist.strings */; };
@@ -164,8 +164,8 @@
 		3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResearchProjectTrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchProjectTrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94CEC5E19D5C82300A52949 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = SOURCE_ROOT; };
-		D94CEC6719D5E9ED00A52949 /* ReferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferencesViewController.h; path = ResearchProjectTrackerApp/ReferencesViewController.h; sourceTree = SOURCE_ROOT; };
-		D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferencesViewController.m; path = ResearchProjectTrackerApp/ReferencesViewController.m; sourceTree = SOURCE_ROOT; };
+		D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDetailsViewController.h; path = ResearchProjectTrackerApp/ProjectDetailsViewController.h; sourceTree = SOURCE_ROOT; };
+		D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDetailsViewController.m; path = ResearchProjectTrackerApp/ProjectDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		D9855AF519D9923A004D8698 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Project.h; path = ResearchProjectTrackerApp/Entity/Project.h; sourceTree = SOURCE_ROOT; };
 		D9855AF619D9923A004D8698 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Project.m; path = ResearchProjectTrackerApp/Entity/Project.m; sourceTree = SOURCE_ROOT; };
 		D9855AF819D99258004D8698 /* Reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reference.h; path = ResearchProjectTrackerApp/Entity/Reference.h; sourceTree = SOURCE_ROOT; };
@@ -181,10 +181,10 @@
 		D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ResearchProjectTrackerApp/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateViewController.h; path = ResearchProjectTrackerApp/CreateViewController.h; sourceTree = SOURCE_ROOT; };
 		D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateViewController.m; path = ResearchProjectTrackerApp/CreateViewController.m; sourceTree = SOURCE_ROOT; };
-		D9DE4EDC19D5B83900CCDEC5 /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FilesTableViewController.h; path = ResearchProjectTrackerApp/FilesTableViewController.h; sourceTree = SOURCE_ROOT; };
-		D9DE4EDD19D5B83900CCDEC5 /* FileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileTableViewCell.h; path = ResearchProjectTrackerApp/FileTableViewCell.h; sourceTree = SOURCE_ROOT; };
-		D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileTableViewCell.m; path = ResearchProjectTrackerApp/FileTableViewCell.m; sourceTree = SOURCE_ROOT; };
-		D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileTableViewController.m; path = ResearchProjectTrackerApp/FileTableViewController.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EDC19D5B83900CCDEC5 /* ProjectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectTableViewController.h; path = ResearchProjectTrackerApp/ProjectTableViewController.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EDD19D5B83900CCDEC5 /* ProjectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectTableViewCell.h; path = ResearchProjectTrackerApp/ProjectTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectTableViewCell.m; path = ResearchProjectTrackerApp/ProjectTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectTableViewController.m; path = ResearchProjectTrackerApp/ProjectTableViewController.m; sourceTree = SOURCE_ROOT; };
 		D9DE4EE019D5B83900CCDEC5 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ResearchProjectTrackerApp/ViewController.h; sourceTree = SOURCE_ROOT; };
 		D9DE4EE119D5B83900CCDEC5 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ResearchProjectTrackerApp/ViewController.m; sourceTree = SOURCE_ROOT; };
 		D9DE4EE619D5B86D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -305,14 +305,14 @@
 		3CCE264C1959EC6100CBD116 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D94CEC6719D5E9ED00A52949 /* ReferencesViewController.h */,
-				D94CEC6819D5E9ED00A52949 /* ReferencesViewController.m */,
+				D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */,
+				D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */,
 				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
 				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
-				D9DE4EDC19D5B83900CCDEC5 /* FilesTableViewController.h */,
-				D9DE4EDF19D5B83900CCDEC5 /* FileTableViewController.m */,
-				D9DE4EDD19D5B83900CCDEC5 /* FileTableViewCell.h */,
-				D9DE4EDE19D5B83900CCDEC5 /* FileTableViewCell.m */,
+				D9DE4EDC19D5B83900CCDEC5 /* ProjectTableViewController.h */,
+				D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */,
+				D9DE4EDD19D5B83900CCDEC5 /* ProjectTableViewCell.h */,
+				D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */,
 				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
 				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
 			);
@@ -600,15 +600,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9DE4EE319D5B83900CCDEC5 /* FileTableViewCell.m in Sources */,
+				D9DE4EE319D5B83900CCDEC5 /* ProjectTableViewCell.m in Sources */,
 				D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */,
 				D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */,
 				D9855AF719D9923A004D8698 /* Project.m in Sources */,
-				D9DE4EE419D5B83900CCDEC5 /* FileTableViewController.m in Sources */,
+				D9DE4EE419D5B83900CCDEC5 /* ProjectTableViewController.m in Sources */,
 				D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */,
 				3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */,
 				D9855AFA19D99258004D8698 /* Reference.m in Sources */,
-				D94CEC6919D5E9ED00A52949 /* ReferencesViewController.m in Sources */,
+				D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */,
 				D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
