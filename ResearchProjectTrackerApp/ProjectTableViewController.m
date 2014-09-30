@@ -1,16 +1,16 @@
 #import "ProjectTableViewController.h"
 #import "ProjectTableViewCell.h"
-#import "office365-files-sdk/FileClient.h"
+#import "office365-lists-sdk/ListClient.h"
+#import "office365-lists-sdk/ListItem.h"
 #import "ProjectDetailsViewController.h"
 #import "office365-base-sdk/OAuthentication.h"
-#import "Project.h"
 
 @implementation ProjectTableViewController
 
 UIView* popUpView;
 UILabel* popUpLabel;
 UIView* blockerPanel;
-Project* currentEntity;
+ListItem* currentEntity;
 NSURLSessionDownloadTask* task;
 
 - (void)Cancel{
@@ -24,13 +24,12 @@ NSURLSessionDownloadTask* task;
     [self.navigationItem.rightBarButtonItem  setTitle: @"+"];
     [super viewDidLoad];
     
-    self.fileItems = [[NSMutableArray alloc] init];
+    self.projectsList = [[NSMutableArray alloc] init];
     
     [self loadData];
 }
 
 -(void)disposeBlockerPanel{
-    
     blockerPanel.hidden = true;
     popUpView = nil;
     blockerPanel = nil;
@@ -39,43 +38,67 @@ NSURLSessionDownloadTask* task;
 }
 
 -(void)loadData{
+    ListClient* client = [self getClient];
     
+   NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
+        
+    //If list doesn't exists, create one with name ProjectList
+   if(list){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self getProjectsFromList];
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self createProjectList];
+            });
+        }
+        
+    }];
+    [task resume];
+    
+}
+
+-(void)getProjectsFromList{
+    //Create and add a spinner
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:spinner];
     spinner.hidesWhenStopped = YES;
-    
     [spinner startAnimating];
     
-    /*FileClient* client = [self getClient];
+    ListClient* client = [self getClient];
     
-    NSURLSessionTask* task = [client getFiles:^(NSMutableArray *files, NSError *error) {
-        self.fileItems  = files;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [spinner stopAnimating];
-        });
-    }];*/
-    Project *p1 =  [Project new];
-    p1.name = @"Project1";
+    NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
+        if(!error){
+            self.projectsList = listItems;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                [spinner stopAnimating];
+            });
+        }
+    }];
+    [listProjectsTask resume];
+}
+
+
+-(void)createProjectList{
+    //Create and add a spinner
+    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
+    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self.view addSubview:spinner];
+    spinner.hidesWhenStopped = YES;
+    [spinner startAnimating];
     
-    Project *p2 =  [Project new];
-    p2.name = @"Project2";
+    ListClient* client = [self getClient];
     
-    Project *p3 =  [Project new];
-    p3.name = @"Project3";
+    ListEntity* newList = [[ListEntity alloc ] init];
+    [newList setTitle:@"Research Projects"];
     
-    Project *p4 =  [Project new];
-    p4.name = @"Project4";
-    
-    Project *p5 =  [Project new];
-    p5.name = @"Project5";
-    
-    self.fileItems = [NSMutableArray arrayWithObjects:p1, p2, p3, p4, p5, nil];
-    [spinner stopAnimating];
-    
-    [task resume];
+    NSURLSessionTask* createProjectListTask = [client createList:newList :^(ListEntity *list, NSError *error) {
+        [spinner stopAnimating];
+    }];
+    [createProjectListTask resume];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -83,15 +106,15 @@ NSURLSessionDownloadTask* task;
     NSString* identifier = @"FileListCell";
     ProjectTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    Project *item = [self.fileItems objectAtIndex:indexPath.row];
-    cell.ProjectName.text = item.Name;
+    ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
+    cell.ProjectName.text = [item getTitle];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.fileItems count];
+    return [self.projectsList count];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -145,7 +168,7 @@ NSURLSessionDownloadTask* task;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     
-    NSURL *docsDirURL = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:currentEntity.Name]];
+    NSURL *docsDirURL = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:currentEntity.getTitle]];
     if ([fileManager moveItemAtURL:location toURL:docsDirURL error: &err])
     {
         NSLog(@"File is saved to =%@",docsDir);
@@ -167,7 +190,7 @@ NSURLSessionDownloadTask* task;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger lastSelected = [self.fileItems indexOfObject:currentEntity];
+    NSInteger lastSelected = [self.projectsList indexOfObject:currentEntity];
     
     if(lastSelected != NSIntegerMax){
         NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
@@ -176,7 +199,7 @@ NSURLSessionDownloadTask* task;
     
     ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
-    currentEntity= [self.fileItems objectAtIndex:indexPath.row];
+    currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detail" sender:self];
 }
@@ -185,7 +208,7 @@ NSURLSessionDownloadTask* task;
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        FileEntity* file = [self.fileItems objectAtIndex:indexPath.row];
+        ListEntity* file = [self.projectsList objectAtIndex:indexPath.row];
         UIActivityIndicatorView* spinner = [self loadingProgress];
         
       /*
@@ -229,11 +252,11 @@ NSURLSessionDownloadTask* task;
     return spinner;
 }
 
--(FileClient*)getClient{
+-(ListClient*)getClient{
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
     
-    return [[FileClient alloc] initWithUrl:@"https://lagashsystems365-my.sharepoint.com/personal/anahih_lagash_com"
+    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
                                credentials: authentication];
 }
 

@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Project.h"
+#import "office365-lists-sdk/ListItem.h"
 
 @interface ProjectDetailsViewController : UIViewController
 
 - (IBAction)CreateReference:(id)sender;
 
 @property NSString* token;
-@property Project* project;
+@property ListItem* project;
 @property (weak, nonatomic) IBOutlet UILabel *projectName;
 @property (weak, nonatomic) IBOutlet UITextField *projectNameField;
 @property (weak, nonatomic) IBOutlet UILabel *referenceLbl;

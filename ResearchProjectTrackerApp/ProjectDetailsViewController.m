@@ -14,7 +14,7 @@
 @implementation ProjectDetailsViewController
 
 -(void)viewDidLoad{
-    self.projectName.text = self.project.Name;
+    self.projectName.text = self.project.getTitle;
     if(self.createProject){
         self.referenceLbl.hidden = true;
         self.refencesTable.hidden = true;

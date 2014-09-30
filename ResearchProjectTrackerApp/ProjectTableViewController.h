@@ -10,7 +10,7 @@
 
 @interface ProjectTableViewController : UITableViewController
 
-@property NSMutableArray *fileItems;
+@property NSMutableArray *projectsList;
 @property NSString* token;
 
 - (IBAction)Download:(id)sender;
