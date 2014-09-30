@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  file-app
-//
-//  Created by Lagash on 6/23/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-
 #import "ViewController.h"
 #import "ProjectTableViewController.h"
 #import "office365-base-sdk/Credentials.h"
@@ -43,8 +35,6 @@ NSString* token;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -74,13 +64,7 @@ NSString* token;
         
     }];
 }
-/*
--(void) redirectToServices:(NSString*)token{
-  // ServiceTableViewController *destinationController = [[ServiceTableViewController alloc]initWithStyle:UITableViewStylePlain];
-    
-  // [destinationController addToken: token];
-}
-*/
+
 -(void)showError : (NSString*) errorDetails{
     
 }
@@ -92,15 +76,6 @@ NSString* token;
     });
 }
 
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    //if ([segue.identifier isEqualToString:...]) {
-    
-        FileTableViewController *controller = (FileTableViewController *)segue.destinationViewController;
-        controller.token = token;
-}
-*/
 - (IBAction)Clear:(id)sender {
     NSError *error;
     LoginClient *client = [[LoginClient alloc] initWithParameters: clientId: redirectUriString:resourceId :authority];

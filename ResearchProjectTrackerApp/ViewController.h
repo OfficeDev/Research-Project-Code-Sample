@@ -1,11 +1,3 @@
-//
-//  ViewController.h
-//  file-app
-//
-//  Created by Lagash on 6/23/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <ADALiOS/ADAuthenticationContext.h>

@@ -1,11 +1,3 @@
-//
-//  CreateViewController.h
-//  file-app
-//
-//  Created by Lagash on 6/24/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import "office365-lists-sdk/ListItem.h"
 

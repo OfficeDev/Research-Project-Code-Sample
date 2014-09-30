@@ -1,11 +1,3 @@
-//
-//  CreateViewController.m
-//  file-app
-//
-//  Created by Lagash on 6/24/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-
 #import "ProjectDetailsViewController.h"
 
 #import "office365-base-sdk/OAuthentication.h"
