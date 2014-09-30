@@ -11,10 +11,7 @@
 @interface Project : BaseEntity
 
 @property (nonatomic) NSString *Name;
-@property (nonatomic) NSString *Url;
-@property (nonatomic) NSString *TimeLastModified;
-@property (nonatomic) NSString *TimeCreated;
-@property (nonatomic) int Size;
+@property (nonatomic) NSMutableArray *references;
 
 - (BaseEntity *)createFromJson:(NSDictionary *)data;
 

@@ -33,9 +33,9 @@ NSString* token;
     clientId = [NSString alloc];
     redirectUriString = [NSString alloc];
     authority = @"https://login.windows.net/common";
-    resourceId = @"https://lagashsystems365-my.sharepoint.com/";
-    clientId = @"a31be332-2598-42e6-97f1-d8ac87370367";
-    redirectUriString = @"https://lagash.com/oauth";
+    resourceId = @"https://foxintergen.sharepoint.com";
+    clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
+    redirectUriString = @"http://android/complete";
     token = [NSString alloc];
     
     [self performLogin:FALSE];
@@ -56,21 +56,21 @@ NSString* token;
     
     LoginClient *client = [[LoginClient alloc] initWithParameters:clientId:redirectUriString:resourceId:authority];
     [client login:clearCache completionHandler:^(NSString *t, NSError *e) {
-        /*if(e == nil)
-        {*/
+        if(e == nil)
+        {
             token = t;
             
             ProjectTableViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"filesvc"];
             controller.token = t;
             
             [self.navigationController pushViewController:controller animated:YES];
-        /*}
+        }
         else
         {
             NSString *errorMessage = [@"Login failed. Reason: " stringByAppendingString: e.description];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
             [alert show];
-        }*/
+        }
         
     }];
 }

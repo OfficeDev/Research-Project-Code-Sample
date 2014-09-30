@@ -18,10 +18,7 @@
     
     self.Id = [data valueForKey : @"Id"];
     self.Name = [data valueForKey : @"Name"];
-    self.Url = [data valueForKey : @"Url"];
-    self.TimeLastModified = [data valueForKey : @"TimeLastModified"];
-    self.TimeCreated = [data valueForKey : @"TimeCreated" ];
-    self.Size = [[data valueForKey : @"Size"] intValue];
+    self.references = [NSMutableArray alloc];
     
     return self;
 }

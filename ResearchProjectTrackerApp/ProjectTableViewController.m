@@ -1,6 +1,5 @@
 #import "ProjectTableViewController.h"
 #import "ProjectTableViewCell.h"
-
 #import "office365-files-sdk/FileClient.h"
 #import "ProjectDetailsViewController.h"
 #import "office365-base-sdk/OAuthentication.h"
@@ -11,18 +10,18 @@
 UIView* popUpView;
 UILabel* popUpLabel;
 UIView* blockerPanel;
-FileEntity* currentEntity;
+Project* currentEntity;
 NSURLSessionDownloadTask* task;
 
 - (void)Cancel{
     [task cancel];
     [self disposeBlockerPanel];
-    [self.navigationItem.rightBarButtonItem setTitle: @"New"];
+    [self.navigationItem.rightBarButtonItem setTitle: @"+"];
 }
 
 - (void)viewDidLoad
 {
-    [self.navigationItem.rightBarButtonItem  setTitle: @"New"];
+    [self.navigationItem.rightBarButtonItem  setTitle: @"+"];
     [super viewDidLoad];
     
     self.fileItems = [[NSMutableArray alloc] init];
@@ -84,9 +83,8 @@ NSURLSessionDownloadTask* task;
     NSString* identifier = @"FileListCell";
     ProjectTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-//    cell.DownloadButton.hidden = true;
     Project *item = [self.fileItems objectAtIndex:indexPath.row];
-    cell.FileName.text = item.Name;
+    cell.ProjectName.text = item.Name;
     
     return cell;
 }
@@ -98,22 +96,21 @@ NSURLSessionDownloadTask* task;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"CreateSegue"]) {
-        CreateViewController *controller = (CreateViewController *)segue.destinationViewController;
-        controller.token = self.token;
-    }
-}
-
-- (void)goToReferencesView:(UIStoryboardSegue *)segue sender:(id)sender
-{
     ProjectDetailsViewController *controller = (ProjectDetailsViewController *)segue.destinationViewController;
+    
+    if([segue.identifier isEqualToString:@"newProject"]){
+        controller.createProject = true;
+    }else{
+        controller.createProject = false;
+        controller.project = currentEntity;
+    }
     controller.token = self.token;
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     NSString* name = self.navigationItem.rightBarButtonItem.title ;
     
-    if([name isEqualToString:@"New"]){
+    if([name isEqualToString:@"+"]){
         return true;
     }
     
@@ -161,12 +158,12 @@ NSURLSessionDownloadTask* task;
     [self disposeBlockerPanel];
 }
 
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+/*-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
     NSInteger size = currentEntity.Size;
     popUpLabel.text = [NSString stringWithFormat: @"Downloaded: %lld of %ld bytes.", totalBytesWritten, (long)size];
     [popUpView addSubview:popUpLabel];
-}
+}*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -175,14 +172,13 @@ NSURLSessionDownloadTask* task;
     if(lastSelected != NSIntegerMax){
         NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
         ProjectTableViewCell* lastCell = (ProjectTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
-        lastCell.DownloadButton.hidden = true;
     }
     
     ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
     currentEntity= [self.fileItems objectAtIndex:indexPath.row];
     
-    //if(![currentEntity isFolder]) cell.DownloadButton.hidden = false;
+    [self performSegueWithIdentifier:@"detail" sender:self];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle

@@ -10,7 +10,6 @@
 
 @interface ProjectTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *DownloadButton;
-@property (weak, nonatomic) IBOutlet UILabel *FileName;
+@property (weak, nonatomic) IBOutlet UILabel *ProjectName;
 
 @end
