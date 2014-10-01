@@ -86,10 +86,10 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Projects" id="DIM-TL-Mrc" userLabel="Navigation Item - Projects">
-                        <barButtonItem key="rightBarButtonItem" title="Create" id="aZG-s3-AjX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="aZG-s3-AjX">
                             <connections>
                                 <action selector="Cancel" destination="8OI-97-zND" id="xcd-0s-qpc"/>
-                                <segue destination="qHb-c8-ZYL" kind="push" identifier="newProject" id="Qq3-ZU-7hN"/>
+                                <segue destination="qHb-c8-ZYL" kind="push" identifier="newProject" id="GLi-FA-ErU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

@@ -16,12 +16,10 @@ NSURLSessionDownloadTask* task;
 - (void)Cancel{
     [task cancel];
     [self disposeBlockerPanel];
-    [self.navigationItem.rightBarButtonItem setTitle: @"+"];
 }
 
 - (void)viewDidLoad
 {
-    [self.navigationItem.rightBarButtonItem  setTitle: @"+"];
     [super viewDidLoad];
     
     self.projectsList = [[NSMutableArray alloc] init];
@@ -121,18 +119,6 @@ NSURLSessionDownloadTask* task;
         controller.token = self.token;
     }
     
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    NSString* name = self.navigationItem.rightBarButtonItem.title ;
-    
-    if([name isEqualToString:@"+"]){
-        return true;
-    }
-    
-    [self Cancel];
-    
-    return false;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
