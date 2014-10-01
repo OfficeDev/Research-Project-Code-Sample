@@ -47,7 +47,7 @@ NSURLSessionDownloadTask* task;
     
    NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
         
-    //If list doesn't exists, create one with name ProjectList
+    //If list doesn't exists, create one with name Research Projects
    if(list){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self getProjectsFromList:spinner];

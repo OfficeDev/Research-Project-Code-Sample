@@ -11,6 +11,7 @@
 
 @interface ProjectClient : ListClient
 
-- (NSURLSessionDataTask *)addItemToList:(NSString *)name item:(ListItem *)listItem callback: (void (^)(BOOL success, NSError *error))callback;
+- (NSURLSessionDataTask *)addProject:(NSString *)name item:(ListItem *)listItem callback: (void (^)(BOOL success, NSError *error))callback;
+- (NSURLSessionDataTask *)getProjectReferences:(NSString *)name projectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback;
 
 @end
