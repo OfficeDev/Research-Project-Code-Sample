@@ -1,7 +1,7 @@
 #import "CreateViewController.h"
 
 #import "office365-base-sdk/OAuthentication.h"
-#import "office365-files-sdk/FileClient.h"
+#import "office365-lists-sdk/ListClient.h"
 
 @implementation CreateViewController
 
@@ -23,47 +23,26 @@
     
     [spinner startAnimating];
     
+    ListClient* client = [self getClient];
+    
+    ListEntity* newProject = [[ListEntity alloc] init];
+    [newProject setTitle: self.FileNameTxt.text];
+    
+   NSURLSessionTask* task = [client createList:newProject :^(ListEntity *list, NSError *error) {
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [spinner stopAnimating];
+           [self.navigationController popViewControllerAnimated:YES];
+       });
+   }];
+    
+    [task resume];
+}
+
+-(ListClient*)getClient{
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
     
-    FileClient* client = [[FileClient alloc] initWithUrl:@"https://lagashsystems365-my.sharepoint.com/personal/anahih_lagash_com" credentials: authentication];
-    
-    
-    NSString* fileName = self.FileNameTxt.text;
-    NSData* data =  [self.ContentText.text dataUsingEncoding:NSUTF8StringEncoding];
-
-   /* NSURLSessionTask* task = [client createEmptyFile:fileName
-                                              folder:nil callback:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                dispatch_async(dispatch_get_main_queue(),
-                                                               ^{
-                                                                   [spinner stopAnimating];
-                                                                   [self.navigationController popViewControllerAnimated:YES];
-                                                               });
-                                              }
-    ];
-   */
-    NSURLSessionTask* task = [client createFile:fileName overwrite:true body:data folder:nil :^(FileEntity *file, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //  [self.tableView reloadData];
-            [spinner stopAnimating];
-            [self.navigationController popViewControllerAnimated:YES];
-        });
-    }];
-    
-    
-   /* [client createFile:fileName overwrite :true body:data folder:nil
-                                       callback:^(NSData * data, NSURLResponse * response, NSError * error) {
-                                           //NSError* parseError = nil;
-                                           
-                                          //[client parseData : data];
-                                           
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               //  [self.tableView reloadData];
-                                               [spinner stopAnimating];
-                                               [self.navigationController popViewControllerAnimated:YES];
-                                           });
-                                       }];*/
-   
-    [task resume];
+    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
+                               credentials: authentication];
 }
 @end

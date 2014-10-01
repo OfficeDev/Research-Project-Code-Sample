@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
+		D93D393419DC282B009ECCF6 /* ProjectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D393319DC282B009ECCF6 /* ProjectClient.m */; };
 		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
 		D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */; };
 		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
@@ -161,6 +162,8 @@
 		3C88DE791958BB0E00D105A6 /* file_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = file_app.xcdatamodel; sourceTree = "<group>"; };
 		3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResearchProjectTrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchProjectTrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D93D393219DC282B009ECCF6 /* ProjectClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectClient.h; path = client/ProjectClient.h; sourceTree = SOURCE_ROOT; };
+		D93D393319DC282B009ECCF6 /* ProjectClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectClient.m; path = client/ProjectClient.m; sourceTree = SOURCE_ROOT; };
 		D94CEC5E19D5C82300A52949 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = SOURCE_ROOT; };
 		D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDetailsViewController.h; path = ResearchProjectTrackerApp/ProjectDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDetailsViewController.m; path = ResearchProjectTrackerApp/ProjectDetailsViewController.m; sourceTree = SOURCE_ROOT; };
@@ -278,6 +281,7 @@
 				D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */,
 				D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */,
 				D94CEC5E19D5C82300A52949 /* office365.png */,
+				D93D392A19DC27FD009ECCF6 /* client */,
 				3CCE264C1959EC6100CBD116 /* controllers */,
 				3CC805CC1958BA4D00E9590E /* Supporting Files */,
 			);
@@ -310,6 +314,15 @@
 				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
 			);
 			name = controllers;
+			sourceTree = "<group>";
+		};
+		D93D392A19DC27FD009ECCF6 /* client */ = {
+			isa = PBXGroup;
+			children = (
+				D93D393219DC282B009ECCF6 /* ProjectClient.h */,
+				D93D393319DC282B009ECCF6 /* ProjectClient.m */,
+			);
+			name = client;
 			sourceTree = "<group>";
 		};
 		D9DE4EF919D5B9F900CCDEC5 /* Products */ = {
@@ -589,6 +602,7 @@
 				D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */,
 				3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */,
 				D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */,
+				D93D393419DC282B009ECCF6 /* ProjectClient.m in Sources */,
 				D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

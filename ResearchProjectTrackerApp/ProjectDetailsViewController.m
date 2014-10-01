@@ -7,13 +7,9 @@
 
 -(void)viewDidLoad{
     self.projectName.text = self.project.getTitle;
-    if(self.createProject){
-        self.referenceLbl.hidden = true;
-        self.refencesTable.hidden = true;
-        self.addReferenceBtn.hidden = true;
-    }else{
-        self.projectNameField.hidden = true;
-    }
+    self.navigationItem.title = self.project.getTitle;
+    self.navigationItem.rightBarButtonItem.title = @"Done";
+    self.projectNameField.hidden = true;
 }
 
 - (IBAction)CreateReference:(id)sender {
@@ -31,10 +27,7 @@
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
     
-    FileClient* client = [[FileClient alloc] initWithUrl:@"https://lagashsystems365-my.sharepoint.com/personal/anahih_lagash_com" credentials: authentication];
-    
-    
-       /* NSURLSessionTask* task = [client createEmptyFile:fileName
+          /* NSURLSessionTask* task = [client createEmptyFile:fileName
                                               folder:nil callback:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                 dispatch_async(dispatch_get_main_queue(),
                                                                ^{

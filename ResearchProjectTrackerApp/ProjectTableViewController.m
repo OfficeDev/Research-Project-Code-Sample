@@ -38,6 +38,13 @@ NSURLSessionDownloadTask* task;
 }
 
 -(void)loadData{
+    //Create and add a spinner
+    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
+    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self.view addSubview:spinner];
+    spinner.hidesWhenStopped = YES;
+    [spinner startAnimating];
+    
     ListClient* client = [self getClient];
     
    NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
@@ -45,11 +52,11 @@ NSURLSessionDownloadTask* task;
     //If list doesn't exists, create one with name ProjectList
    if(list){
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self getProjectsFromList];
+                [self getProjectsFromList:spinner];
             });
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self createProjectList];
+                [self createProjectList:spinner];
             });
         }
         
@@ -58,14 +65,7 @@ NSURLSessionDownloadTask* task;
     
 }
 
--(void)getProjectsFromList{
-    //Create and add a spinner
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.view addSubview:spinner];
-    spinner.hidesWhenStopped = YES;
-    [spinner startAnimating];
-    
+-(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
     ListClient* client = [self getClient];
     
     NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
@@ -82,14 +82,7 @@ NSURLSessionDownloadTask* task;
 }
 
 
--(void)createProjectList{
-    //Create and add a spinner
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.view addSubview:spinner];
-    spinner.hidesWhenStopped = YES;
-    [spinner startAnimating];
-    
+-(void)createProjectList:(UIActivityIndicatorView *) spinner{
     ListClient* client = [self getClient];
     
     ListEntity* newList = [[ListEntity alloc ] init];
@@ -103,7 +96,7 @@ NSURLSessionDownloadTask* task;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* identifier = @"FileListCell";
+    NSString* identifier = @"ProjectListCell";
     ProjectTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
     ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
@@ -119,15 +112,15 @@ NSURLSessionDownloadTask* task;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    ProjectDetailsViewController *controller = (ProjectDetailsViewController *)segue.destinationViewController;
-    
     if([segue.identifier isEqualToString:@"newProject"]){
-        controller.createProject = true;
+        CreateViewController *controller = (CreateViewController *)segue.destinationViewController;
+        controller.token = self.token;
     }else{
-        controller.createProject = false;
+        ProjectDetailsViewController *controller = (ProjectDetailsViewController *)segue.destinationViewController;
         controller.project = currentEntity;
+        controller.token = self.token;
     }
-    controller.token = self.token;
+    
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -155,13 +148,13 @@ NSURLSessionDownloadTask* task;
     
     [self createBlockerPanel];
     
-    __weak typeof(self) weakSelf = self;
+    //__weak typeof(self) weakSelf = self;
     
   //  task = [[self getClient] download:currentEntity.Id delegate: (id)weakSelf];
     [task resume];
 }
 
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+/*-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
     NSLog(@"Temporary File :%@\n", location);
     NSError *err = nil;
@@ -179,7 +172,7 @@ NSURLSessionDownloadTask* task;
     }
     
     [self disposeBlockerPanel];
-}
+}*/
 
 /*-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
@@ -193,42 +186,38 @@ NSURLSessionDownloadTask* task;
     NSInteger lastSelected = [self.projectsList indexOfObject:currentEntity];
     
     if(lastSelected != NSIntegerMax){
-        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
-        ProjectTableViewCell* lastCell = (ProjectTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
+        //NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
+        //ProjectTableViewCell* lastCell = (ProjectTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
     }
     
-    ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    //ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detail" sender:self];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+/*- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ListEntity* file = [self.projectsList objectAtIndex:indexPath.row];
+        ListEntity* listToDelete = [self.projectsList objectAtIndex:indexPath.row];
         UIActivityIndicatorView* spinner = [self loadingProgress];
         
-      /*
-        NSURLSessionDataTask* task = [[self getClient] delete: file.Name
-                     callback:^(NSData * data, NSURLResponse * response, NSError * error) {
-                      //   NSError* parseError = nil;
-
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             [self.fileItems removeObject:file];
-                             [self.tableView reloadData];
-                             
-                             self.tableView.scrollEnabled = true;
-                             [spinner stopAnimating];
-                             blockerPanel.hidden = true;
-                         });
-                     }];*/
-    
+      NSURLSessionDataTask* task = [[self getClient] deleteList:listToDelete :^(BOOL success, NSError *error) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+              [self.projectsList removeObject:listToDelete];
+              [self.tableView reloadData];
+              
+              self.tableView.scrollEnabled = true;
+              [spinner stopAnimating];
+              blockerPanel.hidden = true;
+                });
+            }];
+      
         [task resume];
     }
-}
+}*/
 
 -(UIActivityIndicatorView*)loadingProgress{
     

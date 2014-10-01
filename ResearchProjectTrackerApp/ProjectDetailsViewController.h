@@ -12,7 +12,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *referenceLbl;
 @property (weak, nonatomic) IBOutlet UIButton *addReferenceBtn;
 @property (weak, nonatomic) IBOutlet UITableView *refencesTable;
-@property (assign) BOOL createProject;
-
 
 @end
