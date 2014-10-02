@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,15 +36,14 @@ public class ListProjectsActivity extends Activity {
     private App mApp;
 
     private ListView mListView;
+    private ProgressBar mProgress;
+
     private ProjectsListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_PROGRESS);
-        setProgressBarIndeterminate(true);
-        
         setContentView(R.layout.activity_list_projects);
 
         mApp = (App) getApplication();
@@ -62,7 +62,11 @@ public class ListProjectsActivity extends Activity {
             }
         });
 
-        startRefresh();
+        mProgress = (ProgressBar) findViewById(R.id.progress);
+
+        if (mAdapter == null) {
+            startRefresh();
+        }
     }
 
     @Override
@@ -101,8 +105,8 @@ public class ListProjectsActivity extends Activity {
     private void startRefresh() {
         ensureAuthenticated(new Runnable() {
             public void run() {
-                setProgressBarVisibility(true);
                 mListView.setEnabled(false);
+                mProgress.setVisibility(View.VISIBLE);
 
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<List<ResearchProjectModel>>() {
                     public List<ResearchProjectModel> run() {
@@ -132,8 +136,8 @@ public class ListProjectsActivity extends Activity {
                 .thenOnUiThread(new AsyncUtil.ResultHandler<List<ResearchProjectModel>>() {
 
                     public void run(List<ResearchProjectModel> result) {
-                        setProgressBarVisibility(false);
                         mListView.setEnabled(true);
+                        mProgress.setVisibility(View.GONE);
 
                         if (result == null) {
                             result = Collections.emptyList();

@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class ViewProjectActivity extends Activity {
 
     private TextView mTitleLabel;
     private ListView mListView;
+    private ProgressBar mProgress;
+
     private ListAdapter mAdapter;
 
     private int mProjectId;
@@ -48,10 +51,6 @@ public class ViewProjectActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_PROGRESS);
-        setProgressBarIndeterminate(true);
-
         setContentView(R.layout.activity_view_project);
 
         mApp = (App) getApplication();
@@ -60,6 +59,7 @@ public class ViewProjectActivity extends Activity {
         mTitleLabel.setText("");
 
         mListView = (ListView) findViewById(R.id.list_view);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
 
         mProjectId = getIntent().getIntExtra(PARAM_PROJECT_ID, 0);
 
@@ -120,8 +120,8 @@ public class ViewProjectActivity extends Activity {
             }
 
             public void run() {
-                setProgressBarVisibility(true);
                 mListView.setEnabled(false);
+                mProgress.setVisibility(View.VISIBLE);
 
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ViewModel>() {
                     public ViewModel run() {
@@ -157,7 +157,7 @@ public class ViewProjectActivity extends Activity {
 
                     public void run(ViewModel result) {
                         setProgressBarVisibility(false);
-                        mListView.setEnabled(true);
+                        mProgress.setVisibility(View.GONE);
 
                         if (result == null) {
                             Toast.makeText(ViewProjectActivity.this, R.string.activity_view_project_error_loading_projects, Toast.LENGTH_LONG).show();
