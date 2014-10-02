@@ -1,7 +1,6 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +17,9 @@ import com.microsoft.researchtracker.sharepoint.SPODataCollection;
 import com.microsoft.researchtracker.sharepoint.ListsClient;
 import com.microsoft.researchtracker.sharepoint.SPODataObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
+import com.microsoft.researchtracker.utils.AsyncUtil;
+import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,59 +83,63 @@ public class ListProjectsActivity extends Activity {
     }
 
     private void startRefresh() {
-
-        new AsyncTask<Void, Void, List<ResearchProjectModel>>() {
-
+        ensureAuthenticated(new Runnable() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void run() {
                 setProgressBarVisibility(true);
                 mListView.setEnabled(false);
-            }
 
-            @Override
-            protected List<ResearchProjectModel> doInBackground(Void... params) {
+                AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<List<ResearchProjectModel>>() {
+                    public List<ResearchProjectModel> run() {
+                        try {
 
-                try {
+                            final ListsClient client = mApp.getListsClient();
 
-                    ListsClient client = mApp.getListsClient();
+                            final SPODataCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
 
-                    SPODataCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
+                            final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
 
-                    final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
+                            if (result != null) {
+                                for (final SPODataObject listItemData : result.getValue()) {
+                                    items.add(new ResearchProjectModel(listItemData));
+                                }
+                            }
 
-                    if (result != null) {
-                        for (SPODataObject listItemData : result.getValue()) {
-                            items.add(new ResearchProjectModel(listItemData));
+                            return items;
+                        }
+                        catch (Exception e) {
+                            Log.e(TAG, "Error retrieving projects", e);
+
+                            return null;
                         }
                     }
+                })
+                .thenOnUiThread(new AsyncUtil.ResultHandler<List<ResearchProjectModel>>() {
 
-                    return items;
-                }
-                catch (Exception e) {
-                    Log.e(TAG, "Error retrieving projects", e);
+                    public void run(List<ResearchProjectModel> result) {
+                        setProgressBarVisibility(false);
+                        mListView.setEnabled(true);
 
-                    return null;
-                }
+                        if (result == null) {
+                            result = Collections.emptyList();
+                            Toast.makeText(ListProjectsActivity.this, R.string.activity_list_projects_error_loading_projects, Toast.LENGTH_LONG).show();
+                        }
+
+                        mAdapter = new ProjectsListAdapter(result);
+                        mListView.setAdapter(mAdapter);
+                    }
+                })
+                .execute();
             }
+        });
+    }
 
-            @Override
-            protected void onPostExecute(List<ResearchProjectModel> folderList) {
-                super.onPostExecute(folderList);
-                setProgressBarVisibility(false);
-                mListView.setEnabled(true);
-
-                if (folderList == null) {
-
-                    folderList = Collections.emptyList();
-                    Toast.makeText(ListProjectsActivity.this, R.string.activity_list_projects_error_loading_projects, Toast.LENGTH_LONG).show();
-                }
-
-                mAdapter = new ProjectsListAdapter(folderList);
-                mListView.setAdapter(mAdapter);
+    private void ensureAuthenticated(final Runnable r) {
+        AuthUtil.ensureAuthenticated(this, new DefaultAuthHandler(this) {
+            @Override public void onSuccess() {
+                r.run();
             }
-        }
-        .execute();
+        });
     }
 
     private class ProjectsListAdapter extends BaseAdapter {
