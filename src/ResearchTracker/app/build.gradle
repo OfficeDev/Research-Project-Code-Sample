@@ -21,7 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //compile 'org.apache.olingo:odata-client-android:4.0.0-beta-01'
     compile 'com.microsoft.aad:adal:1.0.2'
-    compile 'com.microsoft.office:mail-calendar-contact-sdk:0.1-SNAPSHOT'
+    compile 'com.google.code.gson:gson:2.3'
 }

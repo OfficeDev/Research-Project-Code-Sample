@@ -18,6 +18,6 @@ public final class Constants {
     public static final String AAD_AUTHORITY = "https://login.windows.net/common"; //"https://login.windows.net/" + AAD_DOMAIN;
     public static final String AAD_REDIRECT_URL = "http://android/complete";
 
-    public static final String AAD_RESOURCE_ID = EXCHANGE_RESOURCE_ID; //SHAREPOINT_URL;
+    public static final String AAD_RESOURCE_ID = SHAREPOINT_URL; //EXCHANGE_RESOURCE_ID;
 
 }

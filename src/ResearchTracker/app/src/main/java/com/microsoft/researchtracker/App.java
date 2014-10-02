@@ -3,9 +3,9 @@ package com.microsoft.researchtracker;
 import android.app.Application;
 import android.util.Log;
 
-import com.microsoft.office365.api.MailClient;
-import com.microsoft.office365.oauth.OAuthCredentials;
 import com.microsoft.researchtracker.auth.AuthManager;
+import com.microsoft.researchtracker.sharepoint.ListsClient;
+import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 public class App extends Application {
 
@@ -28,15 +28,10 @@ public class App extends Application {
         return mAuthManager;
     }
 
-    public MailClient getMailClient() {
+    public ListsClient getListsClient() {
 
         OAuthCredentials credentials = getAuthManager().getOAuthCredentials();
 
-        return new MailClient.Builder()
-                .setCredentials(credentials)
-                .setResourceId(Constants.EXCHANGE_RESOURCE_ID)
-                .setODataEndpoint(Constants.EXCHANGE_ODATA_ENDPOINT)
-                .setMaxDefaultResults(Constants.EXCHANGE_DEFAULT_MAX_RESULTS)
-                .build();
+        return new ListsClient(Constants.SHAREPOINT_URL, Constants.SHAREPOINT_SITE_PATH, credentials);
     }
 }

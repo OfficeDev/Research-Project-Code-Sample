@@ -29,8 +29,7 @@
     <string name="activity_login_title">Research Tracker</string>
 
     <string name="activity_list_projects_title">Projects</string>
-
-    <string name="title_activity_list_projects">ListProjectsActivity</string>
+    <string name="activity_list_projects_error_loading_projects">There was an error while retrieving your projects</string>
 
 
 </resources>

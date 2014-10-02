@@ -14,11 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.office365.api.MailClient;
-import com.microsoft.office365.microsoft.exchange.services.odata.model.types.Folder;
-import com.microsoft.office365.microsoft.exchange.services.odata.model.types.FolderCollection;
+import com.microsoft.researchtracker.sharepoint.SPODataCollection;
+import com.microsoft.researchtracker.sharepoint.ListsClient;
+import com.microsoft.researchtracker.sharepoint.SPODataObject;
+import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListProjectsActivity extends Activity {
@@ -28,6 +30,7 @@ public class ListProjectsActivity extends Activity {
     private App mApp;
 
     private ListView mListView;
+    private FolderListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,43 +82,55 @@ public class ListProjectsActivity extends Activity {
 
     private void startRefresh() {
 
-        new AsyncTask<Void, Void, List<Folder>>() {
+        new AsyncTask<Void, Void, List<ResearchReferenceModel>>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                ListProjectsActivity.this.setProgressBarVisibility(true);
+                setProgressBarVisibility(true);
+                mListView.setEnabled(false);
             }
 
             @Override
-            protected List<Folder> doInBackground(Void... params) {
-
-                final List<Folder> folders = new ArrayList<Folder>();
+            protected List<ResearchReferenceModel> doInBackground(Void... params) {
 
                 try {
 
-                    MailClient mailClient = mApp.getMailClient();
-                    FolderCollection auxFolders = mailClient.getChildFolders();
+                    ListsClient client = mApp.getListsClient();
 
-                    for (Folder folder : auxFolders.execute()) {
-                        folders.add(folder);
+                    SPODataCollection result = client.getListItems("Research References", null);
+
+                    final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
+
+                    if (result != null) {
+                        for (SPODataObject listItemData : result.getValue()) {
+                            items.add(new ResearchReferenceModel(listItemData));
+                        }
                     }
 
-                } catch (Exception e) {
-                    Log.e(TAG, "Error retrieving folders", e);
+                    return items;
                 }
+                catch (Exception e) {
+                    Log.e(TAG, "Error retrieving projects", e);
 
-                return folders;
+                    return null;
+                }
             }
 
             @Override
-            protected void onPostExecute(List<Folder> folderList) {
+            protected void onPostExecute(List<ResearchReferenceModel> folderList) {
                 super.onPostExecute(folderList);
+                setProgressBarVisibility(false);
+                mListView.setEnabled(true);
 
-                FolderListAdapter adapter = new FolderListAdapter(folderList);
-                mListView.setAdapter(adapter);
+                if (folderList == null) {
 
-                ListProjectsActivity.this.setProgressBarVisibility(false);
+                    folderList = Collections.emptyList();
+                    Toast.makeText(ListProjectsActivity.this, R.string.activity_list_projects_error_loading_projects, Toast.LENGTH_LONG).show();
+                }
+
+                mAdapter = new FolderListAdapter(folderList);
+                mListView.setAdapter(mAdapter);
             }
         }
         .execute();
@@ -123,23 +138,23 @@ public class ListProjectsActivity extends Activity {
 
     private class FolderListAdapter extends BaseAdapter {
 
-        private final List<Folder> mFolders;
+        private final List<ResearchReferenceModel> mItems;
         private final LayoutInflater mViewInflater;
 
-        public FolderListAdapter(List<Folder> folderList) {
+        public FolderListAdapter(List<ResearchReferenceModel> folderList) {
 
-            mFolders = folderList;
+            mItems = folderList;
             mViewInflater = getLayoutInflater();
         }
 
         @Override
         public int getCount() {
-            return mFolders.size();
+            return mItems.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mFolders.get(position);
+            return mItems.get(position);
         }
 
         @Override
@@ -152,9 +167,9 @@ public class ListProjectsActivity extends Activity {
 
             TextView v = (TextView) (convertView != null ? convertView : mViewInflater.inflate(android.R.layout.simple_list_item_1, null));
 
-            Folder item = mFolders.get(position);
+            ResearchReferenceModel item = mItems.get(position);
 
-            v.setText(item.getDisplayName());
+            v.setText(item.getURL().getDescription());
 
             return v;
         }

@@ -18,10 +18,10 @@ import com.microsoft.aad.adal.AuthenticationContext;
 import com.microsoft.aad.adal.AuthenticationResult;
 import com.microsoft.aad.adal.AuthenticationResult.AuthenticationStatus;
 import com.microsoft.aad.adal.PromptBehavior;
-import com.microsoft.office365.oauth.OAuthCredentials;
 import com.microsoft.researchtracker.Constants;
 import com.microsoft.researchtracker.R;
 import com.microsoft.researchtracker.App;
+import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 public class AuthManager {
 
