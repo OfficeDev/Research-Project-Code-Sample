@@ -84,7 +84,6 @@ public class ListProjectsActivity extends Activity {
 
     private void startRefresh() {
         ensureAuthenticated(new Runnable() {
-            @Override
             public void run() {
                 setProgressBarVisibility(true);
                 mListView.setEnabled(false);

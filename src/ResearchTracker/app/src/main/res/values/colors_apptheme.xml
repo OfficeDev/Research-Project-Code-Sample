@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="apptheme_color">#64007e</color>
+
+    <color name="apptheme_btn_default_holo_light_foreground">#ffffff</color>
+
+</resources>
