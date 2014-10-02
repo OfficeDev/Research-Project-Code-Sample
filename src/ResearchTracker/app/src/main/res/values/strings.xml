@@ -4,7 +4,7 @@
     <string name="app_name">Research Tracker</string>
 
     <string name="action_settings">Settings</string>
-    <string name="action_add_new">Add New</string>
+    <string name="action_new">New</string>
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
     <string name="action_refresh">Refresh</string>
