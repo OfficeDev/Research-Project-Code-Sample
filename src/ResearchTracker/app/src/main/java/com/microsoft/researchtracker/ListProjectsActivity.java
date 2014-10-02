@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.microsoft.researchtracker.sharepoint.SPODataCollection;
 import com.microsoft.researchtracker.sharepoint.ListsClient;
 import com.microsoft.researchtracker.sharepoint.SPODataObject;
-import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
+import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class ListProjectsActivity extends Activity {
     private App mApp;
 
     private ListView mListView;
-    private FolderListAdapter mAdapter;
+    private ProjectsListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class ListProjectsActivity extends Activity {
 
     private void startRefresh() {
 
-        new AsyncTask<Void, Void, List<ResearchReferenceModel>>() {
+        new AsyncTask<Void, Void, List<ResearchProjectModel>>() {
 
             @Override
             protected void onPreExecute() {
@@ -92,19 +92,19 @@ public class ListProjectsActivity extends Activity {
             }
 
             @Override
-            protected List<ResearchReferenceModel> doInBackground(Void... params) {
+            protected List<ResearchProjectModel> doInBackground(Void... params) {
 
                 try {
 
                     ListsClient client = mApp.getListsClient();
 
-                    SPODataCollection result = client.getListItems("Research References", null);
+                    SPODataCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
 
-                    final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
+                    final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
 
                     if (result != null) {
                         for (SPODataObject listItemData : result.getValue()) {
-                            items.add(new ResearchReferenceModel(listItemData));
+                            items.add(new ResearchProjectModel(listItemData));
                         }
                     }
 
@@ -118,7 +118,7 @@ public class ListProjectsActivity extends Activity {
             }
 
             @Override
-            protected void onPostExecute(List<ResearchReferenceModel> folderList) {
+            protected void onPostExecute(List<ResearchProjectModel> folderList) {
                 super.onPostExecute(folderList);
                 setProgressBarVisibility(false);
                 mListView.setEnabled(true);
@@ -129,19 +129,19 @@ public class ListProjectsActivity extends Activity {
                     Toast.makeText(ListProjectsActivity.this, R.string.activity_list_projects_error_loading_projects, Toast.LENGTH_LONG).show();
                 }
 
-                mAdapter = new FolderListAdapter(folderList);
+                mAdapter = new ProjectsListAdapter(folderList);
                 mListView.setAdapter(mAdapter);
             }
         }
         .execute();
     }
 
-    private class FolderListAdapter extends BaseAdapter {
+    private class ProjectsListAdapter extends BaseAdapter {
 
-        private final List<ResearchReferenceModel> mItems;
+        private final List<ResearchProjectModel> mItems;
         private final LayoutInflater mViewInflater;
 
-        public FolderListAdapter(List<ResearchReferenceModel> folderList) {
+        public ProjectsListAdapter(List<ResearchProjectModel> folderList) {
 
             mItems = folderList;
             mViewInflater = getLayoutInflater();
@@ -167,9 +167,9 @@ public class ListProjectsActivity extends Activity {
 
             TextView v = (TextView) (convertView != null ? convertView : mViewInflater.inflate(android.R.layout.simple_list_item_1, null));
 
-            ResearchReferenceModel item = mItems.get(position);
+            ResearchProjectModel item = mItems.get(position);
 
-            v.setText(item.getURL().getDescription());
+            v.setText(item.getTitle());
 
             return v;
         }

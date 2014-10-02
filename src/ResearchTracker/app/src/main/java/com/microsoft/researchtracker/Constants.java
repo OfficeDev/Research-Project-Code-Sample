@@ -20,4 +20,6 @@ public final class Constants {
 
     public static final String AAD_RESOURCE_ID = SHAREPOINT_URL; //EXCHANGE_RESOURCE_ID;
 
+    public static final String RESEARCH_PROJECTS_LIST = "Research Projects";
+    public static final String RESEARCH_REFERENCES_LIST = "Research References";
 }
