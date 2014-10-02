@@ -7,7 +7,6 @@ import com.microsoft.researchtracker.http.JsonClientBase;
 import com.microsoft.researchtracker.sharepoint.odata.Query;
 import com.microsoft.researchtracker.sharepoint.odata.QueryOperations;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
 import java.io.IOException;
@@ -50,12 +49,34 @@ public class ListsClient extends JsonClientBase {
         return new SPODataObject(element.getAsJsonObject());
     }
 
+    public SPODataObject getListItemById(final String listTitle, String id) throws IOException {
+        return internalGetListItemById(listTitle, QueryOperations.val(id));
+    }
+
+    public SPODataObject getListItemById(final String listTitle, int id) throws IOException {
+        return internalGetListItemById(listTitle, QueryOperations.val(id));
+    }
+
+    private SPODataObject internalGetListItemById(String listTitle, Query idToken) throws IOException {
+
+        String url = getListApiUrl(listTitle) + "/items(" + UrlUtil.encodeComponent(idToken.toString()) + ")";
+
+        JsonElement element = executeJsonRequest(new HttpGet(url));
+
+        if (element == null || !element.isJsonObject())
+            return null;
+
+        return new SPODataObject(element.getAsJsonObject());
+    }
+
     public SPODataCollection getListItems(final String listTitle, final Query query) throws IOException {
 
         String url = getListApiUrl(listTitle) + "/items";
 
         if (query != null) {
-            url += "?$filter=" + UrlUtil.encodeComponent(query.toString());
+            url += "?$filter=" +
+                        UrlUtil.encodeComponent(query.toString()) +
+                        query.getQueryParameters();
         }
 
         JsonElement element = executeJsonRequest(new HttpGet(url));

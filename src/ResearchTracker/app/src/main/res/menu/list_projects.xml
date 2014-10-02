@@ -13,15 +13,17 @@
     -->
 
     <item
-        android:id="@+id/action_add_new"
+        android:id="@+id/action_new"
         android:title="@string/action_new"
         android:icon="@drawable/ic_action_content_new"
-        android:orderInCategory="100" />
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_refresh"
         android:title="@string/action_refresh"
         android:icon="@drawable/ic_action_navigation_refresh"
-        android:orderInCategory="100" />
+        android:orderInCategory="200"
+        android:showAsAction="never" />
 
 </menu>

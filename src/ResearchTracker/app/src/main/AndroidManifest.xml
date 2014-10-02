@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.microsoft.researchtracker" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,7 +26,14 @@
             android:label="@string/activity_list_projects_title"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name=".ViewProjectActivity"
+            android:label="@string/activity_view_project_title"
+            android:parentActivityName=".ListProjectsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.microsoft.researchtracker.ListProjectsActivity" />
+        </activity>
     </application>
 
 </manifest>

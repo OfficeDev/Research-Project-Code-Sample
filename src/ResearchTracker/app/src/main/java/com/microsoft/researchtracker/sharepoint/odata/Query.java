@@ -183,7 +183,7 @@ public final class Query {
     /**
      * Returns the string representation of the rowset's modifiers
      */
-    public String getRowSetModifiers() {
+    public String getQueryParameters() {
         StringBuilder sb = new StringBuilder();
 
         try {

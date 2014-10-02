@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="placeholder">Placeholder</string>
+
     <string name="app_name">Research Tracker</string>
 
     <string name="action_settings">Settings</string>
@@ -8,6 +10,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_edit">Edit</string>
 
     <string name="label_sign_in">Sign in</string>
     <string name="label_ok">OK</string>
@@ -31,5 +34,8 @@
     <string name="activity_list_projects_title">Projects</string>
     <string name="activity_list_projects_error_loading_projects">There was an error while retrieving your projects</string>
 
+    <string name="activity_view_project_title">Project</string>
+    <string name="activity_view_project_header_references">Project References</string>
+    <string name="activity_view_project_error_loading_projects">There was an error while retrieving the project</string>
 
 </resources>

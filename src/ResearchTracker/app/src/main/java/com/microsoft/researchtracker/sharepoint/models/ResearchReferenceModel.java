@@ -24,6 +24,6 @@ public class ResearchReferenceModel {
     }
 
     public String getNotes() {
-        return mData.getStringField("Notes");
+        return mData.getStringField("Comments");
     }
 }

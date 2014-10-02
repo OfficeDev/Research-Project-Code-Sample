@@ -1,6 +1,7 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,13 +40,27 @@ public class ListProjectsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_PROGRESS);
+        setProgressBarIndeterminate(true);
+        
         setContentView(R.layout.activity_list_projects);
 
         mApp = (App) getApplication();
 
-        setProgressBarIndeterminate(true);
+        mListView = (ListView) findViewById(R.id.list_view);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ResearchProjectModel project = (ResearchProjectModel) mAdapter.getItem(position);
 
-        mListView = (ListView) findViewById(R.id.listView);
+
+                final Intent intent = new Intent(ListProjectsActivity.this, ViewProjectActivity.class);
+                intent.putExtra(ViewProjectActivity.PARAM_PROJECT_ID, project.getId());
+
+                startActivity(intent);
+            }
+        });
 
         startRefresh();
     }
@@ -61,8 +78,8 @@ public class ListProjectsActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_add_new) {
-            handleActionAddNew(item);
+        if (id == R.id.action_new) {
+            handleActionNew(item);
             return true;
         }
         if (id == R.id.action_refresh) {
@@ -76,10 +93,9 @@ public class ListProjectsActivity extends Activity {
         startRefresh();
     }
 
-    private void handleActionAddNew(MenuItem item) {
+    private void handleActionNew(MenuItem item) {
 
         //TODO
-        Toast.makeText(this, "Add new Project", Toast.LENGTH_SHORT).show();
     }
 
     private void startRefresh() {

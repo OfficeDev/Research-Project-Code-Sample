@@ -42,27 +42,36 @@ public class SPODataObject {
     }
 
     public String getStringField(final String fieldName) {
-        JsonPrimitive v = mData.getAsJsonPrimitive(fieldName);
-        return (v != null) ? v.getAsString() : null;
+        JsonElement value = mData.get(fieldName);
+        if (value == null || value.isJsonNull() || !value.isJsonPrimitive()) {
+            return null;
+        }
+        return mData.getAsJsonPrimitive(fieldName).getAsString();
     }
 
     public Integer getIntField(final String fieldName) {
-        JsonPrimitive v = mData.getAsJsonPrimitive(fieldName);
-        return (v != null) ? v.getAsInt() : null;
+        JsonElement value = mData.get(fieldName);
+        if (value == null || value.isJsonNull() || !value.isJsonPrimitive()) {
+            return null;
+        }
+        return mData.getAsJsonPrimitive(fieldName).getAsInt();
     }
 
     public Double getDoubleField(final String fieldName) {
-        JsonPrimitive v = mData.getAsJsonPrimitive(fieldName);
-        return (v != null) ? v.getAsDouble() : null;
+        JsonElement value = mData.get(fieldName);
+        if (value == null || value.isJsonNull() || !value.isJsonPrimitive()) {
+            return null;
+        }
+        return mData.getAsJsonPrimitive(fieldName).getAsDouble();
     }
 
     public Date getDateField(final String fieldName) {
-        JsonPrimitive v = mData.getAsJsonPrimitive(fieldName);
-        if (v == null || !v.isString()) {
+        JsonElement value = mData.get(fieldName);
+        if (value == null || value.isJsonNull() || !value.isJsonPrimitive()) {
             return null;
         }
         try {
-            return getZuluFormat().parse(v.getAsString());
+            return getZuluFormat().parse(value.getAsJsonPrimitive().getAsString());
         }
         catch (ParseException e) {
             return null;
@@ -70,11 +79,11 @@ public class SPODataObject {
     }
 
     public SPUrl getUrlField(final String fieldName) {
-        JsonObject v = mData.getAsJsonObject(fieldName);
-        if (v == null) {
+        JsonObject value = mData.getAsJsonObject(fieldName);
+        if (value == null || value.isJsonNull()) {
             return null;
         }
-        return new SPUrl(v);
+        return new SPUrl(value);
     }
 
     public void setField(final String fieldName, String value) {
