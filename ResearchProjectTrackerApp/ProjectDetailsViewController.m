@@ -1,7 +1,9 @@
 #import "ProjectDetailsViewController.h"
-
+#import "Reference.h"
 #import "office365-base-sdk/OAuthentication.h"
 #import "ProjectClient.h"
+#import "ReferencesTableViewCell.h"
+#import "ReferenceDetailsViewController.h"
 
 @implementation ProjectDetailsViewController
 
@@ -48,8 +50,12 @@
     ProjectClient* client = [self getClient];
     
     NSURLSessionTask* listReferencesTask = [client getProjectReferences:@"Research References" projectId:self.project.Id callback:^(NSMutableArray *listItems, NSError *error) {
-            self.references = listItems;
-            [spinner stopAnimating];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.references = [listItems copy];
+                [self.refencesTable reloadData];
+                [spinner stopAnimating];
+            });
+        
         }];
 
     [listReferencesTask resume];
@@ -90,52 +96,41 @@
     
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
-    
-          /* NSURLSessionTask* task = [client createEmptyFile:fileName
-                                              folder:nil callback:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                dispatch_async(dispatch_get_main_queue(),
-                                                               ^{
-                                                                   [spinner stopAnimating];
-                                                                   [self.navigationController popViewControllerAnimated:YES];
-                                                               });
-                                              }
-    ];
-   */
-    /*NSURLSessionTask* task = [client createFile:fileName overwrite:true body:data folder:nil :^(FileEntity *file, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //  [self.tableView reloadData];
-            [spinner stopAnimating];
-            [self.navigationController popViewControllerAnimated:YES];
-        });
-    }];*/
-    
-    
-   /* [client createFile:fileName overwrite :true body:data folder:nil
-                                       callback:^(NSData * data, NSURLResponse * response, NSError * error) {
-                                           //NSError* parseError = nil;
-                                           
-                                          //[client parseData : data];
-                                           
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               //  [self.tableView reloadData];
-                                               [spinner stopAnimating];
-                                               [self.navigationController popViewControllerAnimated:YES];
-                                           });
-                                       }];*/
-   
-    //[task resume];
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* identifier = @"referencesListCell";
+    ReferencesTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
+    Reference *item = [self.references objectAtIndex:indexPath.row];
+    cell.titleField.text = item.title;
+    cell.urlField.text = item.url;
+    
+    return cell;
 }
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.references count];
+}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedReference= [self.references objectAtIndex:indexPath.row];
     
+    [self performSegueWithIdentifier:@"referenceDetail" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    ReferenceDetailsViewController *controller = (ReferenceDetailsViewController *)segue.destinationViewController;
+    controller.selectedReference = self.selectedReference;
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    return [identifier isEqualToString:@"referenceDetail"] && self.selectedReference;
 }
 
 @end

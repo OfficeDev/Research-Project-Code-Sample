@@ -9,8 +9,12 @@
 /* Begin PBXBuildFile section */
 		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
 		D93D393419DC282B009ECCF6 /* ProjectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D393319DC282B009ECCF6 /* ProjectClient.m */; };
+		D93D393719DC7B96009ECCF6 /* ReferencesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */; };
 		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
 		D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */; };
+		D98016FC19DD904A00588BD1 /* Reference.m in Sources */ = {isa = PBXBuildFile; fileRef = D98016FB19DD904A00588BD1 /* Reference.m */; };
+		D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */; };
+		D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */; };
 		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
 		D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */; };
 		D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
@@ -164,9 +168,17 @@
 		3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchProjectTrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D93D393219DC282B009ECCF6 /* ProjectClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectClient.h; path = client/ProjectClient.h; sourceTree = SOURCE_ROOT; };
 		D93D393319DC282B009ECCF6 /* ProjectClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectClient.m; path = client/ProjectClient.m; sourceTree = SOURCE_ROOT; };
+		D93D393519DC7B96009ECCF6 /* ReferencesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferencesTableViewCell.h; path = ResearchProjectTrackerApp/ReferencesTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferencesTableViewCell.m; path = ResearchProjectTrackerApp/ReferencesTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		D94CEC5E19D5C82300A52949 /* office365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office365.png; sourceTree = SOURCE_ROOT; };
 		D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDetailsViewController.h; path = ResearchProjectTrackerApp/ProjectDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDetailsViewController.m; path = ResearchProjectTrackerApp/ProjectDetailsViewController.m; sourceTree = SOURCE_ROOT; };
+		D98016FA19DD904A00588BD1 /* Reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reference.h; path = client/Reference.h; sourceTree = SOURCE_ROOT; };
+		D98016FB19DD904A00588BD1 /* Reference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reference.m; path = client/Reference.m; sourceTree = SOURCE_ROOT; };
+		D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailsViewController.h; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.h; sourceTree = SOURCE_ROOT; };
+		D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailsViewController.m; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.m; sourceTree = SOURCE_ROOT; };
+		D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailTableCellTableViewCell.h; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailTableCellTableViewCell.m; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPad_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPad_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPhone_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPhone_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -312,6 +324,12 @@
 				D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */,
 				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
 				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
+				D93D393519DC7B96009ECCF6 /* ReferencesTableViewCell.h */,
+				D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */,
+				D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */,
+				D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */,
+				D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */,
+				D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -321,6 +339,8 @@
 			children = (
 				D93D393219DC282B009ECCF6 /* ProjectClient.h */,
 				D93D393319DC282B009ECCF6 /* ProjectClient.m */,
+				D98016FA19DD904A00588BD1 /* Reference.h */,
+				D98016FB19DD904A00588BD1 /* Reference.m */,
 			);
 			name = client;
 			sourceTree = "<group>";
@@ -596,12 +616,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9DE4EE319D5B83900CCDEC5 /* ProjectTableViewCell.m in Sources */,
+				D98016FC19DD904A00588BD1 /* Reference.m in Sources */,
+				D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */,
 				D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */,
+				D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */,
 				D9DE4EE219D5B83900CCDEC5 /* CreateViewController.m in Sources */,
 				D9DE4EE419D5B83900CCDEC5 /* ProjectTableViewController.m in Sources */,
 				D9DE4EE519D5B83900CCDEC5 /* ViewController.m in Sources */,
 				3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */,
 				D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */,
+				D93D393719DC7B96009ECCF6 /* ReferencesTableViewCell.m in Sources */,
 				D93D393419DC282B009ECCF6 /* ProjectClient.m in Sources */,
 				D9DE4EF319D5B8CD00CCDEC5 /* main.m in Sources */,
 			);

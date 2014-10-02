@@ -7,6 +7,7 @@
 //
 
 #import "ProjectClient.h"
+#import "Reference.h"
 #import "office365-base-sdk/HttpConnection.h"
 #import "office365-base-sdk/Constants.h"
 #import "office365-base-sdk/NSString+NSStringExtensions.h"
@@ -47,8 +48,8 @@ const NSString *apiUrl = @"/_api/lists";
 }
 
 - (NSURLSessionDataTask *)getProjectReferences:(NSString *)name projectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback{
-    NSString *queryString = [NSString stringWithFormat:@"?filter=Project eq '%@'", projectId];
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items%@", self.Url , apiUrl, [name urlencode], [queryString urlencode]];
+    NSString *queryString = [NSString stringWithFormat:@"filter=Project eq '%@'", projectId];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items?%@", self.Url , apiUrl, [name urlencode], [queryString urlencode]];
     HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential url:url];
     
     NSString *method = (NSString*)[[Constants alloc] init].Method_Get;
@@ -58,7 +59,7 @@ const NSString *apiUrl = @"/_api/lists";
         
         NSMutableArray *listsItemsArray =[self parseDataArray: data];
         for (NSDictionary* value in listsItemsArray) {
-            [array addObject: [[ListItem alloc] initWithDictionary:value]];
+            [array addObject: [[Reference alloc] initWithDictionary:value]];
         }
         
         callback(array ,error);

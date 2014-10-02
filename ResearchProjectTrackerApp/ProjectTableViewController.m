@@ -130,80 +130,12 @@ NSURLSessionDownloadTask* task;
     return 40;
 }
 
-- (IBAction)Download:(id)sender {
-    
-    [self createBlockerPanel];
-    
-    //__weak typeof(self) weakSelf = self;
-    
-  //  task = [[self getClient] download:currentEntity.Id delegate: (id)weakSelf];
-    [task resume];
-}
-
-/*-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
-{
-    NSLog(@"Temporary File :%@\n", location);
-    NSError *err = nil;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *docsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    
-    NSURL *docsDirURL = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:currentEntity.getTitle]];
-    if ([fileManager moveItemAtURL:location toURL:docsDirURL error: &err])
-    {
-        NSLog(@"File is saved to =%@",docsDir);
-    }
-    else
-    {
-        NSLog(@"failed to move: %@",[err userInfo]);
-    }
-    
-    [self disposeBlockerPanel];
-}*/
-
-/*-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
-{
-    NSInteger size = currentEntity.Size;
-    popUpLabel.text = [NSString stringWithFormat: @"Downloaded: %lld of %ld bytes.", totalBytesWritten, (long)size];
-    [popUpView addSubview:popUpLabel];
-}*/
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger lastSelected = [self.projectsList indexOfObject:currentEntity];
-    
-    if(lastSelected != NSIntegerMax){
-        //NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:lastSelected inSection:0];
-        //ProjectTableViewCell* lastCell = (ProjectTableViewCell*)[tableView cellForRowAtIndexPath:oldIndexPath];
-    }
-    
-    //ProjectTableViewCell* cell =(ProjectTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detail" sender:self];
 }
-
-/*- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-    forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ListEntity* listToDelete = [self.projectsList objectAtIndex:indexPath.row];
-        UIActivityIndicatorView* spinner = [self loadingProgress];
-        
-      NSURLSessionDataTask* task = [[self getClient] deleteList:listToDelete :^(BOOL success, NSError *error) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-              [self.projectsList removeObject:listToDelete];
-              [self.tableView reloadData];
-              
-              self.tableView.scrollEnabled = true;
-              [spinner stopAnimating];
-              blockerPanel.hidden = true;
-                });
-            }];
-      
-        [task resume];
-    }
-}*/
 
 -(UIActivityIndicatorView*)loadingProgress{
     

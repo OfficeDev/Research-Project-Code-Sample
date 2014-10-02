@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "office365-lists-sdk/ListItem.h"
+#import "Reference.h"
 
 @interface ProjectDetailsViewController : UIViewController <UITableViewDataSource>
 
@@ -7,11 +8,12 @@
 
 @property NSString* token;
 @property ListItem* project;
+@property Reference* selectedReference;
 @property (weak, nonatomic) IBOutlet UILabel *projectName;
 @property (weak, nonatomic) IBOutlet UITextField *projectNameField;
 @property (weak, nonatomic) IBOutlet UILabel *referenceLbl;
 @property (weak, nonatomic) IBOutlet UITableView *refencesTable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *projectDetailsDoneButton;
-@property (weak, nonatomic) IBOutlet NSMutableArray *references;
+@property (strong, nonatomic) IBOutlet NSMutableArray *references;
 
 @end
