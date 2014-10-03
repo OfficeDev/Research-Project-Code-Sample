@@ -10,15 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class SPODataObject {
+public class SPObject {
 
     private DateFormat mZuluFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private JsonObject mData;
 
-    public SPODataObject(JsonObject data) {
+    public SPObject(JsonObject data) {
 
         mData = data;
+    }
+
+    public SPObject() {
+
+        mData = new JsonObject();
     }
 
     private DateFormat getZuluFormat() {
@@ -27,18 +32,6 @@ public class SPODataObject {
             mZuluFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         }
         return mZuluFormat;
-    }
-
-    public String getODataMetadata() {
-        return getStringField("odata.metadata");
-    }
-
-    public String getODataId() {
-        return getStringField("odata.id");
-    }
-
-    public String getODataETag() {
-        return getStringField("odata.etag");
     }
 
     public String getStringField(final String fieldName) {
@@ -84,6 +77,14 @@ public class SPODataObject {
             return null;
         }
         return new SPUrl(value);
+    }
+
+    public SPETag getETagField(final String fieldName) {
+        String value = getStringField(fieldName);
+        if (value == null) {
+            return null;
+        }
+        return new SPETag(value);
     }
 
     public void setField(final String fieldName, String value) {

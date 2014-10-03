@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/apptheme_color_dark"
-    tools:context=".Login"
-    android:id="@+id/">
+    tools:context=".Login">
 
     <RelativeLayout
         android:layout_width="fill_parent"

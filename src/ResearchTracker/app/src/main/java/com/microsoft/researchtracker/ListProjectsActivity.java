@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -17,9 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.sharepoint.SPODataCollection;
+import com.microsoft.researchtracker.sharepoint.SPCollection;
 import com.microsoft.researchtracker.sharepoint.ListsClient;
-import com.microsoft.researchtracker.sharepoint.SPODataObject;
+import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
@@ -54,7 +53,7 @@ public class ListProjectsActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ResearchProjectModel project = (ResearchProjectModel) mAdapter.getItem(position);
 
-
+                //Launch the "View Project" activity
                 final Intent intent = new Intent(ListProjectsActivity.this, ViewProjectActivity.class);
                 intent.putExtra(ViewProjectActivity.PARAM_PROJECT_ID, project.getId());
 
@@ -63,10 +62,13 @@ public class ListProjectsActivity extends Activity {
         });
 
         mProgress = (ProgressBar) findViewById(R.id.progress);
+    }
 
-        if (mAdapter == null) {
-            startRefresh();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        startRefresh();
     }
 
     @Override
@@ -83,23 +85,23 @@ public class ListProjectsActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_new) {
-            handleActionNew(item);
+            handleActionNew();
             return true;
         }
         if (id == R.id.action_refresh) {
-            handleActionRefresh(item);
+            startRefresh();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleActionRefresh(MenuItem item) {
-        startRefresh();
-    }
+    private void handleActionNew() {
 
-    private void handleActionNew(MenuItem item) {
+        //Launch the "Edit Project" activity in "new" mode
+        final Intent intent = new Intent(this, EditProjectActivity.class);
+        intent.putExtra(EditProjectActivity.PARAM_NEW_PROJECT_MODE, true);
 
-        //TODO
+        startActivity(intent);
     }
 
     private void startRefresh() {
@@ -114,12 +116,12 @@ public class ListProjectsActivity extends Activity {
 
                             final ListsClient client = mApp.getListsClient();
 
-                            final SPODataCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
+                            final SPCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
 
                             final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
 
                             if (result != null) {
-                                for (final SPODataObject listItemData : result.getValue()) {
+                                for (final SPObject listItemData : result.getValue()) {
                                     items.add(new ResearchProjectModel(listItemData));
                                 }
                             }

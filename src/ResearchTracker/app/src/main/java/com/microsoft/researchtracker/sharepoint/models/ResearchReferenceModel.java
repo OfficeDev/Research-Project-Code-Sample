@@ -1,12 +1,12 @@
 package com.microsoft.researchtracker.sharepoint.models;
 
-import com.microsoft.researchtracker.sharepoint.SPODataObject;
+import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.SPUrl;
 
 public class ResearchReferenceModel {
-    private SPODataObject mData;
+    private SPObject mData;
 
-    public ResearchReferenceModel(SPODataObject data) {
+    public ResearchReferenceModel(SPObject data) {
 
         mData = data;
     }

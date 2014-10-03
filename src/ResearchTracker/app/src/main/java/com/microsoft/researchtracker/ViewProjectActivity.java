@@ -1,6 +1,9 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,8 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.microsoft.researchtracker.sharepoint.ListsClient;
-import com.microsoft.researchtracker.sharepoint.SPODataCollection;
-import com.microsoft.researchtracker.sharepoint.SPODataObject;
+import com.microsoft.researchtracker.sharepoint.SPCollection;
+import com.microsoft.researchtracker.sharepoint.SPETag;
+import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.sharepoint.odata.Query;
@@ -29,12 +32,13 @@ import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ViewProjectActivity extends Activity {
 
     private static final String TAG = "ViewProjectActivity";
+
+    private static final int REQUEST_EDIT_PROJECT = 1;
 
     public static final String PARAM_PROJECT_ID = "project_id";
 
@@ -47,6 +51,9 @@ public class ViewProjectActivity extends Activity {
     private ListAdapter mAdapter;
 
     private int mProjectId;
+    private SPETag mProjectETag;
+
+    private boolean mLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +70,18 @@ public class ViewProjectActivity extends Activity {
 
         mProjectId = getIntent().getIntExtra(PARAM_PROJECT_ID, 0);
 
-        startRefresh();
+        mLoaded = false;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (!mLoaded) {
+            mLoaded = true;
+            startRefresh();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,11 +104,24 @@ public class ViewProjectActivity extends Activity {
             handleActionNew(item);
             return true;
         }
+        if (id == R.id.action_delete) {
+            launchConfirmDeleteDialog();
+            return true;
+        }
         if (id == R.id.action_refresh) {
-            handleActionRefresh(item);
+            startRefresh();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_EDIT_PROJECT && resultCode == RESULT_OK) {
+            startRefresh();
+        }
     }
 
     private void ensureAuthenticated(final Runnable r) {
@@ -130,16 +159,16 @@ public class ViewProjectActivity extends Activity {
 
                             final ListsClient client = mApp.getListsClient();
 
-                            final SPODataObject projectData = client.getListItemById(Constants.RESEARCH_PROJECTS_LIST, mProjectId);
+                            final SPObject projectData = client.getListItemById(Constants.RESEARCH_PROJECTS_LIST, mProjectId);
                             final ResearchProjectModel project = new ResearchProjectModel(projectData);
 
                             final Query query = QueryOperations.field("Project").eq().val(mProjectId);
-                            final SPODataCollection result = client.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
+                            final SPCollection result = client.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
 
                             final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
 
                             if (result != null) {
-                                for (final SPODataObject listItemData : result.getValue()) {
+                                for (final SPObject listItemData : result.getValue()) {
                                     items.add(new ResearchReferenceModel(listItemData));
                                 }
                             }
@@ -165,6 +194,8 @@ public class ViewProjectActivity extends Activity {
                             return;
                         }
 
+                        mProjectETag = result.project.getODataEtag();
+
                         mTitleLabel.setText(result.project.getTitle());
                         mAdapter = new ReferencesListAdapter(result.references);
                         mListView.setAdapter(mAdapter);
@@ -175,18 +206,79 @@ public class ViewProjectActivity extends Activity {
         });
     }
 
-    private void handleActionRefresh(MenuItem item) {
-        startRefresh();
-    }
-
     private void handleActionEdit(MenuItem item) {
 
-        //TODO
+        //Launch the "Edit Project" activity
+        final Intent intent = new Intent(this, EditProjectActivity.class);
+        intent.putExtra(EditProjectActivity.PARAM_PROJECT_ID, mProjectId);
+
+        startActivityForResult(intent, REQUEST_EDIT_PROJECT);
     }
 
     private void handleActionNew(MenuItem item) {
 
         //TODO
+    }
+
+    private void launchConfirmDeleteDialog() {
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_confirm_delete_project_title)
+                .setMessage(R.string.dialog_confirm_delete_project_message)
+                .setNegativeButton(R.string.label_cancel, null)
+                .setPositiveButton(R.string.label_delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteProjectAndFinish();
+                    }
+                })
+                .create()
+                .show();
+
+    }
+
+    private void deleteProjectAndFinish() {
+
+        ensureAuthenticated(new Runnable() {
+            public void run() {
+
+                mProgress.setVisibility(View.VISIBLE);
+
+                AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<Boolean>() {
+                    public Boolean run() {
+                        try {
+
+                            mApp.getListsClient().deleteListItem(Constants.RESEARCH_PROJECTS_LIST, mProjectId, mProjectETag);
+                            return true;
+                        }
+                        catch (Exception e) {
+                            Log.e(TAG, "Error deleting project", e);
+                            return false;
+                        }
+                    }
+                })
+                .thenOnUiThread(new AsyncUtil.ResultHandler<Boolean>() {
+                    public void run(Boolean success) {
+
+                        mProgress.setVisibility(View.GONE);
+
+                        if (success) {
+
+                            Toast.makeText(ViewProjectActivity.this, R.string.activity_edit_project_project_deleted_message, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                        else {
+                            new AlertDialog.Builder(ViewProjectActivity.this)
+                                    .setTitle(R.string.dialog_generic_error_title)
+                                    .setMessage(R.string.dialog_generic_error_message)
+                                    .setNeutralButton(R.string.label_continue, null)
+                                    .create()
+                                    .show();
+                        }
+                    }
+                })
+                .execute();
+            }
+        });
     }
 
     private class ReferencesListAdapter extends BaseAdapter {

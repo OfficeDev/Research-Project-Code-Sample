@@ -34,6 +34,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.microsoft.researchtracker.ListProjectsActivity" />
         </activity>
+        <activity
+            android:name=".EditProjectActivity"
+            android:label="@string/activity_edit_project_title"
+            android:parentActivityName=".ViewProjectActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.microsoft.researchtracker.ViewProjectActivity" />
+        </activity>
     </application>
 
 </manifest>

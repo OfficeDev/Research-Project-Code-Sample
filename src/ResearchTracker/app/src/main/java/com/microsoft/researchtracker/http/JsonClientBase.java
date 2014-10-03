@@ -5,7 +5,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.microsoft.researchtracker.http.GzipDecompressingEntity;
 import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 import org.apache.http.Header;
@@ -18,8 +17,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HttpContext;
@@ -28,6 +27,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 public class JsonClientBase {
 
@@ -88,28 +88,6 @@ public class JsonClientBase {
         return new GsonBuilder().create();
     }
 
-    private JsonElement handleApiResponse(HttpResponse response) throws IOException {
-
-        final StatusLine statusLine = response.getStatusLine();
-
-        final int statusCode = statusLine.getStatusCode();
-
-        final HttpEntity entity = response.getEntity();
-
-        if (isSuccessStatusCode(statusCode)) {
-            try {
-                //Try parse a success response
-                return parseJsonResponse(entity);
-            }
-            catch (Exception e) {
-                Log.wtf(TAG, "Error while handling api request", e);
-                throw new IOException(e);
-            }
-        }
-
-        throw new IOException(statusCode + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
-    }
-
     private JsonElement parseJsonResponse(final HttpEntity entity) throws IOException {
 
         Reader reader = null;
@@ -130,10 +108,57 @@ public class JsonClientBase {
         }
     }
 
+    protected void executeVoidRequest(HttpUriRequest request) throws IOException {
+
+        final HttpResponse response = mClient.execute(request);
+        final StatusLine statusLine = response.getStatusLine();
+        final int statusCode = statusLine.getStatusCode();
+
+        if (!isSuccessStatusCode(statusCode)) {
+
+            final HttpEntity entity = response.getEntity();
+
+            throw new IOException(statusCode + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
+        }
+    }
+
     protected JsonElement executeJsonRequest(HttpUriRequest request) throws IOException {
 
-        HttpResponse response = mClient.execute(request);
+        final HttpResponse response = mClient.execute(request);
+        final StatusLine statusLine = response.getStatusLine();
+        final int statusCode = statusLine.getStatusCode();
 
-        return handleApiResponse(response);
+        final HttpEntity entity = response.getEntity();
+
+        if (isSuccessStatusCode(statusCode)) {
+            try {
+                //Try parse a success response
+                return parseJsonResponse(entity);
+            }
+            catch (Exception e) {
+                Log.wtf(TAG, "Error while handling api request", e);
+                throw new IOException(e);
+            }
+        }
+
+        throw new IOException(statusCode + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
+    }
+
+    protected HttpEntity createJsonEntity(JsonElement data) {
+
+        StringBuilder sb = new StringBuilder();
+
+        mGson.toJson(data, sb);
+
+        try {
+            StringEntity entity = new StringEntity(sb.toString(), "utf-8");
+
+            entity.setContentType(CONTENT_TYPE_JSON);
+
+            return entity;
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SPODataCollection {
+public class SPCollection {
 
     private JsonObject mData;
 
-    public SPODataCollection(JsonObject data) {
+    public SPCollection(JsonObject data) {
         mData = data;
     }
 
@@ -22,18 +22,18 @@ public class SPODataCollection {
         return (el != null && el.isString()) ? el.getAsString() : null;
     }
 
-    public List<SPODataObject> getValue() {
+    public List<SPObject> getValue() {
 
         final JsonArray arr = mData.getAsJsonArray("value");
 
         if (arr == null)
             return Collections.emptyList();
 
-        final List<SPODataObject> values = new ArrayList<SPODataObject>();
+        final List<SPObject> values = new ArrayList<SPObject>();
 
         for (JsonElement el : arr) {
             if (el.isJsonObject()) {
-                values.add(new SPODataObject(el.getAsJsonObject()));
+                values.add(new SPObject(el.getAsJsonObject()));
             }
         }
 
