@@ -16,15 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.sharepoint.SPCollection;
-import com.microsoft.researchtracker.sharepoint.ListsClient;
-import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -113,20 +109,7 @@ public class ListProjectsActivity extends Activity {
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<List<ResearchProjectModel>>() {
                     public List<ResearchProjectModel> run() {
                         try {
-
-                            final ListsClient client = mApp.getListsClient();
-
-                            final SPCollection result = client.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
-
-                            final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
-
-                            if (result != null) {
-                                for (final SPObject listItemData : result.getValue()) {
-                                    items.add(new ResearchProjectModel(listItemData));
-                                }
-                            }
-
-                            return items;
+                            return mApp.getRepository().getResearchProjects();
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Error retrieving projects", e);

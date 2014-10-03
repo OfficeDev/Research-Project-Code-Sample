@@ -12,9 +12,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.sharepoint.ListsClient;
+import com.microsoft.researchtracker.data.ResearchRepository;
 import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
@@ -36,7 +35,6 @@ public class EditProjectActivity extends Activity {
     private int mProjectId;
     private SPETag mProjectETag;
 
-    private int mRequestId;
     private boolean mLoaded;
 
     @Override
@@ -125,10 +123,7 @@ public class EditProjectActivity extends Activity {
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ResearchProjectModel>() {
                     public ResearchProjectModel run() {
                         try {
-                            final ListsClient client = mApp.getListsClient();
-                            final SPObject projectData = client.getListItemById(Constants.RESEARCH_PROJECTS_LIST, mProjectId);
-
-                            return new ResearchProjectModel(projectData);
+                            return mApp.getRepository().getResearchProjectById(mProjectId);
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Error retrieving project", e);
@@ -163,16 +158,16 @@ public class EditProjectActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            final ListsClient client = mApp.getListsClient();
+                            final ResearchRepository repository = mApp.getRepository();
                             final ResearchProjectModel model = new ResearchProjectModel();
 
                             model.setTitle(mTitleText.getText().toString());
 
                             if (mProjectId == NEW_PROJECT_ID) {
-                                client.createListItem(Constants.RESEARCH_PROJECTS_LIST, model.getInternalData());
+                                repository.createResearchProject(model);
                             }
                             else {
-                                client.updateListItem(Constants.RESEARCH_PROJECTS_LIST, mProjectId, mProjectETag, model.getInternalData());
+                                repository.updateResearchProject(mProjectId, mProjectETag, model);
                             }
                             return true;
                         }

@@ -18,20 +18,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.sharepoint.ListsClient;
-import com.microsoft.researchtracker.sharepoint.SPCollection;
+import com.microsoft.researchtracker.data.ResearchRepository;
 import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
-import com.microsoft.researchtracker.sharepoint.odata.Query;
-import com.microsoft.researchtracker.sharepoint.odata.QueryOperations;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ViewProjectActivity extends Activity {
@@ -154,23 +150,19 @@ public class ViewProjectActivity extends Activity {
 
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ViewModel>() {
                     public ViewModel run() {
-
                         try {
+                            ResearchRepository repository = mApp.getRepository();
 
-                            final ListsClient client = mApp.getListsClient();
+                            ResearchProjectModel project = repository.getResearchProjectById(mProjectId);
 
-                            final SPObject projectData = client.getListItemById(Constants.RESEARCH_PROJECTS_LIST, mProjectId);
-                            final ResearchProjectModel project = new ResearchProjectModel(projectData);
+                            if (project == null) {
+                                return null;
+                            }
 
-                            final Query query = QueryOperations.field("Project").eq().val(mProjectId);
-                            final SPCollection result = client.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
+                            List<ResearchReferenceModel> items = repository.getResearchReferencesByProjectId(mProjectId);
 
-                            final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
-
-                            if (result != null) {
-                                for (final SPObject listItemData : result.getValue()) {
-                                    items.add(new ResearchReferenceModel(listItemData));
-                                }
+                            if (items == null) {
+                                items = Collections.emptyList();
                             }
 
                             return new ViewModel(project, items);
@@ -247,7 +239,8 @@ public class ViewProjectActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            mApp.getListsClient().deleteListItem(Constants.RESEARCH_PROJECTS_LIST, mProjectId, mProjectETag);
+                            mApp.getRepository().deleteResearchProject(mProjectId, mProjectETag);
+
                             return true;
                         }
                         catch (Exception e) {
