@@ -4,6 +4,7 @@
 #import "ProjectClient.h"
 #import "ReferencesTableViewCell.h"
 #import "ReferenceDetailsViewController.h"
+#import "CreateReferenceViewController.h"
 
 @implementation ProjectDetailsViewController
 
@@ -125,12 +126,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    ReferenceDetailsViewController *controller = (ReferenceDetailsViewController *)segue.destinationViewController;
-    controller.selectedReference = self.selectedReference;
+    if([segue.identifier isEqualToString:@"createReference"]){
+        CreateReferenceViewController *controller = (CreateReferenceViewController *)segue.destinationViewController;
+        controller.token = self.token;
+    }else{
+        ReferenceDetailsViewController *controller = (ReferenceDetailsViewController *)segue.destinationViewController;
+        controller.selectedReference = self.selectedReference;
+        controller.token = self.token;
+    }
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
-    return [identifier isEqualToString:@"referenceDetail"] && self.selectedReference;
+    return ([identifier isEqualToString:@"referenceDetail"] && self.selectedReference) || [identifier isEqualToString:@"createReference"];
 }
 
 @end
