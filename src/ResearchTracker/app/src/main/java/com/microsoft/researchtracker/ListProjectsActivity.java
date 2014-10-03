@@ -1,6 +1,7 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,7 +89,22 @@ public class ListProjectsActivity extends Activity {
             startRefresh();
             return true;
         }
+        if (id == R.id.action_sign_out) {
+            handleActionSignOut();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleActionSignOut() {
+
+        mApp.getAuthManager().clearAuthTokenAndCachedCredentials();
+
+        //user has confirmed - restart the app
+        final Intent intent = Intent.makeRestartActivityTask(new ComponentName(this, LoginActivity.class));
+        intent.putExtra(LoginActivity.PARAM_AUTH_IMMEDIATE, false);
+
+        startActivity(intent);
     }
 
     private void handleActionNew() {

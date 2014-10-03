@@ -26,6 +26,7 @@ import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 public class AuthManager {
 
     private static final String TAG = "AuthManager";
+    private static final String PREFS_HAS_CACHED_CREDENTIALS = "has_cached_creds";
 
     private App mApplication;
     private AuthenticationContext mAuthContext;
@@ -63,10 +64,23 @@ public class AuthManager {
         assert token != null;
         mCachedAuthToken = token;
         mCachedAuthToken.writeTo(mSharedPreferences);
+        mSharedPreferences
+                .edit()
+                .putBoolean(PREFS_HAS_CACHED_CREDENTIALS, mCachedAuthToken.isValid())
+                .apply();
     }
 
     public boolean getAuthenticationInProgress() {
         return mAuthInProgress;
+    }
+
+    public boolean hasCachedCredentials() {
+        return mSharedPreferences.getBoolean(PREFS_HAS_CACHED_CREDENTIALS, false);
+    }
+
+    public void clearAuthTokenAndCachedCredentials() {
+        mAuthContext.getCache().removeAll();
+        updateAuthToken(new AuthToken());
     }
 
     /**

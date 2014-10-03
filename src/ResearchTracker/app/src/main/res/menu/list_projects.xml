@@ -26,4 +26,10 @@
         android:orderInCategory="200"
         android:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_sign_out"
+        android:title="@string/action_sign_out"
+        android:orderInCategory="300"
+        android:showAsAction="never" />
+
 </menu>

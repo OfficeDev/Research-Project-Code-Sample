@@ -2,8 +2,10 @@ package com.microsoft.researchtracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -42,9 +44,10 @@ public class LoginActivity extends Activity {
             }
         });
 
+
         resetView();
 
-        if (getIntent().getBooleanExtra(PARAM_AUTH_IMMEDIATE, false))
+        if (getIntent().getBooleanExtra(PARAM_AUTH_IMMEDIATE, false) || mAuth.hasCachedCredentials())
         {
             startAuthentication();
         }
@@ -64,7 +67,7 @@ public class LoginActivity extends Activity {
         mloginButton.setEnabled(false);
 
         //Start authentication procedure
-        mAuth.forceAuthenticate(this, new AuthCallback() {
+        mAuth.authenticate(this, new AuthCallback() {
 
             @Override
             public void onSuccess() {
