@@ -11,7 +11,6 @@ using System.Web.Http.OData.Query;
 using System.Web.Http.OData.Routing;
 using SpResearchTracker.Models;
 using Microsoft.Data.OData;
-using SpResearchTracker.Filters;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using SpResearchTracker.Utils;
@@ -20,7 +19,6 @@ namespace SpResearchTracker.Controllers
 {
 
     [Authorize]
-    [OAuthExceptionFilter]
     public class ReferencesController : ODataController
     {
         //This interface is used to support dependency injection

@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
-using System.Web.Routing;
 using System.Web.SessionState;
 
 namespace SpResearchTracker
@@ -16,7 +15,7 @@ namespace SpResearchTracker
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register); 
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             IdentityConfig.ConfigureIdentity();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

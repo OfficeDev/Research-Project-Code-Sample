@@ -22,7 +22,6 @@ namespace SpResearchTracker.Filters
             {
                 string resource = ConfigurationManager.AppSettings["ida:Resource"];
                 string redirectUri = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority).ToString() + "/Home/SPA";
-                string authorizationUrl = OAuthController.GetAuthorizationUrl(resource, new Uri(redirectUri));
                 actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 System.Net.Http.Headers.AuthenticationHeaderValue realm = new System.Net.Http.Headers.AuthenticationHeaderValue("OAuth", "realm=\"" + authorizationUrl + "\"");
                 actionExecutedContext.Response.Headers.WwwAuthenticate.Add(realm);

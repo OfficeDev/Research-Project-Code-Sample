@@ -1,5 +1,4 @@
-﻿using SpResearchTracker.Filters;
-using SpResearchTracker.Models;
+﻿using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,7 +12,6 @@ using System.Web.Http;
 namespace SpResearchTracker.Controllers
 {
     [Authorize]
-    [OAuthExceptionFilter]
     public class ConfigurationsController : ApiController
     {
         //This interface is used to support dependency injection

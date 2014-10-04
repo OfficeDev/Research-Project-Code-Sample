@@ -24,6 +24,10 @@ using System.Web.Mvc;
 using System.Globalization;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Configuration;
+using System.Security.Claims;
+using SpResearchTracker.Utils;
+using Microsoft.Office365.OAuth;
+using System.Threading.Tasks;
 
 namespace SpResearchTracker.Controllers
 {
@@ -44,12 +48,16 @@ namespace SpResearchTracker.Controllers
         static string resource = ConfigurationManager.AppSettings["ida:Resource"];
         
         string authority = String.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
-
         private static readonly string authorizeUrl = string.Format(
-            CultureInfo.InvariantCulture,
-            aadInstance,
-            "common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}&state={3}");
+           CultureInfo.InvariantCulture,
+           aadInstance,
+           "common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}&state={3}");
+        private const string ServiceResourceId = "https://outlook.office365.com";
+        private static readonly Uri ServiceEndpointUri = new Uri("https://outlook.office365.com/ews/odata");
 
+        private DiscoveryContext _discoveryContext;
+
+       
         //
         // This method will be invoked as a call-back from an authentication service (e.g., https://login.windows.net/).
         // It is not intended to be called directly, or to be called without first invoking the "GetAuthorizationUrl" method.
@@ -57,8 +65,10 @@ namespace SpResearchTracker.Controllers
         //     specified in the state cookie (created by the "GetAuthorizationUrl" method, with its unique ID 
         //     included in the "state" of this method).
         //
-        public ActionResult Index(string code, string error, string error_description, string resource, string state)
+        public async Task<ActionResult> Index(string code, string error, string error_description, string resource, string state)
         {
+            AuthenticationResult result = null;
+            
             resource = GetFromCache("Resource").ToString();
             //
             // NOTE: In production, OAuth must be done over a secure HTTPS connection.
@@ -71,40 +81,53 @@ namespace SpResearchTracker.Controllers
             //
             // Ensure there is a state value on the response.  If there is none, stop OAuth processing and display an error.
             //
-            if (state == null)
-            {
-                return View("Error");
-            }
+            //if (state == null)
+            //{
+            //    return View("Error");
+            //}
 
             //
             // Ensure the saved state value matches the value from the response.  If it does not, stop OAuth processing and display an error.
             //
-            if (!FindOAuthStateInCache(state))
-            {
-                RemoveOAuthStateFromCache(state);
-                return View("Error");
-            }
+            //if (!FindOAuthStateInCache(state))
+            //{
+            //    RemoveOAuthStateFromCache(state);
+            //    return View("Error");
+            //}
 
-            RemoveOAuthStateFromCache(state);
+            //RemoveOAuthStateFromCache(state);
 
             //
             // Handle errors from the OAuth response, if any.  If there are errors, stop OAuth processing and display an error.
             //
-            if (error != null)
-            {
-                return View("Error");
-            }
+            //if (error != null)
+            //{
+            //    return View("Error");
+            //}
 
             //
             // Redeem the authorization code from the response for an access token and refresh token.
             //
             try
             {
+                if (Session["DiscoveryContext"] != null)
+                {
+                    _discoveryContext = (DiscoveryContext)Session["DiscoveryContext"];
+                }
+                // Create the discovery context if it doesn't already exist.
+                if (_discoveryContext == null)
+                {
+                    _discoveryContext = await DiscoveryContext.CreateAsync();
+                    //only required for PPE environment defaults to https://api.office.com/ 
+                    DiscoveryContext.ServiceEndpointUri = new Uri("https://api.officeppe.com/discovery/me/");
+
+                    Session["DiscoveryContext"] = _discoveryContext;
+                }
+
+                var discoverResult = await _discoveryContext.DiscoverCapabilityAsync("MyFiles");
+                string userObjectID = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
                 ClientCredential credential = new ClientCredential(clientId, appKey);
-                string authority = string.Format(CultureInfo.InvariantCulture, aadInstance, tenant);
-                AuthenticationContext authContext = new AuthenticationContext(authority);
-                AuthenticationResult result = authContext.AcquireTokenByAuthorizationCode(
-                    code, new Uri(Request.Url.GetLeftPart(UriPartial.Path)), credential);
+                result = await _discoveryContext.AuthenticationContext.AcquireTokenSilentAsync(discoverResult.ServiceResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 
                 // Cache the access token and refresh token
                 SaveAccessTokenInCache(resource, result.AccessToken, (result.ExpiresOn.AddMinutes(-5)).ToString());
@@ -119,15 +142,14 @@ namespace SpResearchTracker.Controllers
                 // RemoveFromCache("RedirectTo");
                 return Redirect(redirectTo.ToString());
             }
-            catch
+            catch (RedirectRequiredException redir)
             {
-                return View("Error");
+                return Redirect(redir.RedirectUri.ToString());
             }
 
         }
 
         #region HelperFunctions
-
         public static string GetAuthorizationUrl(string resourceId, Uri request)
         {
 
