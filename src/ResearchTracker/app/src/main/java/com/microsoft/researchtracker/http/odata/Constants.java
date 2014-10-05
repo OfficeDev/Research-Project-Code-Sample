@@ -3,7 +3,7 @@
  * All Rights Reserved
  * See License.txt in the project root for license information.
  ******************************************************************************/
-package com.microsoft.researchtracker.sharepoint.odata;
+package com.microsoft.researchtracker.http.odata;
 
 import java.nio.charset.Charset;
 

@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonElement;
 import com.microsoft.researchtracker.http.HttpMerge;
-import com.microsoft.researchtracker.http.JsonClientBase;
-import com.microsoft.researchtracker.sharepoint.odata.Query;
-import com.microsoft.researchtracker.sharepoint.odata.QueryOperations;
+import com.microsoft.researchtracker.http.odata.JsonClientBase;
+import com.microsoft.researchtracker.http.odata.Query;
+import com.microsoft.researchtracker.http.odata.QueryOperations;
 
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;

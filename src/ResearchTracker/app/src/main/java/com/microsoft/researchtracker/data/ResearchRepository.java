@@ -1,7 +1,5 @@
 package com.microsoft.researchtracker.data;
 
-import android.util.Log;
-
 import com.microsoft.researchtracker.Constants;
 import com.microsoft.researchtracker.sharepoint.ListsClient;
 import com.microsoft.researchtracker.sharepoint.SPCollection;
@@ -9,8 +7,8 @@ import com.microsoft.researchtracker.sharepoint.SPETag;
 import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
-import com.microsoft.researchtracker.sharepoint.odata.Query;
-import com.microsoft.researchtracker.sharepoint.odata.QueryOperations;
+import com.microsoft.researchtracker.http.odata.Query;
+import com.microsoft.researchtracker.http.odata.QueryOperations;
 
 import java.io.IOException;
 import java.util.ArrayList;

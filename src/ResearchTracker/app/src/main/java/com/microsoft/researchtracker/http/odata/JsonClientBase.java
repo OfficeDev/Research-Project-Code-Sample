@@ -1,10 +1,11 @@
-package com.microsoft.researchtracker.http;
+package com.microsoft.researchtracker.http.odata;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.microsoft.researchtracker.http.GzipDecompressingEntity;
 import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 import org.apache.http.Header;
