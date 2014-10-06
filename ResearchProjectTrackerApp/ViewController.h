@@ -10,4 +10,6 @@
 
 - (IBAction)Clear:(id)sender;
 - (IBAction)Login:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
 @end

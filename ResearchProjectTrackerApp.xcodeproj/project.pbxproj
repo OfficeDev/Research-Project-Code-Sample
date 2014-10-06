@@ -16,6 +16,10 @@
 		D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */; };
 		D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */; };
 		D980170C19DDCE2F00588BD1 /* CreateReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */; };
+		D9A90E9E19E2B400001EA85E /* app-icon @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A90E9B19E2B400001EA85E /* app-icon @2x.png */; };
+		D9A90E9F19E2B400001EA85E /* launch-image-ipad @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A90E9C19E2B400001EA85E /* launch-image-ipad @2x.png */; };
+		D9A90EA019E2B400001EA85E /* launch-image-iphone @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A90E9D19E2B400001EA85E /* launch-image-iphone @2x.png */; };
+		D9A90EA919E2B57C001EA85E /* wallpaper-image @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A90EA819E2B57C001EA85E /* wallpaper-image @2x.png */; };
 		D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */; };
 		D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */; };
 		D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */; };
@@ -180,6 +184,10 @@
 		D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailTableCellTableViewCell.m; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		D980170A19DDCE2F00588BD1 /* CreateReferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateReferenceViewController.h; path = ResearchProjectTrackerApp/CreateReferenceViewController.h; sourceTree = SOURCE_ROOT; };
 		D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateReferenceViewController.m; path = ResearchProjectTrackerApp/CreateReferenceViewController.m; sourceTree = SOURCE_ROOT; };
+		D9A90E9B19E2B400001EA85E /* app-icon @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon @2x.png"; sourceTree = SOURCE_ROOT; };
+		D9A90E9C19E2B400001EA85E /* launch-image-ipad @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch-image-ipad @2x.png"; sourceTree = SOURCE_ROOT; };
+		D9A90E9D19E2B400001EA85E /* launch-image-iphone @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch-image-iphone @2x.png"; sourceTree = SOURCE_ROOT; };
+		D9A90EA819E2B57C001EA85E /* wallpaper-image @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallpaper-image @2x.png"; sourceTree = SOURCE_ROOT; };
 		D9DE4EC619D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPad_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPad_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4EC719D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ADAL_iPhone_Storyboard.storyboard; path = lib/ADALiOS/ADALiOS/ADAL_iPhone_Storyboard.storyboard; sourceTree = SOURCE_ROOT; };
 		D9DE4ECA19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ADALiOSBundle-Info.plist"; path = "lib/ADALiOS/ADALiOSBundle/ADALiOSBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -293,7 +301,6 @@
 				D9DE4ED119D5B80C00CCDEC5 /* AppDelegate.m */,
 				D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */,
 				D9DE4ED519D5B80C00CCDEC5 /* Main.storyboard */,
-				D94CEC5E19D5C82300A52949 /* office365.png */,
 				D93D392A19DC27FD009ECCF6 /* client */,
 				3CCE264C1959EC6100CBD116 /* controllers */,
 				3CC805CC1958BA4D00E9590E /* Supporting Files */,
@@ -305,6 +312,11 @@
 		3CC805CC1958BA4D00E9590E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D94CEC5E19D5C82300A52949 /* office365.png */,
+				D9A90EA819E2B57C001EA85E /* wallpaper-image @2x.png */,
+				D9A90E9B19E2B400001EA85E /* app-icon @2x.png */,
+				D9A90E9C19E2B400001EA85E /* launch-image-ipad @2x.png */,
+				D9A90E9D19E2B400001EA85E /* launch-image-iphone @2x.png */,
 				D9DE4EF019D5B8CD00CCDEC5 /* Info.plist */,
 				D9DE4EF119D5B8CD00CCDEC5 /* main.m */,
 				3C88DE811958BB1900D105A6 /* ADALiOSBundle */,
@@ -588,10 +600,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9A90E9F19E2B400001EA85E /* launch-image-ipad @2x.png in Resources */,
+				D9A90E9E19E2B400001EA85E /* app-icon @2x.png in Resources */,
 				D9DE4ECC19D5B11D00CCDEC5 /* ADALiOSBundle-Info.plist in Resources */,
 				D9DE4ED919D5B80C00CCDEC5 /* Main.storyboard in Resources */,
 				D9DE4EC919D5B10D00CCDEC5 /* ADAL_iPhone_Storyboard.storyboard in Resources */,
+				D9A90EA019E2B400001EA85E /* launch-image-iphone @2x.png in Resources */,
 				D9DE4EF619D5B93900CCDEC5 /* IPAL_iPad_Storyboard.storyboard in Resources */,
+				D9A90EA919E2B57C001EA85E /* wallpaper-image @2x.png in Resources */,
 				D9DE4EC819D5B10D00CCDEC5 /* ADAL_iPad_Storyboard.storyboard in Resources */,
 				D94CEC5F19D5C82300A52949 /* office365.png in Resources */,
 				D9DE4ED819D5B80C00CCDEC5 /* Images.xcassets in Resources */,

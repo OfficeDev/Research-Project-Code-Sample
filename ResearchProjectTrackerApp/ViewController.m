@@ -2,6 +2,7 @@
 #import "ProjectTableViewController.h"
 #import "office365-base-sdk/Credentials.h"
 #import <office365-base-sdk/LoginClient.h>
+#import <QuartzCore/QuartzCore.h>
 @interface ViewController ()
             
 
@@ -17,6 +18,7 @@ NSString* clientId;
 Credentials* credentials;
 NSString* token;
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -29,6 +31,16 @@ NSString* token;
     clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
     redirectUriString = @"http://android/complete";
     token = [NSString alloc];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    self.loginButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.loginButton.layer.borderWidth = 1.0;
+    self.loginButton.layer.cornerRadius = 10;
     
     [self performLogin:FALSE];
 }

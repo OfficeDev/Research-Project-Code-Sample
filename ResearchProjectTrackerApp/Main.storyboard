@@ -33,24 +33,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="office365.png" translatesAutoresizingMaskIntoConstraints="NO" id="soN-sN-pi4">
-                                <rect key="frame" x="46" y="185" width="229" height="198"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="wallpaper-image .png" translatesAutoresizingMaskIntoConstraints="NO" id="m68-qz-87d">
+                                <rect key="frame" x="13" y="43" width="295" height="322"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI1-bA-oxD">
+                                <rect key="frame" x="77" y="386" width="167" height="30"/>
+                                <color key="backgroundColor" red="0.48627450980392156" green="0.19607843137254902" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="Login:" destination="FFy-2w-Hh0" eventType="touchUpInside" id="cHO-We-hbA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mjw-bc-pCD">
+                                <rect key="frame" x="142" y="424" width="37" height="30"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="Clear:" destination="FFy-2w-Hh0" eventType="touchUpInside" id="DSA-Tj-YWg"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.38431372549019605" green="0.015686274509803921" blue="0.49411764705882355" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="4iE-00-6mX">
-                        <barButtonItem key="leftBarButtonItem" title="Clear" id="fSn-D3-wGf">
-                            <connections>
-                                <action selector="Clear:" destination="FFy-2w-Hh0" id="Eg2-3x-yYu"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="LogIn" id="NiM-DN-qbH">
-                            <connections>
-                                <action selector="Login:" destination="FFy-2w-Hh0" id="JxJ-QC-gbg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="4iE-00-6mX"/>
+                    <connections>
+                        <outlet property="clearButton" destination="Mjw-bc-pCD" id="GQa-TY-vDG"/>
+                        <outlet property="loginButton" destination="HI1-bA-oxD" id="Cqj-uU-PEA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iBD-oI-6fa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -323,7 +337,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="office365.png" width="290" height="163"/>
+        <image name="wallpaper-image .png" width="243" height="263"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
