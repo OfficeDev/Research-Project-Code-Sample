@@ -35,7 +35,7 @@
     self.navigationController.view.backgroundColor = nil;
     
     if(![self.selectedReference.comments isEqual:[NSNull null]]){
-        self.descriptionLbl.text = self.selectedReference.description;
+        self.descriptionLbl.text = self.selectedReference.comments;
     }else{
         self.descriptionLbl.text = @"";
     }

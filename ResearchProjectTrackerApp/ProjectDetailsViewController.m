@@ -12,6 +12,7 @@
     self.projectName.text = self.project.getTitle;
     self.navigationItem.title = self.project.getTitle;
     self.navigationItem.rightBarButtonItem.title = @"Done";
+    self.selectedReference = false;
     self.projectNameField.hidden = true;
     
     
@@ -44,6 +45,11 @@
     }];
     [task resume];
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadData];
 }
 
 
@@ -134,6 +140,7 @@
         controller.selectedReference = self.selectedReference;
         controller.token = self.token;
     }
+    self.selectedReference = false;
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
