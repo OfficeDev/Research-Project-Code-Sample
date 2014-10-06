@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +60,7 @@ public class ViewReferenceActivity extends Activity {
 
         mUrlLabel = (TextView) findViewById(R.id.url_label);
         mUrlLabel.setText("");
+        mUrlLabel.setMovementMethod(LinkMovementMethod.getInstance());
 
         mTitleLabel = (TextView) findViewById(R.id.title_label);
         mTitleLabel.setText("");
@@ -190,7 +195,7 @@ public class ViewReferenceActivity extends Activity {
                         SPUrl url = result.getURL();
 
                         mTitleLabel.setText(url.getDescription());
-                        mUrlLabel.setText(url.getUrl());
+                        mUrlLabel.setText(makeLinkText(url.getUrl()));
                         mDescriptionLabel.setText(result.getDescription());
                     }
                 })
@@ -199,6 +204,13 @@ public class ViewReferenceActivity extends Activity {
             }
         });
 
+    }
+
+    private Spanned makeLinkText(String url) {
+        SpannableString text = new SpannableString(url);
+        URLSpan link = new URLSpan(url);
+        text.setSpan(link, 0, url.length(), 0);
+        return text;
     }
 
     private void launchConfirmDeleteDialog() {
