@@ -53,4 +53,15 @@
     <string name="activity_edit_project_project_created_message">The project was created</string>
     <string name="activity_edit_project_project_deleted_message">The project was deleted</string>
 
+    <string name="activity_edit_reference_title">Edit Reference</string>
+    <string name="activity_edit_reference_title_label">Title</string>
+    <string name="activity_edit_reference_title_hint">Reference title</string>
+    <string name="activity_edit_reference_url_label">URL</string>
+    <string name="activity_edit_reference_url_hint">Reference URL</string>
+    <string name="activity_edit_reference_description_label">Description</string>
+    <string name="activity_edit_reference_description_hint">Reference description</string>
+    <string name="activity_edit_reference_project_updated_message">The reference was updated</string>
+    <string name="activity_edit_reference_project_created_message">The reference was created</string>
+    <string name="activity_edit_reference_project_deleted_message">The reference was deleted</string>
+
 </resources>

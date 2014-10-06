@@ -36,11 +36,11 @@
         </activity>
         <activity
             android:name=".EditProjectActivity"
-            android:label="@string/activity_edit_project_title"
-            android:parentActivityName=".ViewProjectActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.microsoft.researchtracker.ViewProjectActivity" />
+            android:label="@string/activity_edit_project_title" >
+        </activity>
+        <activity
+            android:name=".EditReferenceActivity"
+            android:label="@string/activity_edit_reference_title" >
         </activity>
     </application>
 

@@ -27,14 +27,14 @@ public class ResearchDataSource {
 
     public List<ResearchProjectModel> getResearchProjects() throws IOException {
 
-        final Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+        Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
 
-        final SPCollection result = mClient.getListItems(Constants.RESEARCH_PROJECTS_LIST, query);
+        SPCollection result = mClient.getListItems(Constants.RESEARCH_PROJECTS_LIST, query);
 
-        final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
+        List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
 
         if (result != null) {
-            for (final SPObject listItemData : result.getValue()) {
+            for (SPObject listItemData : result.getValue()) {
                 items.add(new ResearchProjectModel(listItemData));
             }
         }
@@ -42,26 +42,26 @@ public class ResearchDataSource {
         return items;
     }
 
-    public ResearchProjectModel getResearchProjectById(final int projectId) throws IOException {
+    public ResearchProjectModel getResearchProjectById(int projectId) throws IOException {
 
-        final Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+        Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
 
-        final SPObject projectData = mClient.getListItemById(Constants.RESEARCH_PROJECTS_LIST, projectId, query);
+        SPObject projectData = mClient.getListItemById(Constants.RESEARCH_PROJECTS_LIST, projectId, query);
 
         return new ResearchProjectModel(projectData);
     }
 
-    public List<ResearchReferenceModel> getResearchReferencesByProjectId(final int projectId) throws IOException {
+    public List<ResearchReferenceModel> getResearchReferencesByProjectId(int projectId) throws IOException {
 
-        final Query query = QueryOperations.field("Project").eq().val(projectId)
+        Query query = QueryOperations.field("Project").eq().val(projectId)
                                            .select(ResearchReferenceModel.FIELDS);
 
-        final SPCollection result = mClient.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
+        SPCollection result = mClient.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
 
-        final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
+        List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();
 
         if (result != null) {
-            for (final SPObject listItemData : result.getValue()) {
+            for (SPObject listItemData : result.getValue()) {
                 items.add(new ResearchReferenceModel(listItemData));
             }
         }
@@ -69,18 +69,42 @@ public class ResearchDataSource {
         return items;
     }
 
-    public void deleteResearchProject(final int projectId, final SPETag eTag) throws IOException {
+    public ResearchReferenceModel getResearchReferenceById(int referenceId) throws IOException {
+
+        Query query = QueryOperations.select(ResearchReferenceModel.FIELDS);
+
+        SPObject result = mClient.getListItemById(Constants.RESEARCH_REFERENCES_LIST, referenceId, query);
+
+        return new ResearchReferenceModel(result);
+    }
+
+    public void deleteResearchProject(int projectId, SPETag eTag) throws IOException {
 
         mClient.deleteListItem(Constants.RESEARCH_PROJECTS_LIST, projectId, eTag);
     }
 
-    public void createResearchProject(final ResearchProjectModel model) throws IOException {
+    public void createResearchProject(ResearchProjectModel model) throws IOException {
 
         mClient.createListItem(Constants.RESEARCH_PROJECTS_LIST, model.getInternalData());
     }
 
-    public void updateResearchProject(final int projectId, final SPETag eTag, final ResearchProjectModel model) throws IOException {
+    public void updateResearchProject(int projectId, SPETag eTag, ResearchProjectModel model) throws IOException {
 
         mClient.updateListItem(Constants.RESEARCH_PROJECTS_LIST, projectId, eTag, model.getInternalData());
+    }
+
+    public void deleteResearchReference(int referenceId, SPETag eTag) throws IOException {
+
+        mClient.deleteListItem(Constants.RESEARCH_REFERENCES_LIST, referenceId, eTag);
+    }
+
+    public void createResearchReference(ResearchReferenceModel model) throws IOException {
+
+        mClient.createListItem(Constants.RESEARCH_REFERENCES_LIST, model.getInternalData());
+    }
+
+    public void updateResearchReference(int referenceId, SPETag referenceETag, ResearchReferenceModel model) throws IOException {
+
+        mClient.updateListItem(Constants.RESEARCH_REFERENCES_LIST, referenceId, referenceETag, model.getInternalData());
     }
 }

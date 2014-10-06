@@ -15,38 +15,49 @@ import android.widget.Toast;
 
 import com.microsoft.researchtracker.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
+import com.microsoft.researchtracker.sharepoint.SPUrl;
+import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
-public class EditProjectActivity extends Activity {
+public class EditReferenceActivity extends Activity {
 
-    private static final String TAG = "EditProjectActivity";
-    private static final int NEW_PROJECT_ID = -1;
+    private static final String TAG = "EditReferenceActivity";
+    private static final int NEW_REFERENCE_ID = -1;
 
-    public static final String PARAM_NEW_PROJECT_MODE = "new_project_mode";
+    public static final String PARAM_NEW_REFERENCE_MODE = "new_reference_mode";
     public static final String PARAM_PROJECT_ID = "project_id";
+    public static final String PARAM_REFERENCE_ID = "reference_id";
 
     private App mApp;
 
+    private EditText mUrlText;
     private EditText mTitleText;
+    private EditText mDescriptionText;
     private ProgressBar mProgress;
 
-    private int mProjectId;
-    private SPETag mProjectETag;
-
     private boolean mLoaded;
+
+    private int mReferenceId;
+    private String mReferenceProjectId;
+    private SPETag mReferenceETag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_project);
+        setContentView(R.layout.activity_edit_reference);
 
         mApp = (App) getApplication();
 
+        mUrlText = (EditText) findViewById(R.id.url_edit_text);
+        mUrlText.setEnabled(false);
+
         mTitleText = (EditText) findViewById(R.id.title_edit_text);
         mTitleText.setEnabled(false);
+
+        mDescriptionText = (EditText) findViewById(R.id.description_edit_text);
+        mDescriptionText.setEnabled(false);
 
         mProgress = (ProgressBar) findViewById(R.id.progress);
         mProgress.setVisibility(View.GONE);
@@ -63,29 +74,24 @@ public class EditProjectActivity extends Activity {
 
             Intent launchIntent = getIntent();
 
-            if (launchIntent.getBooleanExtra(PARAM_NEW_PROJECT_MODE, false)) {
+            if (launchIntent.getBooleanExtra(PARAM_NEW_REFERENCE_MODE, false)) {
 
-                mProjectId = NEW_PROJECT_ID;
+                mReferenceId = NEW_REFERENCE_ID;
+                mReferenceProjectId = Integer.toString(launchIntent.getIntExtra(PARAM_PROJECT_ID, -1));
                 prepareView(null);
             }
             else {
 
-                mProjectId = launchIntent.getIntExtra(PARAM_PROJECT_ID, 0);
-                retrieveProjectDetails();
+                mReferenceId = launchIntent.getIntExtra(PARAM_REFERENCE_ID, 0);
+                retrieveReferenceDetails();
             }
         }
-    }
-
-    private void prepareView(ResearchProjectModel model) {
-
-        mTitleText.setText(model == null ? null : model.getTitle());
-        mTitleText.setEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_project, menu);
+        getMenuInflater().inflate(R.menu.edit_reference, menu);
         return true;
     }
 
@@ -108,23 +114,37 @@ public class EditProjectActivity extends Activity {
 
     private void ensureAuthenticated(final Runnable r) {
         AuthUtil.ensureAuthenticated(this, new DefaultAuthHandler(this) {
-            @Override public void onSuccess() {
+            public void onSuccess() {
                 r.run();
             }
         });
     }
 
-    private void retrieveProjectDetails() {
+    private void prepareView(ResearchReferenceModel model) {
+
+        SPUrl url = (model == null) ? null : model.getURL();
+
+        mUrlText.setText(url == null ? null : url.getUrl());
+        mUrlText.setEnabled(true);
+
+        mTitleText.setText(url == null ? null : url.getDescription());
+        mTitleText.setEnabled(true);
+
+        mDescriptionText.setText(model == null ? null : model.getNotes());
+        mDescriptionText.setEnabled(true);
+    }
+
+    private void retrieveReferenceDetails() {
 
         ensureAuthenticated(new Runnable() {
             public void run() {
 
                 mProgress.setVisibility(View.VISIBLE);
 
-                AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ResearchProjectModel>() {
-                    public ResearchProjectModel run() {
+                AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ResearchReferenceModel>() {
+                    public ResearchReferenceModel run() {
                         try {
-                            return mApp.getDataSource().getResearchProjectById(mProjectId);
+                            return mApp.getDataSource().getResearchReferenceById(mReferenceId);
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Error retrieving project", e);
@@ -132,14 +152,14 @@ public class EditProjectActivity extends Activity {
                         }
                     }
                 })
-                .thenOnUiThread(new AsyncUtil.ResultHandler<ResearchProjectModel>() {
-                    public void run(ResearchProjectModel model) {
+                .thenOnUiThread(new AsyncUtil.ResultHandler<ResearchReferenceModel>() {
+                    public void run(ResearchReferenceModel model) {
 
                         mProgress.setVisibility(View.GONE);
 
                         if (model == null) {
 
-                            new AlertDialog.Builder(EditProjectActivity.this)
+                            new AlertDialog.Builder(EditReferenceActivity.this)
                                     .setTitle(R.string.dialog_generic_error_title)
                                     .setMessage(R.string.dialog_generic_error_message)
                                     .setNegativeButton(R.string.label_go_back, null)
@@ -154,16 +174,17 @@ public class EditProjectActivity extends Activity {
                         }
                         else {
 
-                            mProjectETag = model.getODataEtag();
+                            mReferenceProjectId = model.getProjectId();
+                            mReferenceETag = model.getODataETag();
 
                             prepareView(model);
                         }
                     }
                 })
                 .execute();
-
             }
         });
+
     }
 
     private void saveChangesAndFinish() {
@@ -172,27 +193,35 @@ public class EditProjectActivity extends Activity {
             public void run() {
 
                 mProgress.setVisibility(View.VISIBLE);
+                mUrlText.setEnabled(false);
                 mTitleText.setEnabled(false);
+                mDescriptionText.setEnabled(false);
 
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<Boolean>() {
                     public Boolean run() {
                         try {
-
                             final ResearchDataSource data = mApp.getDataSource();
-                            final ResearchProjectModel model = new ResearchProjectModel();
+                            final ResearchReferenceModel model = new ResearchReferenceModel();
 
-                            model.setTitle(mTitleText.getText().toString());
+                            SPUrl url = new SPUrl();
 
-                            if (mProjectId == NEW_PROJECT_ID) {
-                                data.createResearchProject(model);
+                            url.setUrl(mUrlText.getText().toString());
+                            url.setDescription(mTitleText.getText().toString());
+
+                            model.setURL(url);
+                            model.setNotes(mDescriptionText.getText().toString());
+
+                            if (mReferenceId == NEW_REFERENCE_ID) {
+                                model.setProjectId(mReferenceProjectId);
+                                data.createResearchReference(model);
                             }
                             else {
-                                data.updateResearchProject(mProjectId, mProjectETag, model);
+                                data.updateResearchReference(mReferenceId, mReferenceETag, model);
                             }
                             return true;
                         }
                         catch (Exception e) {
-                            Log.e(TAG, "Error saving project changes", e);
+                            Log.e(TAG, "Error saving reference changes", e);
                             return false;
                         }
                     }
@@ -201,22 +230,24 @@ public class EditProjectActivity extends Activity {
                     public void run(Boolean success) {
 
                         mProgress.setVisibility(View.GONE);
+                        mUrlText.setEnabled(true);
                         mTitleText.setEnabled(true);
+                        mDescriptionText.setEnabled(true);
 
                         if (success) {
 
                             int resourceId =
-                                    (mProjectId == NEW_PROJECT_ID)
-                                            ? R.string.activity_edit_project_project_created_message
-                                            : R.string.activity_edit_project_project_updated_message;
+                                    (mReferenceId == NEW_REFERENCE_ID)
+                                            ? R.string.activity_edit_reference_project_created_message
+                                            : R.string.activity_edit_reference_project_updated_message;
 
-                            Toast.makeText(EditProjectActivity.this, resourceId, Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditReferenceActivity.this, resourceId, Toast.LENGTH_LONG).show();
 
                             setResult(RESULT_OK);
                             finish();
                         }
                         else {
-                            new AlertDialog.Builder(EditProjectActivity.this)
+                            new AlertDialog.Builder(EditReferenceActivity.this)
                                     .setTitle(R.string.dialog_generic_error_title)
                                     .setMessage(R.string.dialog_generic_error_message)
                                     .setNeutralButton(R.string.label_continue, null)
@@ -226,8 +257,9 @@ public class EditProjectActivity extends Activity {
                     }
                 })
                 .execute();
+
             }
         });
-    }
 
+    }
 }

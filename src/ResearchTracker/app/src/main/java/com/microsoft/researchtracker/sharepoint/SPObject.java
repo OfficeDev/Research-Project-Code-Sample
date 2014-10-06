@@ -1,6 +1,7 @@
 package com.microsoft.researchtracker.sharepoint;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.microsoft.researchtracker.http.odata.Constants;
@@ -120,10 +121,10 @@ public class SPObject {
 
     public void setField(final String fieldName, SPUrl value) {
         if (value != null) {
-            mData.add(fieldName, null);
+            mData.add(fieldName, value.toJson());
         }
         else {
-            mData.add(fieldName, value.toJson());
+            mData.add(fieldName, JsonNull.INSTANCE);
         }
     }
 

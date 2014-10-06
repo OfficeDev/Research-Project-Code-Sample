@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,7 +35,7 @@ public class ViewProjectActivity extends Activity {
 
     private static final String TAG = "ViewProjectActivity";
 
-    private static final int REQUEST_EDIT_PROJECT = 1;
+    private static final int REQUEST_MODIFY_PROJECT = 1;
 
     public static final String PARAM_PROJECT_ID = "project_id";
 
@@ -62,6 +63,19 @@ public class ViewProjectActivity extends Activity {
         mTitleLabel.setText("");
 
         mListView = (ListView) findViewById(R.id.list_view);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ResearchReferenceModel reference = (ResearchReferenceModel) mAdapter.getItem(position);
+
+                //Launch the "View Project" activity
+                final Intent intent = new Intent(ViewProjectActivity.this, EditReferenceActivity.class);
+                intent.putExtra(EditReferenceActivity.PARAM_REFERENCE_ID, reference.getId());
+
+                startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
+            }
+        });
+
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
         mProjectId = getIntent().getIntExtra(PARAM_PROJECT_ID, 0);
@@ -115,7 +129,7 @@ public class ViewProjectActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_EDIT_PROJECT && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_MODIFY_PROJECT && resultCode == RESULT_OK) {
             startRefresh();
         }
     }
@@ -177,7 +191,8 @@ public class ViewProjectActivity extends Activity {
                 .thenOnUiThread(new AsyncUtil.ResultHandler<ViewModel>() {
 
                     public void run(ViewModel result) {
-                        setProgressBarVisibility(false);
+
+                        mListView.setEnabled(true);
                         mProgress.setVisibility(View.GONE);
 
                         if (result == null) {
@@ -204,12 +219,17 @@ public class ViewProjectActivity extends Activity {
         final Intent intent = new Intent(this, EditProjectActivity.class);
         intent.putExtra(EditProjectActivity.PARAM_PROJECT_ID, mProjectId);
 
-        startActivityForResult(intent, REQUEST_EDIT_PROJECT);
+        startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
     }
 
     private void handleActionNew(MenuItem item) {
 
-        //TODO
+        //Launch the "Edit Reference" activity in "new" mode
+        final Intent intent = new Intent(this, EditReferenceActivity.class);
+        intent.putExtra(EditReferenceActivity.PARAM_NEW_REFERENCE_MODE, true);
+        intent.putExtra(EditReferenceActivity.PARAM_PROJECT_ID, mProjectId);
+
+        startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
     }
 
     private void launchConfirmDeleteDialog() {
@@ -303,10 +323,10 @@ public class ViewProjectActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            View view = ViewUtil.prepareView(mViewInflater, android.R.layout.simple_list_item_2, convertView, null);
+            View view = ViewUtil.prepareView(mViewInflater, R.layout.simple_list_item_2, convertView, null);
 
-            TextView text1 = (TextView) ViewUtil.findChildView(view, android.R.id.text1);
-            TextView text2 = (TextView) ViewUtil.findChildView(view, android.R.id.text2);
+            TextView text1 = (TextView) ViewUtil.findChildView(view, R.id.text1);
+            TextView text2 = (TextView) ViewUtil.findChildView(view, R.id.text2);
 
             ResearchReferenceModel item = mItems.get(position);
 
