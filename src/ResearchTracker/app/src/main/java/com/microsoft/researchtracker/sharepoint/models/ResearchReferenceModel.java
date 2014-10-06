@@ -4,6 +4,11 @@ import com.microsoft.researchtracker.sharepoint.SPObject;
 import com.microsoft.researchtracker.sharepoint.SPUrl;
 
 public class ResearchReferenceModel {
+
+    public static final String[] FIELDS = {
+        "ID", "Project", "URL", "Comments"
+    };
+
     private SPObject mData;
 
     public ResearchReferenceModel(SPObject data) {

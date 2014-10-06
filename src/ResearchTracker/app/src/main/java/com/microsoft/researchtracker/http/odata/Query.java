@@ -20,13 +20,15 @@ See the Apache Version 2.0 License for specific language governing permissions a
  */
 package com.microsoft.researchtracker.http.odata;
 
-        import java.io.UnsupportedEncodingException;
-        import java.net.URLEncoder;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Locale;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-        import android.util.Pair;
+import android.text.TextUtils;
+import android.util.Pair;
+
+import com.microsoft.researchtracker.sharepoint.UrlUtil;
 
 /**
  * Class that represents a query
@@ -180,93 +182,83 @@ public final class Query {
         return sb.toString();
     }
 
+    private interface QueryStringAppender {
+        void appendParam(String paramName, Object paramValue) throws UnsupportedEncodingException;
+    }
+
     /**
      * Returns the string representation of the rowset's modifiers
      */
     public String getQueryParameters() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
+        final QueryStringAppender appender = new QueryStringAppender() {
+            private boolean mIsFirstParam = true;
+            public void appendParam(String paramName, Object paramValue) throws UnsupportedEncodingException {
+                sb.append(mIsFirstParam ? "?" : "&")
+                  .append(paramName)
+                  .append("=")
+                  .append(paramValue);
+                mIsFirstParam = false;
+            }
+        };
 
         try {
+
+            final String filterValue = this.toString();
+
+            if (!TextUtils.isEmpty(filterValue)) {
+                appender.appendParam("$filter",
+                    UrlUtil.encodeComponent(filterValue)
+                );
+            }
+
             if (this.mHasInlineCount) {
-                sb.append("&$inlinecount=allpages");
+                appender.appendParam("$inlinecount", "allpages");
             }
 
             if (this.mTop > 0) {
-                sb.append("&$top=");
-                sb.append(this.mTop);
+                appender.appendParam("$top", this.mTop);
             }
 
             if (this.mSkip > 0) {
-                sb.append("&$skip=");
-                sb.append(this.mSkip);
+                appender.appendParam("$skip", this.mSkip);
             }
 
-            if (this.mOrderBy.size() > 0) {
-                sb.append("&$orderby=");
-
-                boolean first = true;
+            if (!this.mOrderBy.isEmpty()) {
+                List<String> parts = new ArrayList<String>(this.mOrderBy.size());
                 for (Pair<String, QueryOrder> order : this.mOrderBy) {
-                    if (first) {
-                        first = false;
-                    } else {
-                        sb.append(URLEncoder.encode(",", Constants.UTF8_NAME));
-                    }
-
-                    sb.append(URLEncoder.encode(order.first, Constants.UTF8_NAME));
-                    sb.append(URLEncoder.encode(" ", Constants.UTF8_NAME));
-                    sb.append(order.second == QueryOrder.Ascending ? "asc" : "desc");
-
+                    parts.add(order.first + ((order.second == QueryOrder.Ascending) ? " asc" : " desc"));
                 }
+                appender.appendParam("$orderby",
+                    UrlUtil.encodeComponent(TextUtils.join(",", parts))
+                );
             }
 
             if (!this.mUserDefinedParameters.isEmpty()) {
                 for (Pair<String, String> parameter : this.mUserDefinedParameters) {
-                    if (parameter.first != null) {
-                        sb.append("&");
-
-                        String key = parameter.first;
-                        String value = parameter.second;
-                        if (value == null)
-                            value = "null";
-
-                        sb.append(URLEncoder.encode(key, Constants.UTF8_NAME));
-                        sb.append("=");
-                        sb.append(URLEncoder.encode(value, Constants.UTF8_NAME));
-                    }
+                    appender.appendParam(
+                        UrlUtil.encodeComponent(parameter.first),
+                        UrlUtil.encodeComponent(parameter.second)
+                    );
                 }
             }
 
-            if (this.mProjection != null && this.mProjection.size() > 0) {
-                sb.append("&$select=");
-
-                boolean first = true;
-                for (String field : this.mProjection) {
-                    if (first) {
-                        first = false;
-                    } else {
-                        sb.append(URLEncoder.encode(",", Constants.UTF8_NAME));
-                    }
-
-                    sb.append(URLEncoder.encode(field, Constants.UTF8_NAME));
-                }
+            if (this.mProjection != null && !this.mProjection.isEmpty()) {
+                appender.appendParam("$select",
+                    UrlUtil.encodeComponent(TextUtils.join(",", this.mProjection))
+                );
             }
 
-            if (this.mExpand != null && this.mExpand.size() > 0) {
-                sb.append("&$expand=");
-
-                boolean first = true;
-                for (String field : this.mExpand) {
-                    if (first) {
-                        first = false;
-                    } else {
-                        sb.append(URLEncoder.encode(",", Constants.UTF8_NAME));
-                    }
-
-                    sb.append(URLEncoder.encode(field, Constants.UTF8_NAME));
-                }
+            if (this.mExpand != null && !this.mExpand.isEmpty()) {
+                appender.appendParam("$expand",
+                    UrlUtil.encodeComponent(TextUtils.join(",", this.mExpand))
+                );
             }
-        } catch (UnsupportedEncodingException e) {
+
+        }
+        catch (UnsupportedEncodingException e) {
             // this never happens with utf8, it's safe to ignore
+            throw new RuntimeException(e);
         }
 
         return sb.toString();

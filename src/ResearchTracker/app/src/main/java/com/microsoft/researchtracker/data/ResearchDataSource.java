@@ -14,20 +14,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResearchRepository {
+public class ResearchDataSource {
 
-    private static final String TAG = "ResearchRepository";
+    private static final String TAG = "ResearchDataSource";
 
     private final ListsClient mClient;
 
-    public ResearchRepository(ListsClient client) {
+    public ResearchDataSource(ListsClient client) {
 
         mClient = client;
     }
 
     public List<ResearchProjectModel> getResearchProjects() throws IOException {
 
-        final SPCollection result = mClient.getListItems(Constants.RESEARCH_PROJECTS_LIST, null);
+        final Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+
+        final SPCollection result = mClient.getListItems(Constants.RESEARCH_PROJECTS_LIST, query);
 
         final List<ResearchProjectModel> items = new ArrayList<ResearchProjectModel>();
 
@@ -42,14 +44,18 @@ public class ResearchRepository {
 
     public ResearchProjectModel getResearchProjectById(final int projectId) throws IOException {
 
-        final SPObject projectData = mClient.getListItemById(Constants.RESEARCH_PROJECTS_LIST, projectId);
+        final Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+
+        final SPObject projectData = mClient.getListItemById(Constants.RESEARCH_PROJECTS_LIST, projectId, query);
 
         return new ResearchProjectModel(projectData);
     }
 
     public List<ResearchReferenceModel> getResearchReferencesByProjectId(final int projectId) throws IOException {
 
-        final Query query = QueryOperations.field("Project").eq().val(projectId);
+        final Query query = QueryOperations.field("Project").eq().val(projectId)
+                                           .select(ResearchReferenceModel.FIELDS);
+
         final SPCollection result = mClient.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
 
         final List<ResearchReferenceModel> items = new ArrayList<ResearchReferenceModel>();

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchRepository;
+import com.microsoft.researchtracker.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.SPETag;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
@@ -123,7 +123,7 @@ public class EditProjectActivity extends Activity {
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ResearchProjectModel>() {
                     public ResearchProjectModel run() {
                         try {
-                            return mApp.getRepository().getResearchProjectById(mProjectId);
+                            return mApp.getDataSource().getResearchProjectById(mProjectId);
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Error retrieving project", e);
@@ -158,7 +158,7 @@ public class EditProjectActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            final ResearchRepository repository = mApp.getRepository();
+                            final ResearchDataSource repository = mApp.getDataSource();
                             final ResearchProjectModel model = new ResearchProjectModel();
 
                             model.setTitle(mTitleText.getText().toString());

@@ -44,7 +44,8 @@ public class JsonClientBase {
         mGson = createGson();
     }
 
-    private static boolean isSuccessStatusCode(int statusCode) {
+    private static boolean isSuccessStatusCode(final StatusLine statusLine) {
+        final int statusCode = statusLine.getStatusCode();
         return statusCode >= 200 && statusCode <= 299;
     }
 
@@ -86,7 +87,9 @@ public class JsonClientBase {
 
     private Gson createGson() {
 
-        return new GsonBuilder().create();
+        return new GsonBuilder()
+                    .setDateFormat(Constants.ODATA_DATE_TIME_ISO8601_FORMAT)
+                    .create();
     }
 
     private JsonElement parseJsonResponse(final HttpEntity entity) throws IOException {
@@ -113,13 +116,12 @@ public class JsonClientBase {
 
         final HttpResponse response = mClient.execute(request);
         final StatusLine statusLine = response.getStatusLine();
-        final int statusCode = statusLine.getStatusCode();
 
-        if (!isSuccessStatusCode(statusCode)) {
+        if (!isSuccessStatusCode(statusLine)) {
 
             final HttpEntity entity = response.getEntity();
 
-            throw new IOException(statusCode + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
+            throw new IOException(statusLine.getStatusCode() + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
         }
     }
 
@@ -127,11 +129,9 @@ public class JsonClientBase {
 
         final HttpResponse response = mClient.execute(request);
         final StatusLine statusLine = response.getStatusLine();
-        final int statusCode = statusLine.getStatusCode();
-
         final HttpEntity entity = response.getEntity();
 
-        if (isSuccessStatusCode(statusCode)) {
+        if (isSuccessStatusCode(statusLine)) {
             try {
                 //Try parse a success response
                 return parseJsonResponse(entity);
@@ -142,7 +142,7 @@ public class JsonClientBase {
             }
         }
 
-        throw new IOException(statusCode + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
+        throw new IOException(statusLine.getStatusCode() + ": " + statusLine.getReasonPhrase() + " " + EntityUtils.toString(entity));
     }
 
     protected HttpEntity createJsonEntity(JsonElement data) {
@@ -152,7 +152,7 @@ public class JsonClientBase {
         mGson.toJson(data, sb);
 
         try {
-            StringEntity entity = new StringEntity(sb.toString(), "utf-8");
+            StringEntity entity = new StringEntity(sb.toString(), Constants.UTF8_NAME);
 
             entity.setContentType(CONTENT_TYPE_JSON);
 

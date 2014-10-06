@@ -125,7 +125,7 @@ public class ListProjectsActivity extends Activity {
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<List<ResearchProjectModel>>() {
                     public List<ResearchProjectModel> run() {
                         try {
-                            return mApp.getRepository().getResearchProjects();
+                            return mApp.getDataSource().getResearchProjects();
                         }
                         catch (Exception e) {
                             Log.e(TAG, "Error retrieving projects", e);

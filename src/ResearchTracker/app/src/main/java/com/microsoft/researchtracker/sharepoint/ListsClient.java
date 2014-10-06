@@ -33,26 +33,35 @@ public class ListsClient extends JsonClientBase {
 
     }
 
-    private String getListUrl(final String listTitle) {
+    private String getListUrl(final String listTitle, final Query query) {
 
         final String listTitleToken = UrlUtil.encodeComponent(QueryOperations.val(listTitle).toString());
 
-        return String.format("%s/%s/_api/Lists/getByTitle(%s)", mSharePointUrl, mSitePath, listTitleToken);
+        return String.format("%s/%s/_api/Lists/getByTitle(%s)%s",
+            mSharePointUrl,
+            mSitePath,
+            listTitleToken,
+            (query == null) ? "" : query.getQueryParameters()
+        );
     }
 
-    private String getListItemsUrl(final String listTitle) {
+    private String getListItemsUrl(final String listTitle, final Query query) {
 
-        return getListUrl(listTitle) + "/items";
+        return getListUrl(listTitle, null) +
+                    "/items" +
+                    ((query == null) ? "" : query.getQueryParameters());
     }
 
-    private String getListItemUrl(final String listTitle, final int id) {
+    private String getListItemUrl(final String listTitle, final int id, final Query query) {
 
-        return getListUrl(listTitle) + "/items(" + UrlUtil.encodeComponent(QueryOperations.val(id).toString()) + ")";
+        return getListUrl(listTitle, null) +
+                    "/items(" + id + ")" +
+                    ((query == null) ? "" : query.getQueryParameters());
     }
 
-    public SPObject getList(final String listTitle) throws IOException {
+    public SPObject getList(final String listTitle, final Query query) throws IOException {
 
-        String url = getListUrl(listTitle);
+        String url = getListUrl(listTitle, query);
 
         JsonElement element = executeJsonRequest(new HttpGet(url));
 
@@ -62,9 +71,9 @@ public class ListsClient extends JsonClientBase {
         return new SPObject(element.getAsJsonObject());
     }
 
-    public SPObject getListItemById(final String listTitle, final int id) throws IOException {
+    public SPObject getListItemById(final String listTitle, final int id, final Query query) throws IOException {
 
-        String url = getListItemUrl(listTitle, id);
+        String url = getListItemUrl(listTitle, id, query);
 
         JsonElement element = executeJsonRequest(new HttpGet(url));
 
@@ -76,14 +85,7 @@ public class ListsClient extends JsonClientBase {
 
     public SPCollection getListItems(final String listTitle, final Query query) throws IOException {
 
-        String url = getListItemsUrl(listTitle);
-
-        if (query != null) {
-            url +=
-                "?$filter=" +
-                    UrlUtil.encodeComponent(query.toString()) +
-                    query.getQueryParameters();
-        }
+        String url = getListItemsUrl(listTitle, query);
 
         JsonElement element = executeJsonRequest(new HttpGet(url));
 
@@ -95,7 +97,7 @@ public class ListsClient extends JsonClientBase {
 
     public void createListItem(final String listTitle, SPObject data) throws IOException {
 
-        String url = getListItemsUrl(listTitle);
+        String url = getListItemsUrl(listTitle, null);
 
         HttpPost request = new HttpPost(url);
 
@@ -106,7 +108,7 @@ public class ListsClient extends JsonClientBase {
 
     public void updateListItem(final String listTitle, final int id, final SPETag eTag, SPObject data) throws IOException {
 
-        String url = getListItemUrl(listTitle, id);
+        String url = getListItemUrl(listTitle, id, null);
 
         HttpMerge request = new HttpMerge(url);
 
@@ -121,7 +123,7 @@ public class ListsClient extends JsonClientBase {
 
     public void deleteListItem(final String listTitle, final int id, final SPETag eTag) throws IOException {
 
-        String url = getListItemUrl(listTitle, id);
+        String url = getListItemUrl(listTitle, id, null);
 
         HttpDelete request = new HttpDelete(url);
 

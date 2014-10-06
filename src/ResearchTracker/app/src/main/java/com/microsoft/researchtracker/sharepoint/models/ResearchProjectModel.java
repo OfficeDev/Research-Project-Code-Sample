@@ -5,6 +5,9 @@ import com.microsoft.researchtracker.sharepoint.SPObject;
 
 public class ResearchProjectModel {
 
+    public static final String[] FIELDS = {
+        "ID", "Title"
+    };
     private SPObject mData;
 
     public ResearchProjectModel(SPObject data) {

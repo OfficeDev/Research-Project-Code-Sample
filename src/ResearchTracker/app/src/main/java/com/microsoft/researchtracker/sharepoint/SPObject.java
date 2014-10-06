@@ -3,6 +3,7 @@ package com.microsoft.researchtracker.sharepoint;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.microsoft.researchtracker.http.odata.Constants;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,7 +13,7 @@ import java.util.TimeZone;
 
 public class SPObject {
 
-    private DateFormat mZuluFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private DateFormat mZuluFormat = new SimpleDateFormat(Constants.ODATA_DATE_TIME_ISO8601_FORMAT);
 
     private JsonObject mData;
 

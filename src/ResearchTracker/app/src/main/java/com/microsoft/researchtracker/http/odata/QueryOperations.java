@@ -51,6 +51,20 @@ public class QueryOperations {
     }
 
     /**
+     * Creates a Query representing a $select expression.
+     * @param fields The Field names to select.
+     * @return The Query representing the $select expression.
+     */
+    public static Query select(String... fields) {
+
+        Query query = new Query();
+
+        query.select(fields);
+
+        return query;
+    }
+
+    /**
      * Creates a Query representing an operator
      *
      * @param otherQuery

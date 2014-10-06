@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.microsoft.researchtracker.auth.AuthManager;
-import com.microsoft.researchtracker.data.ResearchRepository;
+import com.microsoft.researchtracker.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.ListsClient;
 import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
@@ -29,12 +29,12 @@ public class App extends Application {
         return mAuthManager;
     }
 
-    public ResearchRepository getRepository() {
+    public ResearchDataSource getDataSource() {
 
         final OAuthCredentials credentials = getAuthManager().getOAuthCredentials();
 
         final ListsClient client = new ListsClient(Constants.SHAREPOINT_URL, Constants.SHAREPOINT_SITE_PATH, credentials);
 
-        return new ResearchRepository(client);
+        return new ResearchDataSource(client);
     }
 }

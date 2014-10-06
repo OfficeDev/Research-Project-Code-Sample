@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchRepository;
+import com.microsoft.researchtracker.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.SPETag;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
@@ -151,7 +151,7 @@ public class ViewProjectActivity extends Activity {
                 AsyncUtil.onBackgroundThread(new AsyncUtil.BackgroundHandler<ViewModel>() {
                     public ViewModel run() {
                         try {
-                            ResearchRepository repository = mApp.getRepository();
+                            ResearchDataSource repository = mApp.getDataSource();
 
                             ResearchProjectModel project = repository.getResearchProjectById(mProjectId);
 
@@ -239,7 +239,7 @@ public class ViewProjectActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            mApp.getRepository().deleteResearchProject(mProjectId, mProjectETag);
+                            mApp.getDataSource().deleteResearchProject(mProjectId, mProjectETag);
 
                             return true;
                         }

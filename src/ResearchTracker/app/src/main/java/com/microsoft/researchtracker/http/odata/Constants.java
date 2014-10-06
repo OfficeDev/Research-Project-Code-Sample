@@ -7,20 +7,7 @@ package com.microsoft.researchtracker.http.odata;
 
 import java.nio.charset.Charset;
 
-/**
- * Constants used through the framework
- */
 public class Constants {
-
-    /**
-     * HTTP GET Verb
-     */
-    public static final String HTTP_GET = "GET";
-
-    /**
-     * HTTP POST Verb
-     */
-    public static final String HTTP_POST = "POST";
 
     /**
      * UTF-8 Encoding name
@@ -31,4 +18,11 @@ public class Constants {
      * UTF-8 Charset instance
      */
     public static final Charset UTF8 = Charset.forName(UTF8_NAME);
+
+
+    /**
+     * ISO8601 date/time format for use with Gson, etc.
+     * SharePoint seems to transmit it's data in this format exclusively.
+     */
+    public static final String ODATA_DATE_TIME_ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 }
