@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.microsoft.researchtracker.auth.AuthCallback;
@@ -23,6 +24,7 @@ public class LoginActivity extends Activity {
     private AuthManager mAuth;
 
     private Button mloginButton;
+    private ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class LoginActivity extends Activity {
             }
         });
 
+        mProgress = (ProgressBar) findViewById(R.id.progress);
 
         resetView();
 
@@ -57,6 +60,7 @@ public class LoginActivity extends Activity {
 
         // Reset view
         mloginButton.setEnabled(true);
+        mProgress.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -65,6 +69,7 @@ public class LoginActivity extends Activity {
     private void startAuthentication() {
 
         mloginButton.setEnabled(false);
+        mProgress.setVisibility(View.VISIBLE);
 
         //Start authentication procedure
         mAuth.authenticate(this, new AuthCallback() {
