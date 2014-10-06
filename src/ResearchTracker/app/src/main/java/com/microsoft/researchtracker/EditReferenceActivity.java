@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -187,7 +189,33 @@ public class EditReferenceActivity extends Activity {
 
     }
 
+    private boolean validateForm() {
+
+        boolean ok = true;
+
+        //Url
+        String url = mUrlText.getText().toString();
+
+        if (TextUtils.isEmpty(url)) {
+            mUrlText.setError(getText(R.string.validation_error_required));
+            ok = false;
+        }
+        else if (!Patterns.WEB_URL.matcher(url).matches()) {
+            mUrlText.setError(getText(R.string.validation_error_must_be_url));
+            ok = false;
+        }
+        else {
+            mUrlText.setError(null);
+        }
+
+        return ok;
+    }
+
     private void saveChangesAndFinish() {
+
+        if (!validateForm()) {
+            return;
+        }
 
         ensureAuthenticated(new Runnable() {
             public void run() {

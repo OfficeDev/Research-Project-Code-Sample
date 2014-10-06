@@ -22,6 +22,9 @@
     <string name="label_continue">Continue</string>
     <string name="label_delete">Delete</string>
 
+    <string name="validation_error_must_be_url">Must be a valid URL</string>
+    <string name="validation_error_required">Required</string>
+
     <string name="auth_manager_error_no_refresh_token">Unable to locate refresh token</string>
 
     <string name="dialog_auth_failed_title">Authentication failed</string>

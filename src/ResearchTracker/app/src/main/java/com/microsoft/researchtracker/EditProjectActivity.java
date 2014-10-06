@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -166,7 +167,24 @@ public class EditProjectActivity extends Activity {
         });
     }
 
+    private boolean validateForm() {
+        boolean ok = true;
+
+        String title = mTitleText.getText().toString();
+
+        if (TextUtils.isEmpty(title)) {
+            mTitleText.setError(getString(R.string.validation_error_required));
+            ok = false;
+        }
+
+        return ok;
+    }
+
     private void saveChangesAndFinish() {
+
+        if (!validateForm()) {
+            return;
+        }
 
         ensureAuthenticated(new Runnable() {
             public void run() {
