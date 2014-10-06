@@ -1,7 +1,7 @@
 #import "CreateViewController.h"
 
 #import "office365-base-sdk/OAuthentication.h"
-#import "office365-lists-sdk/ListClient.h"
+#import "ProjectClient.h"
 
 @implementation CreateViewController
 
@@ -12,10 +12,10 @@
 }
 
 - (IBAction)CreateFile:(id)sender {
-    [self CreateFile];
+    [self createProject];
 }
 
--(void)CreateFile{
+-(void)createProject{
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:spinner];
@@ -23,26 +23,27 @@
     
     [spinner startAnimating];
     
-    ListClient* client = [self getClient];
+    ProjectClient* client = [self getClient];
     
-    ListEntity* newProject = [[ListEntity alloc] init];
-    [newProject setTitle: self.FileNameTxt.text];
+    ListItem* newProject = [[ListItem alloc] init];
     
-   NSURLSessionTask* task = [client createList:newProject :^(ListEntity *list, NSError *error) {
+    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.FileNameTxt.text] forKeys:@[@"_metadata",@"Title"]];
+    [newProject initWithDictionary:dic];
+    
+    NSURLSessionTask* task = [client addProject:@"Research Projects" item:newProject callback:^(BOOL success, NSError *error) {
        dispatch_async(dispatch_get_main_queue(), ^{
            [spinner stopAnimating];
            [self.navigationController popViewControllerAnimated:YES];
        });
-   }];
-    
+    }];
     [task resume];
 }
 
--(ListClient*)getClient{
+-(ProjectClient*)getClient{
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
     
-    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                               credentials: authentication];
+    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
+                                  credentials: authentication];
 }
 @end

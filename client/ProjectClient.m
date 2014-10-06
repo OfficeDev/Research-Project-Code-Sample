@@ -18,14 +18,12 @@ const NSString *apiUrl = @"/_api/lists";
 
 - (NSURLSessionDataTask *)addProject:(NSString *)name item:(ListItem *)listItem callback:(void (^)(BOOL, NSError *))callback
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@", self.Url , apiUrl];
-    
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [name urlencode]];
     
     NSString *json = [[NSString alloc] init];
-    /*json =  @"{'AllowContentTypes': %@,'BaseTemplate': %@,";
-    json = [json stringByAppendingString: @"'ContentTypesEnabled': %@, 'Description': '%@', 'Title': '%@'}"];
+    json = @"{ 'Title': '%@'}}";
     
-    NSString *formatedJson = [NSString stringWithFormat:json, @"true",@"104" , @"true" , newList.description, newList.title];
+    NSString *formatedJson = [NSString stringWithFormat:json, [listItem getTitle]];
     
     NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
     
@@ -43,7 +41,7 @@ const NSString *apiUrl = @"/_api/lists";
         }
         
         callback(list, error);
-    }];*/
+    }];
     return 0;
 }
 

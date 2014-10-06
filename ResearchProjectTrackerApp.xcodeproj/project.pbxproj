@@ -327,16 +327,16 @@
 		3CCE264C1959EC6100CBD116 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */,
-				D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */,
-				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
-				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
+				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
+				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
 				D9DE4EDC19D5B83900CCDEC5 /* ProjectTableViewController.h */,
 				D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */,
 				D9DE4EDD19D5B83900CCDEC5 /* ProjectTableViewCell.h */,
 				D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */,
-				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
-				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
+				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
+				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
+				D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */,
+				D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */,
 				D93D393519DC7B96009ECCF6 /* ReferencesTableViewCell.h */,
 				D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */,
 				D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */,
