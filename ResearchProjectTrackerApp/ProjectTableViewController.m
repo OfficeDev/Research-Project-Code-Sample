@@ -22,6 +22,12 @@ NSURLSessionDownloadTask* task;
 {
     [super viewDidLoad];
     
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.view.backgroundColor = nil;
+    
     self.projectsList = [[NSMutableArray alloc] init];
     
     [self loadData];
@@ -199,6 +205,26 @@ NSURLSessionDownloadTask* task;
     
     self.tableView.scrollEnabled = false;
     blockerPanel.hidden = false;
+}
+
+- (IBAction)backToLogin:(id)sender{
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+        // Navigation button was pressed. Do some stuff
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
+        self.navigationController.navigationBar.translucent = YES;
+        self.navigationController.view.backgroundColor = [UIColor clearColor];
+    }
+    [super viewWillDisappear:animated];
 }
 
 @end
