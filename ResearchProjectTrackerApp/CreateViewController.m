@@ -31,10 +31,16 @@
     [newProject initWithDictionary:dic];
     
     NSURLSessionTask* task = [client addProject:@"Research Projects" item:newProject callback:^(BOOL success, NSError *error) {
-       dispatch_async(dispatch_get_main_queue(), ^{
-           [spinner stopAnimating];
-           [self.navigationController popViewControllerAnimated:YES];
-       });
+        if(error == nil){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [spinner stopAnimating];
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }else{
+            NSString *errorMessage = [@"Add Project failed. Reason: " stringByAppendingString: error.description];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
+            [alert show];
+        }
     }];
     [task resume];
 }

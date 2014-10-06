@@ -40,6 +40,7 @@
         self.descriptionLbl.text = @"";
     }
     self.urlTableCell.scrollEnabled = NO;
+    self.navigationItem.title = self.selectedReference.title;
 }
 
 - (void)didReceiveMemoryWarning
