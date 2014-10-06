@@ -27,6 +27,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.view.backgroundColor = nil;
+    
     if(![self.selectedReference.comments isEqual:[NSNull null]]){
         self.descriptionLbl.text = self.selectedReference.description;
     }else{

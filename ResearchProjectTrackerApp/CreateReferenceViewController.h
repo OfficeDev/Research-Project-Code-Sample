@@ -9,5 +9,7 @@
 #import "ViewController.h"
 
 @interface CreateReferenceViewController : ViewController
+@property (weak, nonatomic) IBOutlet UITextField *referenceUrlTxt;
+@property (weak, nonatomic) IBOutlet UITextView *referenceDescriptionUrl;
 @property NSString* token;
 @end

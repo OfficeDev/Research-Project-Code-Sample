@@ -8,10 +8,12 @@
 
 #import "office365-lists-sdk/ListClient.h"
 #import "office365-lists-sdk/ListItem.h"
+#import "Reference.h"
 
 @interface ProjectClient : ListClient
 
 - (NSURLSessionDataTask *)addProject:(NSString *)name item:(ListItem *)listItem callback: (void (^)(BOOL success, NSError *error))callback;
 - (NSURLSessionDataTask *)getProjectReferences:(NSString *)name projectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback;
+- (NSURLSessionDataTask *)addReference:(NSString *)name item:(Reference *)reference callback: (void (^)(BOOL success, NSError *error))callback;
 
 @end

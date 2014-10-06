@@ -45,6 +45,36 @@ const NSString *apiUrl = @"/_api/lists";
     return 0;
 }
 
+- (NSURLSessionDataTask *)addReference:(NSString *)name item:(Reference *)reference callback:(void (^)(BOOL, NSError *))callback
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [name urlencode]];
+    
+    NSString *json = [[NSString alloc] init];
+    json = @"{ 'URL': {'Url':'%@'}}";
+    
+    NSString *formatedJson = [NSString stringWithFormat:json, reference.url, reference.description];
+    
+    NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
+    
+    HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential
+                                                                         url:url
+                                                                   bodyArray: jsonData];
+    
+    NSString *method = (NSString*)[[Constants alloc] init].Method_Post;
+    
+    return [connection execute:method callback:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
+        ListEntity *list;
+        
+        if(error == nil){
+            list = [[ListEntity alloc] initWithJson:data];
+        }
+        
+        callback(list, error);
+    }];
+    return 0;
+}
+
+
 - (NSURLSessionDataTask *)getProjectReferences:(NSString *)name projectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback{
     NSString *queryString = [NSString stringWithFormat:@"filter=Project eq '%@'", projectId];
     NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items?%@", self.Url , apiUrl, [name urlencode], [queryString urlencode]];

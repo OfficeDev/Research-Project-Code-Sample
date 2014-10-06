@@ -42,7 +42,7 @@ NSString* token;
     self.loginButton.layer.borderWidth = 1.0;
     self.loginButton.layer.cornerRadius = 10;
     
-    [self performLogin:FALSE];
+    //[self performLogin:FALSE];
 }
 
 - (void)didReceiveMemoryWarning {
