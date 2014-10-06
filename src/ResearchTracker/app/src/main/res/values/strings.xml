@@ -39,6 +39,9 @@
     <string name="dialog_confirm_delete_project_title">Confirm delete</string>
     <string name="dialog_confirm_delete_project_message">Are you sure you want to delete the project?</string>
 
+    <string name="dialog_confirm_delete_reference_title">Confirm delete</string>
+    <string name="dialog_confirm_delete_reference_message">Are you sure you want to delete the reference?</string>
+
     <string name="activity_login_sign_in_complete">Signed in</string>
     <string name="activity_login_title">Research Tracker</string>
 
@@ -52,9 +55,13 @@
     <string name="activity_edit_project_title">Edit Project</string>
     <string name="activity_edit_project_title_label">Title</string>
     <string name="activity_edit_project_title_hint">Project Title</string>
-    <string name="activity_edit_project_project_updated_message">The project was updated</string>
-    <string name="activity_edit_project_project_created_message">The project was created</string>
-    <string name="activity_edit_project_project_deleted_message">The project was deleted</string>
+    <string name="activity_edit_project_updated_message">The project was updated</string>
+    <string name="activity_edit_project_created_message">The project was created</string>
+    <string name="activity_edit_project_deleted_message">The project was deleted</string>
+
+    <string name="activity_view_reference_title">Reference</string>
+    <string name="activity_view_reference_url_label">Url</string>
+    <string name="activity_view_reference_description_label">Description</string>
 
     <string name="activity_edit_reference_title">Edit Reference</string>
     <string name="activity_edit_reference_title_label">Title</string>
@@ -63,8 +70,8 @@
     <string name="activity_edit_reference_url_hint">Reference URL</string>
     <string name="activity_edit_reference_description_label">Description</string>
     <string name="activity_edit_reference_description_hint">Reference description</string>
-    <string name="activity_edit_reference_project_updated_message">The reference was updated</string>
-    <string name="activity_edit_reference_project_created_message">The reference was created</string>
-    <string name="activity_edit_reference_project_deleted_message">The reference was deleted</string>
+    <string name="activity_edit_reference_updated_message">The reference was updated</string>
+    <string name="activity_edit_reference_created_message">The reference was created</string>
+    <string name="activity_edit_reference_deleted_message">The reference was deleted</string>
 
 </resources>

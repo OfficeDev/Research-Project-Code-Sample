@@ -22,4 +22,13 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="TextLabel" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

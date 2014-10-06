@@ -35,7 +35,9 @@ public class ViewProjectActivity extends Activity {
 
     private static final String TAG = "ViewProjectActivity";
 
-    private static final int REQUEST_MODIFY_PROJECT = 1;
+    private static final int REQUEST_EDIT_PROJECT = 1;
+    private static final int REQUEST_CREATE_REFERENCE = 2;
+    private static final int REQUEST_VIEW_REFERENCE = 3;
 
     public static final String PARAM_PROJECT_ID = "project_id";
 
@@ -69,16 +71,16 @@ public class ViewProjectActivity extends Activity {
                 ResearchReferenceModel reference = (ResearchReferenceModel) mAdapter.getItem(position);
 
                 //Launch the "View Project" activity
-                final Intent intent = new Intent(ViewProjectActivity.this, EditReferenceActivity.class);
-                intent.putExtra(EditReferenceActivity.PARAM_REFERENCE_ID, reference.getId());
+                final Intent intent = new Intent(ViewProjectActivity.this, ViewReferenceActivity.class);
+                intent.putExtra(ViewReferenceActivity.PARAM_REFERENCE_ID, reference.getId());
 
-                startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
+                startActivityForResult(intent, REQUEST_VIEW_REFERENCE);
             }
         });
 
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
-        mProjectId = getIntent().getIntExtra(PARAM_PROJECT_ID, 0);
+        mProjectId = getIntent().getIntExtra(PARAM_PROJECT_ID, -1);
 
         mLoaded = false;
     }
@@ -88,7 +90,6 @@ public class ViewProjectActivity extends Activity {
         super.onStart();
 
         if (!mLoaded) {
-            mLoaded = true;
             startRefresh();
         }
     }
@@ -129,7 +130,9 @@ public class ViewProjectActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_MODIFY_PROJECT && resultCode == RESULT_OK) {
+        if ((requestCode == REQUEST_VIEW_REFERENCE   && (resultCode == ViewReferenceActivity.RESULT_DELETED || resultCode == ViewReferenceActivity.RESULT_UPDATED)) ||
+            (requestCode == REQUEST_CREATE_REFERENCE && resultCode == RESULT_OK) ||
+            (requestCode == REQUEST_EDIT_PROJECT     && resultCode == RESULT_OK)) {
             startRefresh();
         }
     }
@@ -143,6 +146,8 @@ public class ViewProjectActivity extends Activity {
     }
 
     private void startRefresh() {
+        mLoaded = true;
+
         ensureAuthenticated(new Runnable() {
 
             //A temporary class for use within this refresh function
@@ -182,7 +187,7 @@ public class ViewProjectActivity extends Activity {
                             return new ViewModel(project, items);
                         }
                         catch (Exception e) {
-                            Log.e(TAG, "Error retrieving projects", e);
+                            Log.e(TAG, "Error retrieving project", e);
 
                             return null;
                         }
@@ -219,7 +224,7 @@ public class ViewProjectActivity extends Activity {
         final Intent intent = new Intent(this, EditProjectActivity.class);
         intent.putExtra(EditProjectActivity.PARAM_PROJECT_ID, mProjectId);
 
-        startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
+        startActivityForResult(intent, REQUEST_EDIT_PROJECT);
     }
 
     private void handleActionNew(MenuItem item) {
@@ -229,7 +234,7 @@ public class ViewProjectActivity extends Activity {
         intent.putExtra(EditReferenceActivity.PARAM_NEW_REFERENCE_MODE, true);
         intent.putExtra(EditReferenceActivity.PARAM_PROJECT_ID, mProjectId);
 
-        startActivityForResult(intent, REQUEST_MODIFY_PROJECT);
+        startActivityForResult(intent, REQUEST_CREATE_REFERENCE);
     }
 
     private void launchConfirmDeleteDialog() {
@@ -260,7 +265,6 @@ public class ViewProjectActivity extends Activity {
                         try {
 
                             mApp.getDataSource().deleteResearchProject(mProjectId, mProjectETag);
-
                             return true;
                         }
                         catch (Exception e) {
@@ -276,7 +280,7 @@ public class ViewProjectActivity extends Activity {
 
                         if (success) {
 
-                            Toast.makeText(ViewProjectActivity.this, R.string.activity_edit_project_project_deleted_message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ViewProjectActivity.this, R.string.activity_edit_project_deleted_message, Toast.LENGTH_LONG).show();
                             finish();
                         }
                         else {
@@ -331,7 +335,7 @@ public class ViewProjectActivity extends Activity {
             ResearchReferenceModel item = mItems.get(position);
 
             text1.setText(item.getURL().getDescription());
-            text2.setText(item.getNotes());
+            text2.setText(item.getDescription());
 
             return view;
         }

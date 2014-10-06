@@ -44,11 +44,11 @@ public class ResearchReferenceModel {
         mData.setField("URL", value);
     }
 
-    public String getNotes() {
+    public String getDescription() {
         return mData.getStringField("Comments");
     }
 
-    public void setNotes(String value) {
+    public void setDescription(String value) {
         mData.setField("Comments", value);
     }
 

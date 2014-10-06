@@ -132,7 +132,7 @@ public class EditReferenceActivity extends Activity {
         mTitleText.setText(url == null ? null : url.getDescription());
         mTitleText.setEnabled(true);
 
-        mDescriptionText.setText(model == null ? null : model.getNotes());
+        mDescriptionText.setText(model == null ? null : model.getDescription());
         mDescriptionText.setEnabled(true);
     }
 
@@ -237,7 +237,7 @@ public class EditReferenceActivity extends Activity {
                             url.setDescription(mTitleText.getText().toString());
 
                             model.setURL(url);
-                            model.setNotes(mDescriptionText.getText().toString());
+                            model.setDescription(mDescriptionText.getText().toString());
 
                             if (mReferenceId == NEW_REFERENCE_ID) {
                                 model.setProjectId(mReferenceProjectId);
@@ -266,8 +266,8 @@ public class EditReferenceActivity extends Activity {
 
                             int resourceId =
                                     (mReferenceId == NEW_REFERENCE_ID)
-                                            ? R.string.activity_edit_reference_project_created_message
-                                            : R.string.activity_edit_reference_project_updated_message;
+                                            ? R.string.activity_edit_reference_created_message
+                                            : R.string.activity_edit_reference_updated_message;
 
                             Toast.makeText(EditReferenceActivity.this, resourceId, Toast.LENGTH_LONG).show();
 

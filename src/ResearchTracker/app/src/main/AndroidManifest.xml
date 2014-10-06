@@ -24,6 +24,7 @@
         <activity
             android:name=".ListProjectsActivity"
             android:label="@string/activity_list_projects_title"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -41,6 +42,14 @@
         <activity
             android:name=".EditReferenceActivity"
             android:label="@string/activity_edit_reference_title" >
+        </activity>
+        <activity
+            android:name=".ViewReferenceActivity"
+            android:label="@string/activity_view_reference_title"
+            android:parentActivityName=".ViewProjectActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.microsoft.researchtracker.ViewProjectActivity" />
         </activity>
     </application>
 

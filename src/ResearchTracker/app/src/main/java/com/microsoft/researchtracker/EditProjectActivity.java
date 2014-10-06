@@ -152,8 +152,7 @@ public class EditProjectActivity extends Activity {
                                     .create()
                                     .show();
 
-                        }
-                        else {
+                        } else {
 
                             mProjectETag = model.getODataEtag();
 
@@ -225,8 +224,8 @@ public class EditProjectActivity extends Activity {
 
                             int resourceId =
                                     (mProjectId == NEW_PROJECT_ID)
-                                            ? R.string.activity_edit_project_project_created_message
-                                            : R.string.activity_edit_project_project_updated_message;
+                                            ? R.string.activity_edit_project_created_message
+                                            : R.string.activity_edit_project_updated_message;
 
                             Toast.makeText(EditProjectActivity.this, resourceId, Toast.LENGTH_LONG).show();
 
