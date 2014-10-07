@@ -25,6 +25,7 @@ import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.DialogUtil;
 import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
@@ -201,8 +202,22 @@ public class ViewProjectActivity extends Activity {
                         mProgress.setVisibility(View.GONE);
 
                         if (result == null) {
-                            Toast.makeText(ViewProjectActivity.this, R.string.activity_view_project_error_loading_projects, Toast.LENGTH_LONG).show();
-                            finish();
+
+                            //let the user know something went wrong
+                            DialogUtil
+                                .makeGoBackDialog(
+                                    ViewProjectActivity.this,
+                                    R.string.dialog_generic_error_message,
+                                    R.string.activity_view_project_error_loading_project
+                                )
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    public void onDismiss(DialogInterface dialog) {
+                                        setResult(Activity.RESULT_CANCELED);
+                                        finish();
+                                    }
+                                })
+                                .show();
+
                             return;
                         }
 
@@ -278,19 +293,22 @@ public class ViewProjectActivity extends Activity {
 
                         mProgress.setVisibility(View.GONE);
 
-                        if (success) {
+                        if (!success) {
 
-                            Toast.makeText(ViewProjectActivity.this, R.string.activity_edit_project_deleted_message, Toast.LENGTH_LONG).show();
-                            finish();
+                            //Let the user know something went wrong
+                            DialogUtil
+                                .makeContinueDialog(
+                                    ViewProjectActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .show();
+
+                            return;
                         }
-                        else {
-                            new AlertDialog.Builder(ViewProjectActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNeutralButton(R.string.label_continue, null)
-                                    .create()
-                                    .show();
-                        }
+
+                        Toast.makeText(ViewProjectActivity.this, R.string.activity_edit_project_deleted_message, Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 })
                 .execute();

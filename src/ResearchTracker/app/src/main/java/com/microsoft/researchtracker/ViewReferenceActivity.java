@@ -11,7 +11,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import com.microsoft.researchtracker.sharepoint.SPUrl;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.DialogUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
 public class ViewReferenceActivity extends Activity {
@@ -135,8 +135,7 @@ public class ViewReferenceActivity extends Activity {
 
     private void ensureAuthenticated(final Runnable r) {
         AuthUtil.ensureAuthenticated(this, new DefaultAuthHandler(this) {
-            @Override
-            public void onSuccess() {
+            @Override public void onSuccess() {
                 r.run();
             }
         });
@@ -190,8 +189,22 @@ public class ViewReferenceActivity extends Activity {
                         mProgress.setVisibility(View.GONE);
 
                         if (result == null) {
-                            Toast.makeText(ViewReferenceActivity.this, R.string.dialog_generic_error_message, Toast.LENGTH_LONG).show();
-                            finish();
+
+                            //Something went wrong - let the user know
+                            DialogUtil
+                                .makeGoBackDialog(
+                                        ViewReferenceActivity.this,
+                                        R.string.dialog_generic_error_message,
+                                        R.string.activity_view_reference_error_loading_reference
+                                )
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    public void onDismiss(DialogInterface dialog) {
+                                        setResult(Activity.RESULT_CANCELED);
+                                        finish();
+                                    }
+                                })
+                                .show();
+
                             return;
                         }
 
@@ -259,20 +272,22 @@ public class ViewReferenceActivity extends Activity {
 
                         mProgress.setVisibility(View.GONE);
 
-                        if (success) {
-                            Toast.makeText(ViewReferenceActivity.this, R.string.activity_edit_reference_deleted_message, Toast.LENGTH_LONG).show();
-                            setResult(RESULT_DELETED);
-                            finish();
-                        }
-                        else {
-                            new AlertDialog.Builder(ViewReferenceActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNeutralButton(R.string.label_continue, null)
-                                    .create()
-                                    .show();
+                        if (!success) {
+                            //Something went wrong - let the user know
+                            DialogUtil
+                                .makeContinueDialog(
+                                    ViewReferenceActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .show();
 
+                            return;
                         }
+
+                        Toast.makeText(ViewReferenceActivity.this, R.string.activity_edit_reference_deleted_message, Toast.LENGTH_LONG).show();
+                        setResult(RESULT_DELETED);
+                        finish();
                     }
                 })
                 .execute();

@@ -1,7 +1,6 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import com.microsoft.researchtracker.sharepoint.SPETag;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.DialogUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
 public class EditProjectActivity extends Activity {
@@ -139,25 +139,26 @@ public class EditProjectActivity extends Activity {
                         mProgress.setVisibility(View.GONE);
 
                         if (model == null) {
+                            //Let the user know something went wrong
+                            DialogUtil
+                                .makeGoBackDialog(
+                                    EditProjectActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    public void onCancel(DialogInterface dialog) {
+                                        setResult(RESULT_CANCELED);
+                                        finish();
+                                    }
+                                })
+                                .show();
 
-                            new AlertDialog.Builder(EditProjectActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNegativeButton(R.string.label_go_back, null)
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        public void onCancel(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-
-                        } else {
-
-                            mProjectETag = model.getODataEtag();
-
-                            prepareView(model);
+                            return;
                         }
+
+                        mProjectETag = model.getODataEtag();
+                        prepareView(model);
                     }
                 })
                 .execute();
@@ -220,26 +221,28 @@ public class EditProjectActivity extends Activity {
                         mProgress.setVisibility(View.GONE);
                         mTitleText.setEnabled(true);
 
-                        if (success) {
+                        if (!success) {
+                            //Let the user know something went wrong
+                            DialogUtil
+                                .makeContinueDialog(
+                                    EditProjectActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .show();
 
-                            int resourceId =
-                                    (mProjectId == NEW_PROJECT_ID)
-                                            ? R.string.activity_edit_project_created_message
-                                            : R.string.activity_edit_project_updated_message;
-
-                            Toast.makeText(EditProjectActivity.this, resourceId, Toast.LENGTH_LONG).show();
-
-                            setResult(RESULT_OK);
-                            finish();
+                            return;
                         }
-                        else {
-                            new AlertDialog.Builder(EditProjectActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNeutralButton(R.string.label_continue, null)
-                                    .create()
-                                    .show();
-                        }
+
+                        int resourceId =
+                            (mProjectId == NEW_PROJECT_ID)
+                                ? R.string.activity_edit_project_created_message
+                                : R.string.activity_edit_project_updated_message;
+
+                        Toast.makeText(EditProjectActivity.this, resourceId, Toast.LENGTH_LONG).show();
+
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 })
                 .execute();

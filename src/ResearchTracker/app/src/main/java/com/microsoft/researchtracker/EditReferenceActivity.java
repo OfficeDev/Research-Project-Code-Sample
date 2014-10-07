@@ -1,7 +1,6 @@
 package com.microsoft.researchtracker;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.DialogUtil;
 import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
@@ -242,19 +242,22 @@ public class EditReferenceActivity extends Activity {
 
                         if (model == null) {
 
-                            new AlertDialog.Builder(EditReferenceActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNegativeButton(R.string.label_go_back, null)
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        public void onCancel(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-                            return;
+                            //Let the user know something went wrong.
+                            DialogUtil
+                                .makeGoBackDialog(
+                                    EditReferenceActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    public void onCancel(DialogInterface dialog) {
+                                        setResult(RESULT_CANCELED);
+                                        finish();
+                                    }
+                                })
+                                .show();
 
+                            return;
                         }
 
                         mModel = model;
@@ -291,18 +294,20 @@ public class EditReferenceActivity extends Activity {
                         mProgress.setVisibility(View.GONE);
 
                         if (projects == null) {
-                            new AlertDialog.Builder(EditReferenceActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNegativeButton(R.string.label_go_back, null)
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        public void onCancel(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-
+                            //Let the user know something went wrong
+                            DialogUtil
+                                .makeGoBackDialog(
+                                    EditReferenceActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    public void onCancel(DialogInterface dialog) {
+                                        setResult(RESULT_CANCELED);
+                                        finish();
+                                    }
+                                })
+                                .show();
                             return;
                         }
 
@@ -407,26 +412,28 @@ public class EditReferenceActivity extends Activity {
                         mTitleText.setEnabled(true);
                         mDescriptionText.setEnabled(true);
 
-                        if (success) {
+                        if (!success) {
+                            //Let the user know something went wrong
+                            DialogUtil
+                                .makeContinueDialog(
+                                    EditReferenceActivity.this,
+                                    R.string.dialog_generic_error_title,
+                                    R.string.dialog_generic_error_message
+                                )
+                                .show();
 
-                            int resourceId =
-                                (mIsNewReference)
-                                    ? R.string.activity_edit_reference_created_message
-                                    : R.string.activity_edit_reference_updated_message;
-
-                            Toast.makeText(EditReferenceActivity.this, resourceId, Toast.LENGTH_LONG).show();
-
-                            setResult(RESULT_OK);
-                            finish();
+                            return;
                         }
-                        else {
-                            new AlertDialog.Builder(EditReferenceActivity.this)
-                                    .setTitle(R.string.dialog_generic_error_title)
-                                    .setMessage(R.string.dialog_generic_error_message)
-                                    .setNeutralButton(R.string.label_continue, null)
-                                    .create()
-                                    .show();
-                        }
+
+                        int resourceId =
+                            (mIsNewReference)
+                                ? R.string.activity_edit_reference_created_message
+                                : R.string.activity_edit_reference_updated_message;
+
+                        Toast.makeText(EditReferenceActivity.this, resourceId, Toast.LENGTH_LONG).show();
+
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 })
                 .execute();

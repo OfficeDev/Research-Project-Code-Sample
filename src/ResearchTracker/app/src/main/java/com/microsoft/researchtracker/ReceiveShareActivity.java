@@ -2,12 +2,15 @@ package com.microsoft.researchtracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.microsoft.researchtracker.utils.DialogUtil;
 
 public class ReceiveShareActivity extends Activity {
 
@@ -30,23 +33,22 @@ public class ReceiveShareActivity extends Activity {
         if (Intent.ACTION_SEND.equals(launchIntent.getAction()) && "text/plain".equals(launchIntent.getType())) {
 
             handlePlainTextShare(launchIntent);
-
         }
         else {
 
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_share_error_title)
-                    .setTitle(R.string.dialog_share_error_not_supported_message)
-                    .setNeutralButton(R.string.label_go_back, null)
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        public void onDismiss(DialogInterface dialog) {
-                            setResult(RESULT_CANCELED);
-                            finish();
-                        }
-                    })
-                    .create()
-                    .show();
-
+            //Not supported
+            DialogUtil
+                .makeGoBackDialog(this,
+                    R.string.dialog_generic_error_title,
+                    R.string.dialog_share_error_not_supported_message
+                )
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    public void onDismiss(DialogInterface dialog) {
+                        setResult(RESULT_CANCELED);
+                        finish();
+                    }
+                })
+                .show();
         }
     }
 

@@ -53,7 +53,7 @@
 
     <string name="activity_view_project_title">Project</string>
     <string name="activity_view_project_header_references">Project References</string>
-    <string name="activity_view_project_error_loading_projects">There was an error while retrieving the project</string>
+    <string name="activity_view_project_error_loading_project">There was an error while retrieving the project</string>
 
     <string name="activity_edit_project_title">Edit Project</string>
     <string name="activity_edit_project_title_label">Title</string>
@@ -79,5 +79,6 @@
     <string name="activity_edit_reference_deleted_message">The reference was deleted</string>
 
     <string name="activity_receive_share_title">Research Tracker</string>
+    <string name="activity_view_reference_error_loading_reference">There was an error while retrieving the reference</string>
 
 </resources>
