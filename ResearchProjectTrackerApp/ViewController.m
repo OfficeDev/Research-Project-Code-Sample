@@ -18,7 +18,7 @@ NSString* clientId;
 Credentials* credentials;
 NSString* token;
 
-
+//ViewController actions
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -37,14 +37,7 @@ NSString* token;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-    
-    //self.loginButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    //self.loginButton.layer.borderWidth = 1.0;
-    //self.loginButton.layer.cornerRadius = 10;
-    
-    //[self performLogin:FALSE];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -72,20 +65,8 @@ NSString* token;
             NSString *errorMessage = [@"Login failed. Reason: " stringByAppendingString: e.description];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
             [alert show];
-        }
-        
+        }        
     }];
-}
-
--(void)showError : (NSString*) errorDetails{
-    
-}
-
--(void) setStatus: (NSString*) status
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // [self.resultLabel setText:status];
-    });
 }
 
 - (IBAction)Clear:(id)sender {
@@ -102,7 +83,6 @@ NSString* token;
     {
         [self showOkOnlyAlert:@"Clear credentials success." : @"Success"];
     }
-    
 }
 
 -(void) showOkOnlyAlert : (NSString*) message : (NSString*) title{

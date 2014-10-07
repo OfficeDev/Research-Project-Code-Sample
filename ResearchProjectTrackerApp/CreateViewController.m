@@ -6,43 +6,43 @@
 @implementation CreateViewController
 
 -(void)viewDidLoad{
-    self.ContentText.layer.borderWidth = 0.5f;
-    self.ContentText.layer.cornerRadius = 8;
-    self.ContentText.layer.borderColor = [[UIColor grayColor] CGColor];
+    [super viewDidLoad];
 }
 
-- (IBAction)CreateFile:(id)sender {
+- (IBAction)createProject:(id)sender {
     [self createProject];
 }
 
 -(void)createProject{
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.view addSubview:spinner];
-    spinner.hidesWhenStopped = YES;
-    
-    [spinner startAnimating];
-    
-    ProjectClient* client = [self getClient];
-    
-    ListItem* newProject = [[ListItem alloc] init];
-    
-    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.FileNameTxt.text] forKeys:@[@"_metadata",@"Title"]];
-    [newProject initWithDictionary:dic];
-    
-    NSURLSessionTask* task = [client addProject:@"Research Projects" item:newProject callback:^(BOOL success, NSError *error) {
-        if(error == nil){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [spinner stopAnimating];
-                [self.navigationController popViewControllerAnimated:YES];
-            });
-        }else{
-            NSString *errorMessage = [@"Add Project failed. Reason: " stringByAppendingString: error.description];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
-            [alert show];
-        }
-    }];
-    [task resume];
+    if(![self.FileNameTxt.text isEqualToString:@""]){
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [self.view addSubview:spinner];
+        spinner.hidesWhenStopped = YES;
+        
+        [spinner startAnimating];
+        
+        ProjectClient* client = [self getClient];
+        
+        ListItem* newProject = [[ListItem alloc] init];
+        
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.FileNameTxt.text] forKeys:@[@"_metadata",@"Title"]];
+        [newProject initWithDictionary:dic];
+        
+        NSURLSessionTask* task = [client addProject:@"Research Projects" item:newProject callback:^(BOOL success, NSError *error) {
+            if(error == nil){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [spinner stopAnimating];
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+            }else{
+                NSString *errorMessage = [@"Add Project failed. Reason: " stringByAppendingString: error.description];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
+                [alert show];
+            }
+        }];
+        [task resume];
+    }
 }
 
 -(ProjectClient*)getClient{

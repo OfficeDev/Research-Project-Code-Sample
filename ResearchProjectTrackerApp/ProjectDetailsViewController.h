@@ -4,8 +4,6 @@
 
 @interface ProjectDetailsViewController : UIViewController <UITableViewDataSource>
 
-- (IBAction)CreateReference:(id)sender;
-
 @property NSString* token;
 @property ListItem* project;
 @property Reference* selectedReference;

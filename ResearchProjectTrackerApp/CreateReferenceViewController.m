@@ -17,6 +17,8 @@
 
 @implementation CreateReferenceViewController
 
+
+//ViewController actions
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -25,7 +27,6 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,45 +37,47 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.view.backgroundColor = nil;
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
 - (IBAction)createReference:(id)sender {
     [self createReference];
 }
 
 -(void)createReference{
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.view addSubview:spinner];
-    spinner.hidesWhenStopped = YES;
-    
-    [spinner startAnimating];
-    
-    ProjectClient* client = [self getClient];
-    
-    Reference* newReference = [[Reference alloc] init];
-    newReference.title = @"";
-    newReference.url = self.referenceUrlTxt.text;
-    newReference.comments = self.referenceDescription.text;
-    
-    NSURLSessionTask* task = [client addReference:@"Research References" item:newReference callback:^(BOOL success, NSError *error) {
-        if(error == nil){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [spinner stopAnimating];
-                [self.navigationController popViewControllerAnimated:YES];
-            });
-        }else{
-            NSString *errorMessage = [@"Add Reference failed. Reason: " stringByAppendingString: error.description];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
-            [alert show];
-        }
-    }];
-    [task resume];
+    if((![self.referenceUrlTxt.text isEqualToString:@""]) && (![self.referenceDescription.text isEqualToString:@""]) && (![self.referenceTitle.text isEqualToString:@""])){
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [self.view addSubview:spinner];
+        spinner.hidesWhenStopped = YES;
+        
+        [spinner startAnimating];
+        
+        ProjectClient* client = [self getClient];
+        
+        Reference* newReference = [[Reference alloc] init];
+        newReference.title = @"";
+        newReference.url = self.referenceUrlTxt.text;
+        newReference.comments = self.referenceDescription.text;
+        
+        NSURLSessionTask* task = [client addReference:@"Research References" item:newReference callback:^(BOOL success, NSError *error) {
+            if(error == nil){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [spinner stopAnimating];
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+            }else{
+                NSString *errorMessage = [@"Add Reference failed. Reason: " stringByAppendingString: error.description];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
+                [alert show];
+            }
+        }];
+        [task resume];
+    }
 }
 
 -(ProjectClient*)getClient{
@@ -84,16 +87,5 @@
     return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
                                   credentials: authentication];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -9,6 +9,7 @@
 
 @implementation ProjectDetailsViewController
 
+//ViewController actions
 -(void)viewDidLoad{
     self.projectName.text = self.project.getTitle;
     self.navigationItem.title = self.project.getTitle;
@@ -19,7 +20,14 @@
     
     [self loadData];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadData];
+}
 
+
+
+//Loading References
 -(void)loadData{
     //Create and add a spinner
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
@@ -48,12 +56,6 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self loadData];
-}
-
-
 -(void)getReferences:(UIActivityIndicatorView *) spinner{
     ProjectClient* client = [self getClient];
     
@@ -67,7 +69,6 @@
         }];
 
     [listReferencesTask resume];
-    
 }
 
 -(void)createReferencesList:(UIActivityIndicatorView *) spinner{
@@ -82,31 +83,16 @@
     [createProjectListTask resume];
 }
 
-- (IBAction)CreateReference:(id)sender {
-    [self CreateFile];
-}
-
 -(ProjectClient*)getClient{
     OAuthentication* authentication = [OAuthentication alloc];
     [authentication setToken:self.token];
     
     return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                               credentials: authentication];
-}
-
--(void)CreateFile{
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.view addSubview:spinner];
-    spinner.hidesWhenStopped = YES;
-    
-    [spinner startAnimating];
-    
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
+                                  credentials: authentication];
 }
 
 
+//Table actions
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* identifier = @"referencesListCell";
@@ -118,19 +104,15 @@
     
     return cell;
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.references count];
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedReference= [self.references objectAtIndex:indexPath.row];
-    
+    self.selectedReference= [self.references objectAtIndex:indexPath.row];    
     [self performSegueWithIdentifier:@"referenceDetail" sender:self];
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"createReference"]){
@@ -147,9 +129,10 @@
     }
     self.selectedReference = false;
 }
-
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     return ([identifier isEqualToString:@"referenceDetail"] && self.selectedReference) || [identifier isEqualToString:@"createReference"] || [identifier isEqualToString:@"editProject"];
 }
+
+
 
 @end

@@ -13,11 +13,7 @@ UIView* blockerPanel;
 ListItem* currentEntity;
 NSURLSessionDownloadTask* task;
 
-- (void)Cancel{
-    [task cancel];
-    [self disposeBlockerPanel];
-}
-
+//ViewController actions
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,7 +28,21 @@ NSURLSessionDownloadTask* task;
     
     [self loadData];
 }
-
+-(void) viewWillDisappear:(BOOL)animated {
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+        // Navigation button was pressed. Do some stuff
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
+        self.navigationController.navigationBar.translucent = YES;
+        self.navigationController.view.backgroundColor = [UIColor clearColor];
+    }
+    [super viewWillDisappear:animated];
+}
+- (void)Cancel{
+    [task cancel];
+    [self disposeBlockerPanel];
+}
 -(void)disposeBlockerPanel{
     blockerPanel.hidden = true;
     popUpView = nil;
@@ -40,7 +50,15 @@ NSURLSessionDownloadTask* task;
     self.tableView.scrollEnabled = true;
     self.navigationController.navigationItem.backBarButtonItem.Enabled = true;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadData];
+}
 
+
+
+
+//Loading Projects
 -(void)loadData{
     //Create and add a spinner
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
@@ -66,7 +84,6 @@ NSURLSessionDownloadTask* task;
         
     }];
     [task resume];
-    
 }
 
 -(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
@@ -98,6 +115,27 @@ NSURLSessionDownloadTask* task;
     [createProjectListTask resume];
 }
 
+- (IBAction)backToLogin:(id)sender{
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
+-(ListClient*)getClient{
+    OAuthentication* authentication = [OAuthentication alloc];
+    [authentication setToken:self.token];
+    
+    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
+                               credentials: authentication];
+}
+
+
+
+
+
+//Table actions
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* identifier = @"ProjectListCell";
@@ -108,12 +146,10 @@ NSURLSessionDownloadTask* task;
     
     return cell;
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.projectsList count];
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"newProject"]){
@@ -126,105 +162,14 @@ NSURLSessionDownloadTask* task;
     }
     
 }
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self loadData];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 40;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detail" sender:self];
-}
-
--(UIActivityIndicatorView*)loadingProgress{
-    
-    int y = self.tableView.contentOffset.y;
-    int width = self.view.frame.size.width;
-    int height = self.view.frame.size.height;
-    
-    
-    UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
-    self.tableView.scrollEnabled = false;
-    spinner.hidesWhenStopped = YES;
-    
-    blockerPanel = [[UIView alloc] initWithFrame:CGRectMake(0,y,width,height)];
-    blockerPanel.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:.7];
-    [blockerPanel addSubview:spinner];
-    
-    spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    
-    [self.view addSubview:blockerPanel];
-    [spinner startAnimating];
-    return spinner;
-}
-
--(ListClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                               credentials: authentication];
-}
-
--(void)createBlockerPanel{
-    
-    [self.navigationController.navigationItem.backBarButtonItem setEnabled:false];
-    [self.navigationItem.rightBarButtonItem  setTitle: @"Cancel"];
-    
-    int y = self.tableView.contentOffset.y;
-    int width = self.view.frame.size.width;
-    int height = self.view.frame.size.height;
-    
-    blockerPanel = [[UIView alloc] initWithFrame:CGRectMake(0,y,width,height)];
-    blockerPanel.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:.7];
-    
-    popUpView = [[UIView alloc]initWithFrame:CGRectMake(40, 50, 250, 80)];
-    popUpView.backgroundColor = [UIColor whiteColor];
-    popUpView.layer.borderColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0].CGColor;
-    popUpView.layer.borderWidth = 1.0f;
-    popUpView.layer.shadowColor = [UIColor grayColor].CGColor;
-    popUpView.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
-    popUpView.layer.shadowOpacity =1.0f;
-    
-    popUpLabel= [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 190, 60)];
-    popUpLabel.textColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
-    popUpLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    popUpLabel.numberOfLines = 2;
-    
-    blockerPanel.hidden = true;
-    
-    [blockerPanel addSubview:popUpView];
-    [self.view addSubview:blockerPanel];
-    
-    self.tableView.scrollEnabled = false;
-    blockerPanel.hidden = false;
-}
-
-- (IBAction)backToLogin:(id)sender{
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
-}
-
--(void) viewWillDisappear:(BOOL)animated {
-    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
-        // Navigation button was pressed. Do some stuff
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = [UIImage new];
-        self.navigationController.navigationBar.translucent = YES;
-        self.navigationController.view.backgroundColor = [UIColor clearColor];
-    }
-    [super viewWillDisappear:animated];
 }
 
 @end

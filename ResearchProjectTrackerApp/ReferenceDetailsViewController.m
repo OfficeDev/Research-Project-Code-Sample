@@ -16,6 +16,8 @@
 
 @implementation ReferenceDetailsViewController
 
+
+//ViewControllerActions
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,7 +26,6 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -43,7 +44,6 @@
     self.urlTableCell.scrollEnabled = NO;
     self.navigationItem.title = self.selectedReference.title;
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -51,10 +51,11 @@
 }
 
 
+
+//Table actions
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* identifier = @"referenceDetailsTableCell";
     ReferenceDetailTableCellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
@@ -63,7 +64,6 @@
     
     return cell;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSURL *url = [NSURL URLWithString:self.selectedReference.url];
@@ -72,7 +72,6 @@
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
     }
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"editReference"]){
         EditReferenceViewController *controller = (EditReferenceViewController *)segue.destinationViewController;

@@ -153,7 +153,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="CreateFile:" destination="qHb-c8-ZYL" eventType="touchUpInside" id="cty-Yv-MhL"/>
+                                    <action selector="createProject:" destination="qHb-c8-ZYL" eventType="touchUpInside" id="zkL-4O-UEQ"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -259,10 +259,10 @@
             </objects>
             <point key="canvasLocation" x="1573" y="587"/>
         </scene>
-        <!--Edit Project View Controller-->
+        <!--Edit Project-->
         <scene sceneID="JhF-zS-K4c">
             <objects>
-                <viewController id="MnH-Ei-ubd" customClass="EditProjectViewController" sceneMemberID="viewController">
+                <viewController title="Edit Project" id="MnH-Ei-ubd" customClass="EditProjectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FXD-Ap-Cgx"/>
                         <viewControllerLayoutGuide type="bottom" id="tUe-5P-R4t"/>
@@ -302,7 +302,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="8Gp-LC-KD4">
+                    <navigationItem key="navigationItem" title="Edit Project" id="8Gp-LC-KD4">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="PfX-i2-A64" userLabel="Done">
                             <connections>
                                 <action selector="editProject:" destination="MnH-Ei-ubd" id="t8L-I4-KFe"/>
@@ -388,7 +388,7 @@
         <!--Edit Reference-->
         <scene sceneID="3u2-69-0QB">
             <objects>
-                <viewController id="kS1-TI-o1N" userLabel="Edit Reference" customClass="EditReferenceViewController" sceneMemberID="viewController">
+                <viewController title="Edit Reference" id="kS1-TI-o1N" userLabel="Edit Reference" customClass="EditReferenceViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dhY-ur-JYQ"/>
                         <viewControllerLayoutGuide type="bottom" id="sXA-Cj-ifx"/>
@@ -452,7 +452,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="CsW-Uh-xqG" userLabel="Navigation Item">
+                    <navigationItem key="navigationItem" title="Edit Reference" id="CsW-Uh-xqG" userLabel="Navigation Item">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="wn7-v4-OhV" userLabel="Done">
                             <connections>
                                 <action selector="editReference:" destination="kS1-TI-o1N" id="MIc-Ex-uGU"/>
