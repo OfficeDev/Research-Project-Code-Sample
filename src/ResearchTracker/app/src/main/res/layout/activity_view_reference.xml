@@ -11,7 +11,9 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/title_label"
@@ -27,13 +29,30 @@
             android:text="@string/activity_view_reference_url_label"
             style="@style/SectionHeader" />
 
-        <TextView
-            android:id="@+id/url_label"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/placeholder"
+            android:layout_gravity="center_vertical">
 
-            style="@style/TextLabel" />
+            <TextView
+                android:id="@+id/url_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder"
+                style="@style/TextLabel"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/url_image"
+                android:layout_alignParentStart="true"/>
+
+            <ImageView
+                android:id="@+id/url_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_location_web_site"/>
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"

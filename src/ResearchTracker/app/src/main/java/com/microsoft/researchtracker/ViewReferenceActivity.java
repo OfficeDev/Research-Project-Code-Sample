@@ -11,10 +11,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ public class ViewReferenceActivity extends Activity {
 
     private TextView mTitleLabel;
     private TextView mUrlLabel;
+    private ImageView mUrlIcon;
     private TextView mDescriptionLabel;
     private ProgressBar mProgress;
 
@@ -61,6 +64,9 @@ public class ViewReferenceActivity extends Activity {
         mUrlLabel = (TextView) findViewById(R.id.url_label);
         mUrlLabel.setText("");
         mUrlLabel.setMovementMethod(LinkMovementMethod.getInstance());
+
+        mUrlIcon = (ImageView) findViewById(R.id.url_image);
+        mUrlIcon.setVisibility(View.GONE);
 
         mTitleLabel = (TextView) findViewById(R.id.title_label);
         mTitleLabel.setText("");
@@ -196,6 +202,7 @@ public class ViewReferenceActivity extends Activity {
 
                         mTitleLabel.setText(url.getTitle());
                         mUrlLabel.setText(makeLinkText(url.getUrl()));
+                        mUrlIcon.setVisibility(View.VISIBLE);
                         mDescriptionLabel.setText(result.getDescription());
                     }
                 })

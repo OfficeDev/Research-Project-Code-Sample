@@ -25,7 +25,6 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:id="@+id/imageView"
                 android:src="@drawable/splash_logo"
                 android:layout_gravity="center_horizontal|top"
                 android:layout_weight="1"/>
