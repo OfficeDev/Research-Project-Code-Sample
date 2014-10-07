@@ -89,15 +89,6 @@ public class SPObject {
         return new SPETag(value);
     }
 
-    public void setField(final String fieldName, String value) {
-        if (value == null) {
-            mData.add(fieldName, null);
-        }
-        else {
-            mData.add(fieldName, new JsonPrimitive(value));
-        }
-    }
-
     public void setField(final String fieldName, boolean value) {
         mData.add(fieldName, new JsonPrimitive(value));
     }
@@ -110,21 +101,25 @@ public class SPObject {
         mData.add(fieldName, new JsonPrimitive(value));
     }
 
-    public void setField(final String fieldName, Date value) {
+    public void setField(final String fieldName, String value) {
         if (value == null) {
-            mData.add(fieldName, null);
+            mData.add(fieldName, JsonNull.INSTANCE);
         }
         else {
-            setField(fieldName, mZuluFormat.format(value));
+            mData.add(fieldName, new JsonPrimitive(value));
         }
     }
 
+    public void setField(final String fieldName, Date value) {
+        setField(fieldName, value == null ? null : mZuluFormat.format(value));
+    }
+
     public void setField(final String fieldName, SPUrl value) {
-        if (value != null) {
-            mData.add(fieldName, value.toJson());
+        if (value == null) {
+            mData.add(fieldName, JsonNull.INSTANCE);
         }
         else {
-            mData.add(fieldName, JsonNull.INSTANCE);
+            mData.add(fieldName, value.toJson());
         }
     }
 

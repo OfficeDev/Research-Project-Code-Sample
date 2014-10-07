@@ -25,6 +25,20 @@
                 android:text="@string/activity_edit_reference_title"
                 style="@style/ActivityHeader" />
 
+            <!-- Edit Project -->
+            <TextView
+                android:id="@+id/project_label"
+                style="@style/SectionHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_edit_reference_project_label" />
+
+            <Spinner
+                android:id="@+id/project_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog" />
+
             <!-- Edit URL -->
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/activity_edit_reference_description_hint"
                 android:inputType="text|textCapSentences|textAutoComplete|textAutoCorrect|textMultiLine"/>
-
 
         </LinearLayout>
 

@@ -334,7 +334,7 @@ public class ViewProjectActivity extends Activity {
 
             ResearchReferenceModel item = mItems.get(position);
 
-            text1.setText(item.getURL().getDescription());
+            text1.setText(item.getURL().getTitle());
             text2.setText(item.getDescription());
 
             return view;

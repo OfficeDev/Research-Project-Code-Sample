@@ -1,38 +1,30 @@
 package com.microsoft.researchtracker.sharepoint;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
-public class SPUrl {
+public class SPUrl extends SPObject {
 
-    private JsonObject mData;
-
-    public SPUrl(JsonObject data) {
-        mData = data;
+    public SPUrl(JsonObject value) {
+        super(value);
     }
 
     public SPUrl() {
-        mData = new JsonObject();
+        super();
     }
 
-    public String getDescription() {
-        return mData.getAsJsonPrimitive("Description").getAsString();
+    public String getTitle() {
+        return getStringField("Description");
     }
 
-    public void setDescription(String value) {
-        mData.add("Description", new JsonPrimitive(value));
+    public void setTitle(String value) {
+        setField("Description", value);
     }
 
     public String getUrl() {
-        return mData.getAsJsonPrimitive("Url").getAsString();
+        return getStringField("Url");
     }
 
     public void setUrl(String value) {
-        mData.add("Url", new JsonPrimitive(value));
-    }
-
-    public JsonElement toJson() {
-        return mData;
+        setField("Url", value);
     }
 }

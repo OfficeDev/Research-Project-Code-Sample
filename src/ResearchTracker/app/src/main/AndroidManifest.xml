@@ -51,6 +51,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.microsoft.researchtracker.ViewProjectActivity" />
         </activity>
+        <activity
+            android:name=".ReceiveShareActivity"
+            android:label="@string/activity_receive_share_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

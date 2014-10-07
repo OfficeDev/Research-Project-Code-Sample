@@ -190,11 +190,11 @@ public class ViewReferenceActivity extends Activity {
                         }
 
                         mReferenceETag = result.getODataETag();
-                        mReferenceProjectId = Integer.parseInt(result.getProjectId());
+                        mReferenceProjectId = result.getProjectId();
 
                         SPUrl url = result.getURL();
 
-                        mTitleLabel.setText(url.getDescription());
+                        mTitleLabel.setText(url.getTitle());
                         mUrlLabel.setText(makeLinkText(url.getUrl()));
                         mDescriptionLabel.setText(result.getDescription());
                     }

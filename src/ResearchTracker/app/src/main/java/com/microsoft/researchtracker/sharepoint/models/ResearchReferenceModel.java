@@ -28,12 +28,12 @@ public class ResearchReferenceModel {
         return mData.getIntField("ID");
     }
 
-    public String getProjectId() {
-        return mData.getStringField("Project");
+    public int getProjectId() {
+        return mData.getIntField("Project");
     }
 
-    public void setProjectId(String projectId) {
-        mData.setField("Project", projectId);
+    public void setProjectId(int projectId) {
+        mData.setField("Project", Integer.toString(projectId));
     }
 
     public SPUrl getURL() {
