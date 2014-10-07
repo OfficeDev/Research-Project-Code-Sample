@@ -26,12 +26,14 @@
         <activity
             android:name=".ListProjectsActivity"
             android:label="@string/activity_list_projects_title"
+            android:icon="@drawable/ic_action_rtracker"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ViewProjectActivity"
             android:label="@string/activity_view_project_title"
+            android:icon="@drawable/ic_action_rtracker"
             android:parentActivityName=".ListProjectsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -39,15 +41,18 @@
         </activity>
         <activity
             android:name=".EditProjectActivity"
-            android:label="@string/activity_edit_project_title" >
+            android:label="@string/activity_edit_project_title"
+            android:icon="@drawable/ic_action_rtracker" >
         </activity>
         <activity
             android:name=".EditReferenceActivity"
-            android:label="@string/activity_edit_reference_title" >
+            android:label="@string/activity_edit_reference_title"
+            android:icon="@drawable/ic_action_rtracker" >
         </activity>
         <activity
             android:name=".ViewReferenceActivity"
             android:label="@string/activity_view_reference_title"
+            android:icon="@drawable/ic_action_rtracker"
             android:parentActivityName=".ViewProjectActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
