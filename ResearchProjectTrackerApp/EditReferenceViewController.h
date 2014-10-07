@@ -7,9 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "Reference.h"
 
 @interface EditReferenceViewController : ViewController
 @property (weak, nonatomic) IBOutlet UITextField *referenceUrlTxt;
-@property (weak, nonatomic) IBOutlet UITextView *referenceDescriptionUrl;
+@property (weak, nonatomic) IBOutlet UITextField *referenceDescription;
+@property (weak, nonatomic) IBOutlet UITextField *referenceTitle;
 @property NSString* token;
+@property Reference* selectedReference;
 @end

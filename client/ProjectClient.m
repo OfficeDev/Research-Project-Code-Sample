@@ -94,6 +94,38 @@ const NSString *apiUrl = @"/_api/lists";
     }];
 }
 
+
+
+- (NSURLSessionDataTask *)deleteListItem:(NSString *)name itemId:(NSString *)itemId callback:(void (^)(BOOL result, NSError *error))callback{
+    
+    //NSString *queryString = [NSString stringWithFormat:@"filter=Id eq '%@'", itemId];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [name urlencode], itemId];
+    
+    
+    HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential
+                                                                         url:url
+                                                                   bodyArray: nil];
+    
+    NSString *method = (NSString*)[[Constants alloc] init].Method_Delete;
+    
+    return [connection execute:method callback:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
+        
+        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options: NSJSONReadingMutableContainers
+                                                                     error:nil];
+        
+        BOOL result = FALSE;
+        
+        if(error == nil && [data length] == 0 ){
+            result = TRUE;
+        }
+        
+        callback(result, error);
+    }];
+}
+
+
+
 - (NSMutableArray *)parseDataArray:(NSData *)data{
     
     NSMutableArray *array = [NSMutableArray array];

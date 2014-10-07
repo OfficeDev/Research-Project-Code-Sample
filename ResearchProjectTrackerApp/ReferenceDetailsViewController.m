@@ -8,6 +8,7 @@
 
 #import "ReferenceDetailsViewController.h"
 #import "ReferenceDetailTableCellTableViewCell.h"
+#import "EditReferenceViewController.h"
 
 @interface ReferenceDetailsViewController ()
 
@@ -69,6 +70,14 @@
     
     if (![[UIApplication sharedApplication] openURL:url]) {
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"editReference"]){
+        EditReferenceViewController *controller = (EditReferenceViewController *)segue.destinationViewController;
+        controller.token = self.token;
+        controller.selectedReference = self.selectedReference;
     }
 }
 

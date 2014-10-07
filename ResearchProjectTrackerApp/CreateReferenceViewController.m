@@ -60,7 +60,7 @@
     Reference* newReference = [[Reference alloc] init];
     newReference.title = @"";
     newReference.url = self.referenceUrlTxt.text;
-    newReference.comments = self.referenceDescriptionUrl.text;
+    newReference.comments = self.referenceDescription.text;
     
     NSURLSessionTask* task = [client addReference:@"Research References" item:newReference callback:^(BOOL success, NSError *error) {
         if(error == nil){

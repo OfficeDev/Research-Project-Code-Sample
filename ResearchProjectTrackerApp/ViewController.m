@@ -38,9 +38,9 @@ NSString* token;
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
     
-    self.loginButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.loginButton.layer.borderWidth = 1.0;
-    self.loginButton.layer.cornerRadius = 10;
+    //self.loginButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    //self.loginButton.layer.borderWidth = 1.0;
+    //self.loginButton.layer.cornerRadius = 10;
     
     //[self performLogin:FALSE];
 }
