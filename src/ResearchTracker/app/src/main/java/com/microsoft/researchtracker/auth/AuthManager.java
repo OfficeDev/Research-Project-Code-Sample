@@ -142,8 +142,17 @@ public class AuthManager {
             mAuthContext.acquireTokenByRefreshToken(
                 /* Refresh token */ refreshToken,
                 /* Client Id     */ Constants.AAD_CLIENT_ID,
-                    createAuthCallback(handler)
+                    createAuthCallback(new CallbackWrapper(handler) {
+                        @Override public void onFailure(String errorDescription) {
+
+                            //something went wrong refreshing the token - fall back to forceAuthenticate
+                            Log.e(TAG, "Error refreshing token: " + errorDescription);
+
+                            forceAuthenticate(currentActivity, handler);
+                        }
+                    })
             );
+            return;
         }
 
         forceAuthenticate(currentActivity, handler);
@@ -279,12 +288,24 @@ public class AuthManager {
         }
     }
 
-    /**
-     * This method is provided to artifically expiring the authentication token
-     * in order to test app behaviour in that situation.
-     */
-    public void forceExpireToken() {
-        updateAuthToken(new AuthToken());
+    private class CallbackWrapper implements AuthCallback {
+        private final AuthCallback mInner;
+
+        public CallbackWrapper(AuthCallback handler) {
+            mInner = handler;
+        }
+
+        @Override public void onFailure(String errorDescription) {
+            mInner.onFailure(errorDescription);
+        }
+
+        @Override public void onCancelled() {
+            mInner.onCancelled();
+        }
+
+        @Override public void onSuccess() {
+            mInner.onSuccess();
+        }
     }
 }
 
