@@ -5,6 +5,7 @@
 #import "ReferencesTableViewCell.h"
 #import "ReferenceDetailsViewController.h"
 #import "CreateReferenceViewController.h"
+#import "EditProjectViewController.h"
 
 @implementation ProjectDetailsViewController
 
@@ -135,16 +136,20 @@
     if([segue.identifier isEqualToString:@"createReference"]){
         CreateReferenceViewController *controller = (CreateReferenceViewController *)segue.destinationViewController;
         controller.token = self.token;
-    }else{
+    }else if([segue.identifier isEqualToString:@"referenceDetail"]){
         ReferenceDetailsViewController *controller = (ReferenceDetailsViewController *)segue.destinationViewController;
         controller.selectedReference = self.selectedReference;
+        controller.token = self.token;
+    }else if([segue.identifier isEqualToString:@"editProject"]){
+        EditProjectViewController *controller = (EditProjectViewController *)segue.destinationViewController;
+        controller.project = self.project;
         controller.token = self.token;
     }
     self.selectedReference = false;
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
-    return ([identifier isEqualToString:@"referenceDetail"] && self.selectedReference) || [identifier isEqualToString:@"createReference"];
+    return ([identifier isEqualToString:@"referenceDetail"] && self.selectedReference) || [identifier isEqualToString:@"createReference"] || [identifier isEqualToString:@"editProject"];
 }
 
 @end

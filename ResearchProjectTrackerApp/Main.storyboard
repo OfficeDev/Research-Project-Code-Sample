@@ -34,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="wallpaper-image .png" translatesAutoresizingMaskIntoConstraints="NO" id="m68-qz-87d">
-                                <rect key="frame" x="13" y="43" width="295" height="322"/>
+                                <rect key="frame" x="17" y="27" width="295" height="322"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI1-bA-oxD">
                                 <rect key="frame" x="77" y="386" width="167" height="30"/>
@@ -178,7 +178,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="63" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LIX-z7-n79">
-                                <rect key="frame" x="0.0" y="49" width="320" height="442"/>
+                                <rect key="frame" x="0.0" y="49" width="320" height="349"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="referencesListCell" rowHeight="63" id="qJ4-jN-nZi" customClass="ReferencesTableViewCell">
@@ -194,7 +194,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Url" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDG-oH-w3M">
-                                                    <rect key="frame" x="20" y="31" width="280" height="21"/>
+                                                    <rect key="frame" x="20" y="32" width="280" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -212,19 +212,37 @@
                                     <outlet property="delegate" destination="a66-NU-J6w" id="6sR-pL-22M"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="bottom" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ieo-hi-9Yy">
+                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Oap-ft-o8I"/>
+                                    <barButtonItem systemItem="add" id="C2F-vP-wEf">
+                                        <connections>
+                                            <segue destination="dHy-eY-bb7" kind="push" identifier="createReference" id="0x3-3L-ale"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="fWW-wQ-nC3"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.92779806385869568" green="0.92779806385869568" blue="0.92779806385869568" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Ieo-hi-9Yy" secondAttribute="centerX" id="HQg-q5-n5P"/>
+                            <constraint firstItem="OgV-3D-IxE" firstAttribute="top" secondItem="Ieo-hi-9Yy" secondAttribute="bottom" id="LRI-tR-sy0"/>
+                        </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="V9R-ff-208" userLabel="Navigation Item - References">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="733-VR-mdm">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="733-VR-mdm">
                             <connections>
-                                <segue destination="dHy-eY-bb7" kind="push" identifier="createReference" id="mRc-e1-0Cg"/>
+                                <segue destination="MnH-Ei-ubd" kind="push" identifier="editProject" id="emG-3s-8gV"/>
                             </connections>
                         </barButtonItem>
                         <connections>
                             <outlet property="rightBarButtonItem" destination="733-VR-mdm" id="GA2-Pg-g78"/>
                         </connections>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="refencesTable" destination="LIX-z7-n79" id="W62-SW-tfY"/>
                         <outlet property="referenceLbl" destination="xDk-C7-eEp" id="Z26-5Y-afN"/>
@@ -232,7 +250,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdZ-rh-xgX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1573" y="588"/>
+            <point key="canvasLocation" x="1573" y="587"/>
+        </scene>
+        <!--Edit Project View Controller-->
+        <scene sceneID="JhF-zS-K4c">
+            <objects>
+                <viewController id="MnH-Ei-ubd" customClass="EditProjectViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FXD-Ap-Cgx"/>
+                        <viewControllerLayoutGuide type="bottom" id="tUe-5P-R4t"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jmd-Sz-aYQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uai-2q-xd0">
+                                <rect key="frame" x="15" y="58" width="290" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="bottom" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zQP-XX-b71">
+                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="wGf-ok-vBv"/>
+                                    <barButtonItem systemItem="trash" id="aBa-U1-ZpU"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="31l-Ld-PD7"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92779806389999997" green="0.92779806389999997" blue="0.92779806389999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="tUe-5P-R4t" firstAttribute="top" secondItem="zQP-XX-b71" secondAttribute="bottom" id="htq-21-hT3"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="8Gp-LC-KD4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="PfX-i2-A64" userLabel="Done">
+                            <connections>
+                                <action selector="editProject:" destination="MnH-Ei-ubd" id="t8L-I4-KFe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="ProjectNameTxt" destination="uai-2q-xd0" id="AbM-Eo-edv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6U6-3k-1Ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1573" y="1499"/>
         </scene>
         <!--Create Reference-->
         <scene sceneID="kvT-rf-Eqi">
@@ -287,6 +352,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dIc-Ld-pHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2246" y="986"/>
+        </scene>
+        <!--Edit Reference-->
+        <scene sceneID="3u2-69-0QB">
+            <objects>
+                <viewController id="kS1-TI-o1N" userLabel="Edit Reference" customClass="EditReferenceViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dhY-ur-JYQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="sXA-Cj-ifx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uZh-L8-tL1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Url" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EiT-JL-b7M">
+                                <rect key="frame" x="20" y="20" width="22" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPd-jU-MFz">
+                                <rect key="frame" x="20" y="101" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reference Url" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yKF-Lp-pNb">
+                                <rect key="frame" x="20" y="61" width="280" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aPe-ic-7Xp">
+                                <rect key="frame" x="20" y="130" width="280" height="268"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="bottom" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wdf-WW-J0C">
+                                <rect key="frame" x="0.0" y="480" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="efW-oh-qnq"/>
+                                    <barButtonItem systemItem="trash" id="8fJ-Uw-Oc4"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kgt-kL-wo2"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92779806389999997" green="0.92779806389999997" blue="0.92779806389999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="sXA-Cj-ifx" firstAttribute="top" secondItem="wdf-WW-J0C" secondAttribute="bottom" id="APV-i3-EbT"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="CsW-Uh-xqG" userLabel="Navigation Item">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="wn7-v4-OhV" userLabel="Done">
+                            <connections>
+                                <action selector="editReference:" destination="kS1-TI-o1N" id="MIc-Ex-uGU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="referenceDescriptionUrl" destination="aPe-ic-7Xp" id="sag-TH-V9J"/>
+                        <outlet property="referenceUrlTxt" destination="yKF-Lp-pNb" id="LeX-HP-RI7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PJd-Ku-Yo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2781" y="291"/>
         </scene>
         <!--Reference Details View Controller-->
         <scene sceneID="lb3-0S-08u">
@@ -344,7 +476,7 @@
                                 <rect key="frame" x="20" y="133" width="280" height="156"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="descriptionContent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAA-A7-o4k">
-                                        <rect key="frame" x="20" y="20" width="147" height="21"/>
+                                        <rect key="frame" x="8" y="8" width="264" height="140"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -354,7 +486,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.92779806389999997" green="0.92779806389999997" blue="0.92779806389999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Wec-lJ-dJF"/>
+                    <navigationItem key="navigationItem" id="Wec-lJ-dJF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Jaa-Og-wf0" userLabel="Edit">
+                            <connections>
+                                <segue destination="kS1-TI-o1N" kind="push" identifier="editReference" id="jkd-2a-k26"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="descriptionLbl" destination="cAA-A7-o4k" id="T74-Ym-khY"/>
                         <outlet property="urlTableCell" destination="ppg-vL-rSv" id="oko-vW-Cbc"/>
