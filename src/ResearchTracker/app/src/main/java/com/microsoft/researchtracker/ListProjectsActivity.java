@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
 import java.util.Collections;
@@ -164,12 +165,12 @@ public class ListProjectsActivity extends Activity {
     private class ProjectsListAdapter extends BaseAdapter {
 
         private final List<ResearchProjectModel> mItems;
-        private final LayoutInflater mViewInflater;
+        private final LayoutInflater mInflater;
 
         public ProjectsListAdapter(List<ResearchProjectModel> folderList) {
 
             mItems = folderList;
-            mViewInflater = getLayoutInflater();
+            mInflater = getLayoutInflater();
         }
 
         @Override
@@ -190,13 +191,11 @@ public class ListProjectsActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            TextView v = (TextView) (convertView != null ? convertView : mViewInflater.inflate(android.R.layout.simple_list_item_1, null));
+            TextView view = (TextView) ViewUtil.prepareView(mInflater, android.R.layout.simple_list_item_1, convertView, parent);
 
-            ResearchProjectModel item = mItems.get(position);
+            view.setText(mItems.get(position).getTitle());
 
-            v.setText(item.getTitle());
-
-            return v;
+            return view;
         }
     }
 }

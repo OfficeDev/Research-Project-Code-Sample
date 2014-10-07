@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -440,11 +439,11 @@ public class EditReferenceActivity extends Activity {
     private class ProjectReferencesAdapter extends BaseAdapter {
 
         private final List<ResearchProjectModel> mItems;
-        private final LayoutInflater mInflator;
+        private final LayoutInflater mInflater;
 
         public ProjectReferencesAdapter(List<ResearchProjectModel> models) {
             mItems = models;
-            mInflator = getLayoutInflater();
+            mInflater = getLayoutInflater();
         }
 
         @Override
@@ -464,20 +463,18 @@ public class EditReferenceActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            TextView text = (TextView) ViewUtil.prepareView(mInflator, android.R.layout.simple_spinner_item, convertView, parent);
+            TextView text = (TextView) ViewUtil.prepareView(mInflater, android.R.layout.simple_spinner_item, convertView, parent);
 
-            ResearchProjectModel model = mItems.get(position);
-            text.setText(model.getTitle());
+            text.setText(mItems.get(position).getTitle());
 
             return text;
         }
 
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            TextView text = (TextView) ViewUtil.prepareView(mInflator, android.R.layout.simple_spinner_dropdown_item, convertView, parent);
+            TextView text = (TextView) ViewUtil.prepareView(mInflater, android.R.layout.simple_spinner_dropdown_item, convertView, parent);
 
-            ResearchProjectModel model = mItems.get(position);
-            text.setText(model.getTitle());
+            text.setText(mItems.get(position).getTitle());
 
             return text;
         }
