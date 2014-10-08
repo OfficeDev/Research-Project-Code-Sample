@@ -39,7 +39,7 @@
     
     self.navigationController.view.backgroundColor = nil;
     self.referenceUrlTxt.text = self.selectedReference.url;
-    self.referenceDescription.text = self.selectedReference.description;
+    self.referenceDescription.text = self.selectedReference.comments;
     self.referenceTitle.text = self.selectedReference.title;
 }
 - (void)didReceiveMemoryWarning
