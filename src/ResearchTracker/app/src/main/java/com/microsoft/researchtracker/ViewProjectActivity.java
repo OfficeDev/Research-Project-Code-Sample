@@ -208,14 +208,14 @@ public class ViewProjectActivity extends Activity {
                                 .makeGoBackDialog(
                                     ViewProjectActivity.this,
                                     R.string.dialog_generic_error_message,
-                                    R.string.activity_view_project_error_loading_project
-                                )
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    public void onDismiss(DialogInterface dialog) {
-                                        setResult(Activity.RESULT_CANCELED);
-                                        finish();
+                                    R.string.activity_view_project_error_loading_project,
+                                    new Runnable() {
+                                        public void run() {
+                                            setResult(Activity.RESULT_CANCELED);
+                                            finish();
+                                        }
                                     }
-                                })
+                                )
                                 .show();
 
                             return;
@@ -298,9 +298,9 @@ public class ViewProjectActivity extends Activity {
                             //Let the user know something went wrong
                             DialogUtil
                                 .makeContinueDialog(
-                                    ViewProjectActivity.this,
-                                    R.string.dialog_generic_error_title,
-                                    R.string.dialog_generic_error_message
+                                        ViewProjectActivity.this,
+                                        R.string.dialog_generic_error_title,
+                                        R.string.dialog_generic_error_message
                                 )
                                 .show();
 

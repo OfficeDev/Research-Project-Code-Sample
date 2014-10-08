@@ -193,16 +193,16 @@ public class ViewReferenceActivity extends Activity {
                             //Something went wrong - let the user know
                             DialogUtil
                                 .makeGoBackDialog(
-                                        ViewReferenceActivity.this,
-                                        R.string.dialog_generic_error_message,
-                                        R.string.activity_view_reference_error_loading_reference
-                                )
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    public void onDismiss(DialogInterface dialog) {
-                                        setResult(Activity.RESULT_CANCELED);
-                                        finish();
+                                    ViewReferenceActivity.this,
+                                    R.string.dialog_generic_error_message,
+                                    R.string.activity_view_reference_error_loading_reference,
+                                    new Runnable() {
+                                        public void run() {
+                                            setResult(Activity.RESULT_CANCELED);
+                                            finish();
+                                        }
                                     }
-                                })
+                                )
                                 .show();
 
                             return;

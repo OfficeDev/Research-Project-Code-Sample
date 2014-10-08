@@ -19,31 +19,31 @@ public class AuthUtil {
 
         authManager.refresh(new AuthCallback() {
             @Override
+            public void onSuccess() {
+                handler.onSuccess();
+            }
+
+            @Override
             public void onFailure(String errorDescription) {
                 handler.onFailure(errorDescription);
             }
 
             @Override
             public void onCancelled() {
-                //Not used
+                //This should never occur because authManager.refresh does not take any user input
                 Log.w(TAG, "AuthManager.refresh failed with onCancelled");
                 if (BuildConfig.DEBUG) {
                     throw new RuntimeException("Invalid operation: AuthManager failed with onCancelled");
                 }
-            }
-
-            @Override
-            public void onSuccess() {
-                handler.onSuccess();
             }
         });
     }
 
     public static interface AuthHandler {
 
-        void onFailure(String errorDescription);
-
         void onSuccess();
+
+        void onFailure(String errorDescription);
 
     }
 }

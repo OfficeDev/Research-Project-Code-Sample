@@ -144,14 +144,14 @@ public class EditProjectActivity extends Activity {
                                 .makeGoBackDialog(
                                     EditProjectActivity.this,
                                     R.string.dialog_generic_error_title,
-                                    R.string.dialog_generic_error_message
-                                )
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    public void onCancel(DialogInterface dialog) {
-                                        setResult(RESULT_CANCELED);
-                                        finish();
+                                    R.string.dialog_generic_error_message,
+                                    new Runnable() {
+                                        public void run() {
+                                            setResult(RESULT_CANCELED);
+                                            finish();
+                                        }
                                     }
-                                })
+                                )
                                 .show();
 
                             return;

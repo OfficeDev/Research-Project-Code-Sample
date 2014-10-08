@@ -40,14 +40,14 @@ public class ReceiveShareActivity extends Activity {
             DialogUtil
                 .makeGoBackDialog(this,
                     R.string.dialog_generic_error_title,
-                    R.string.dialog_share_error_not_supported_message
-                )
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    public void onDismiss(DialogInterface dialog) {
-                        setResult(RESULT_CANCELED);
-                        finish();
+                    R.string.dialog_share_error_not_supported_message,
+                    new Runnable() {
+                        public void run() {
+                            setResult(RESULT_CANCELED);
+                            finish();
+                        }
                     }
-                })
+                )
                 .show();
         }
     }

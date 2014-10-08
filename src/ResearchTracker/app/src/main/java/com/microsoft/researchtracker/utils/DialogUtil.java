@@ -2,6 +2,7 @@ package com.microsoft.researchtracker.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 
 import com.microsoft.researchtracker.R;
 
@@ -28,10 +29,17 @@ public class DialogUtil {
      * @param messageResource The message resource.
      * @return
      */
-    public static AlertDialog.Builder makeGoBackDialog(final Context context, final int titleResource, final int messageResource) {
+    public static AlertDialog.Builder makeGoBackDialog(final Context context, final int titleResource, final int messageResource, final Runnable onGoBackClicked) {
         return new AlertDialog.Builder(context)
                 .setTitle(titleResource)
                 .setMessage(messageResource)
-                .setNeutralButton(R.string.label_go_back, null);
+                .setCancelable(false)
+                .setNeutralButton(R.string.label_go_back, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (onGoBackClicked != null) {
+                            onGoBackClicked.run();
+                        }
+                    }
+                });
     }
 }
