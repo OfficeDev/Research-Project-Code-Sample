@@ -124,10 +124,9 @@ namespace SpResearchTracker.Controllers
                     Session["DiscoveryContext"] = _discoveryContext;
                 }
 
-                var discoverResult = await _discoveryContext.DiscoverCapabilityAsync("MyFiles");
                 string userObjectID = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
                 ClientCredential credential = new ClientCredential(clientId, appKey);
-                result = await _discoveryContext.AuthenticationContext.AcquireTokenSilentAsync(discoverResult.ServiceResourceId, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
+                result = await _discoveryContext.AuthenticationContext.AcquireTokenSilentAsync(resource, credential, new UserIdentifier(userObjectID, UserIdentifierType.UniqueId));
 
                 // Cache the access token and refresh token
                 SaveAccessTokenInCache(resource, result.AccessToken, (result.ExpiresOn.AddMinutes(-5)).ToString());
