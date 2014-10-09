@@ -10,6 +10,7 @@
 		3C88DE7E1958BB0E00D105A6 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C88DE781958BB0E00D105A6 /* file_app.xcdatamodeld */; };
 		D92FE07819E408E400FBD6F8 /* EditProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D92FE07719E408E400FBD6F8 /* EditProjectViewController.m */; };
 		D92FE08219E40AD400FBD6F8 /* EditReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D92FE08119E40AD400FBD6F8 /* EditReferenceViewController.m */; };
+		D9373EDF19E6CBA600B77673 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9DE4ED419D5B80C00CCDEC5 /* Images.xcassets */; };
 		D93D393419DC282B009ECCF6 /* ProjectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D393319DC282B009ECCF6 /* ProjectClient.m */; };
 		D93D393719DC7B96009ECCF6 /* ReferencesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */; };
 		D94CEC5F19D5C82300A52949 /* office365.png in Resources */ = {isa = PBXBuildFile; fileRef = D94CEC5E19D5C82300A52949 /* office365.png */; };
@@ -840,6 +841,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9373EDF19E6CBA600B77673 /* Images.xcassets in Resources */,
 				D96A5D3A19E563E400D2C5C4 /* IPAL_iPhone_Storyboard.storyboard in Resources */,
 				D96A5D3919E563E400D2C5C4 /* IPAL_iPad_Storyboard.storyboard in Resources */,
 				D96A5D3819E563E400D2C5C4 /* ADALiOSBundle-Info.plist in Resources */,
