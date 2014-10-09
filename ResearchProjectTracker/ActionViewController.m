@@ -82,14 +82,14 @@ ListItem* currentEntity;
             token = t;
             
             [self loadData];
-            
-            //[self.navigationController pushViewController:controller animated:YES];
         }
         else
         {
-            //NSString *errorMessage = [@"Login failed. Reason: " stringByAppendingString: e.description];
-            //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
-            //[alert show];
+            self.projectTable.hidden = true;
+            self.selectProjectLbl.hidden = true;
+            self.successMsg.hidden = false;
+            self.successMsg.text = @"Login from the Research Project Tracker App before adding a Reference";
+            self.successMsg.textColor = [UIColor redColor];
         }
     }];
 }
