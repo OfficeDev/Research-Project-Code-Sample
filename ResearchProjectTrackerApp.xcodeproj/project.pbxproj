@@ -26,8 +26,6 @@
 		D96A5D3F19E5641C00D2C5C4 /* file_app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D3D19E5641C00D2C5C4 /* file_app.xcdatamodeld */; };
 		D96A5D4219E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */; };
 		D96A5D4819E58D8600D2C5C4 /* ProjectClientEx.m in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D4519E58D8600D2C5C4 /* ProjectClientEx.m */; };
-		D96A5D4919E58D8600D2C5C4 /* Reference.m in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D4719E58D8600D2C5C4 /* Reference.m */; };
-		D98016FC19DD904A00588BD1 /* Reference.m in Sources */ = {isa = PBXBuildFile; fileRef = D98016FB19DD904A00588BD1 /* Reference.m */; };
 		D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */; };
 		D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */; };
 		D980170C19DDCE2F00588BD1 /* CreateReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */; };
@@ -271,10 +269,6 @@
 		D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTableExtensionViewCell.m; sourceTree = "<group>"; };
 		D96A5D4419E58D8600D2C5C4 /* ProjectClientEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectClientEx.h; sourceTree = "<group>"; };
 		D96A5D4519E58D8600D2C5C4 /* ProjectClientEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectClientEx.m; sourceTree = "<group>"; };
-		D96A5D4619E58D8600D2C5C4 /* Reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reference.h; sourceTree = "<group>"; };
-		D96A5D4719E58D8600D2C5C4 /* Reference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reference.m; sourceTree = "<group>"; };
-		D98016FA19DD904A00588BD1 /* Reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reference.h; path = client/Reference.h; sourceTree = SOURCE_ROOT; };
-		D98016FB19DD904A00588BD1 /* Reference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reference.m; path = client/Reference.m; sourceTree = SOURCE_ROOT; };
 		D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailsViewController.h; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailsViewController.m; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailTableCellTableViewCell.h; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -443,30 +437,54 @@
 		3CCE264C1959EC6100CBD116 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D9DE4EDD19D5B83900CCDEC5 /* ProjectTableViewCell.h */,
-				D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */,
+				D9373EDE19E6A82600B77673 /* Reference */,
+				D9373EDC19E6A7F100B77673 /* Project */,
+				D9373ED419E6A7E600B77673 /* Login */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		D9373ED419E6A7E600B77673 /* Login */ = {
+			isa = PBXGroup;
+			children = (
 				D9DE4EE019D5B83900CCDEC5 /* ViewController.h */,
 				D9DE4EE119D5B83900CCDEC5 /* ViewController.m */,
-				D9DE4EDC19D5B83900CCDEC5 /* ProjectTableViewController.h */,
-				D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		D9373EDC19E6A7F100B77673 /* Project */ = {
+			isa = PBXGroup;
+			children = (
 				D9DE4EDA19D5B83900CCDEC5 /* CreateViewController.h */,
 				D9DE4EDB19D5B83900CCDEC5 /* CreateViewController.m */,
 				D92FE07619E408E400FBD6F8 /* EditProjectViewController.h */,
 				D92FE07719E408E400FBD6F8 /* EditProjectViewController.m */,
 				D94CEC6719D5E9ED00A52949 /* ProjectDetailsViewController.h */,
 				D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */,
-				D93D393519DC7B96009ECCF6 /* ReferencesTableViewCell.h */,
-				D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */,
-				D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */,
-				D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */,
-				D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */,
-				D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */,
+				D9DE4EDD19D5B83900CCDEC5 /* ProjectTableViewCell.h */,
+				D9DE4EDE19D5B83900CCDEC5 /* ProjectTableViewCell.m */,
+				D9DE4EDC19D5B83900CCDEC5 /* ProjectTableViewController.h */,
+				D9DE4EDF19D5B83900CCDEC5 /* ProjectTableViewController.m */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
+		D9373EDE19E6A82600B77673 /* Reference */ = {
+			isa = PBXGroup;
+			children = (
 				D980170A19DDCE2F00588BD1 /* CreateReferenceViewController.h */,
 				D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */,
 				D92FE08019E40AD400FBD6F8 /* EditReferenceViewController.h */,
 				D92FE08119E40AD400FBD6F8 /* EditReferenceViewController.m */,
+				D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */,
+				D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */,
+				D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */,
+				D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */,
+				D93D393519DC7B96009ECCF6 /* ReferencesTableViewCell.h */,
+				D93D393619DC7B96009ECCF6 /* ReferencesTableViewCell.m */,
 			);
-			name = controllers;
+			name = Reference;
 			sourceTree = "<group>";
 		};
 		D93D392A19DC27FD009ECCF6 /* client */ = {
@@ -474,8 +492,6 @@
 			children = (
 				D93D393219DC282B009ECCF6 /* ProjectClient.h */,
 				D93D393319DC282B009ECCF6 /* ProjectClient.m */,
-				D98016FA19DD904A00588BD1 /* Reference.h */,
-				D98016FB19DD904A00588BD1 /* Reference.m */,
 			);
 			name = client;
 			sourceTree = "<group>";
@@ -498,8 +514,6 @@
 			children = (
 				D96A5D4419E58D8600D2C5C4 /* ProjectClientEx.h */,
 				D96A5D4519E58D8600D2C5C4 /* ProjectClientEx.m */,
-				D96A5D4619E58D8600D2C5C4 /* Reference.h */,
-				D96A5D4719E58D8600D2C5C4 /* Reference.m */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -842,7 +856,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9DE4EE319D5B83900CCDEC5 /* ProjectTableViewCell.m in Sources */,
-				D98016FC19DD904A00588BD1 /* Reference.m in Sources */,
 				D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */,
 				D9DE4ED619D5B80C00CCDEC5 /* AppDelegate.m in Sources */,
 				D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */,
@@ -873,7 +886,6 @@
 			files = (
 				D96A5D4819E58D8600D2C5C4 /* ProjectClientEx.m in Sources */,
 				D9FC857D19E55C9D00C3B15C /* ActionViewController.m in Sources */,
-				D96A5D4919E58D8600D2C5C4 /* Reference.m in Sources */,
 				D96A5D3F19E5641C00D2C5C4 /* file_app.xcdatamodeld in Sources */,
 				D96A5D4219E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m in Sources */,
 			);

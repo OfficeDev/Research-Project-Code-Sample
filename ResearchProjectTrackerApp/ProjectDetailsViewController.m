@@ -1,5 +1,4 @@
 #import "ProjectDetailsViewController.h"
-#import "Reference.h"
 #import "office365-base-sdk/OAuthentication.h"
 #import "ProjectClient.h"
 #import "ReferencesTableViewCell.h"
@@ -59,7 +58,7 @@
 -(void)getReferences:(UIActivityIndicatorView *) spinner{
     ProjectClient* client = [self getClient];
     
-    NSURLSessionTask* listReferencesTask = [client getProjectReferences:@"Research References" projectId:self.project.Id callback:^(NSMutableArray *listItems, NSError *error) {
+    NSURLSessionTask* listReferencesTask = [client getReferencesByProjectId:self.project.Id callback:^(NSMutableArray *listItems, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.references = [listItems copy];
                 [self.refencesTable reloadData];
@@ -98,9 +97,10 @@
     NSString* identifier = @"referencesListCell";
     ReferencesTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    Reference *item = [self.references objectAtIndex:indexPath.row];
-    cell.titleField.text = item.title;
-    cell.urlField.text = item.url;
+    ListItem *item = [self.references objectAtIndex:indexPath.row];
+    NSDictionary *dic =[item getData:@"URL"];
+    cell.titleField.text = [dic valueForKey:@"Description"];
+    cell.urlField.text = [dic valueForKey:@"Url"];
     
     return cell;
 }
@@ -117,6 +117,7 @@
 {
     if([segue.identifier isEqualToString:@"createReference"]){
         CreateReferenceViewController *controller = (CreateReferenceViewController *)segue.destinationViewController;
+        controller.project = self.project;
         controller.token = self.token;
     }else if([segue.identifier isEqualToString:@"referenceDetail"]){
         ReferenceDetailsViewController *controller = (ReferenceDetailsViewController *)segue.destinationViewController;

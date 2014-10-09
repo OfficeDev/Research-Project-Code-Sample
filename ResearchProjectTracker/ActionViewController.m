@@ -213,21 +213,21 @@ ListItem* currentEntity;
     
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
-    Reference* newReference = [[Reference alloc] init];
-    newReference.title = @"";
-    newReference.url = self.urlTxt.text;
-    newReference.comments = @"";
+    NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.urlTxt.text, @""];
+    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, @"", [NSString stringWithFormat:@"%@", currentEntity.Id]] forKeys:@[@"URL", @"Comments", @"Project"]];
+    
+    ListItem* newReference = [[ListItem alloc] initWithDictionary:dic];
     
     __weak ActionViewController *sself = self;
     
-    NSURLSessionTask* task =[[self getClient] addReference:@"Research References" item:newReference callback:^(BOOL success, NSError *error) {
-        [spinner stopAnimating];
+    NSURLSessionTask* task =[[self getClient] addReference:newReference callback:^(BOOL success, NSError *error) {
         if(error == nil){
             dispatch_async(dispatch_get_main_queue(), ^{
                 sself.projectTable.hidden = true;
                 sself.selectProjectLbl.hidden = true;
                 sself.successMsg.hidden = false;
                 sself.successMsg.text = [NSString stringWithFormat:@"Reference added successfully to the %@ Project.", [currentEntity getTitle]];
+                [spinner stopAnimating];
             });
         }
     }];

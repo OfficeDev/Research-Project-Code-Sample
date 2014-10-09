@@ -8,7 +8,6 @@
 
 #import "EditReferenceViewController.h"
 #import "ProjectClient.h"
-#import "Reference.h"
 #import "office365-base-sdk/OAuthentication.h"
 #import "ProjectDetailsViewController.h"
 
@@ -38,9 +37,18 @@
     self.navigationController.title = @"Edit Reference";
     
     self.navigationController.view.backgroundColor = nil;
-    self.referenceUrlTxt.text = self.selectedReference.url;
-    self.referenceDescription.text = self.selectedReference.comments;
-    self.referenceTitle.text = self.selectedReference.title;
+    
+    NSDictionary *dic =[self.selectedReference getData:@"URL"];
+    
+    self.referenceUrlTxt.text = [dic valueForKey:@"Url"];
+    
+    if(![[self.selectedReference getData:@"Comments"] isEqual:[NSNull null]]){
+        self.referenceDescription.text = [self.selectedReference getData:@"Comments"];
+    }else{
+        self.referenceDescription.text = @"";
+    }
+
+    self.referenceTitle.text = [dic valueForKey:@"Description"];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -61,9 +69,9 @@
         
         [spinner startAnimating];
         
-        self.selectedReference.title = self.referenceTitle.text;
-        self.selectedReference.comments = self.referenceDescription.text;
-        self.selectedReference.url = self.referenceUrlTxt.text;
+        //self.selectedReference.title = self.referenceTitle.text;
+        //self.selectedReference.comments = self.referenceDescription.text;
+        //self.selectedReference.url = self.referenceUrlTxt.text;
         
         ProjectClient* client = [self getClient];
         

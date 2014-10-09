@@ -8,7 +8,6 @@
 
 #import "CreateReferenceViewController.h"
 #import "ProjectClient.h"
-#import "Reference.h"
 #import "office365-base-sdk/OAuthentication.h"
 
 @interface CreateReferenceViewController ()
@@ -59,12 +58,12 @@
         
         ProjectClient* client = [self getClient];
         
-        Reference* newReference = [[Reference alloc] init];
-        newReference.title = @"";
-        newReference.url = self.referenceUrlTxt.text;
-        newReference.comments = self.referenceDescription.text;
+        NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.referenceUrlTxt.text, self.referenceTitle.text];
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, self.referenceDescription.text, [NSString stringWithFormat:@"%@", self.project.Id]] forKeys:@[@"URL", @"Comments", @"Project"]];
         
-        NSURLSessionTask* task = [client addReference:@"Research References" item:newReference callback:^(BOOL success, NSError *error) {
+        ListItem* newReference = [[ListItem alloc] initWithDictionary:dic];
+        
+        NSURLSessionTask* task = [client addReference:newReference callback:^(BOOL success, NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];

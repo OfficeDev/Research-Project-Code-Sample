@@ -7,7 +7,6 @@
 //
 
 #import "ProjectClient.h"
-#import "Reference.h"
 #import "office365-base-sdk/HttpConnection.h"
 #import "office365-base-sdk/Constants.h"
 #import "office365-base-sdk/NSString+NSStringExtensions.h"
@@ -16,9 +15,9 @@
 
 const NSString *apiUrl = @"/_api/lists";
 
-- (NSURLSessionDataTask *)addProject:(NSString *)name item:(ListItem *)listItem callback:(void (^)(BOOL, NSError *))callback
+- (NSURLSessionDataTask *)addProject:(ListItem *)listItem callback:(void (^)(BOOL, NSError *))callback
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [name urlencode]];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [@"Research Projects" urlencode]];
     
     NSString *json = [[NSString alloc] init];
     json = @"{ 'Title': '%@'}}";
@@ -95,14 +94,14 @@ const NSString *apiUrl = @"/_api/lists";
     return 0;
 }
 
-- (NSURLSessionDataTask *)updateReference:(NSString *)name item:(Reference *)reference callback:(void (^)(BOOL, NSError *))callback
+- (NSURLSessionDataTask *)updateReference:(NSString *)name item:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback
 {
     NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [name urlencode], reference.Id];
     
     NSString *json = [[NSString alloc] init];
     json = @"{ 'URL': {'Url':'%@'}}";
     
-    NSString *formatedJson = [NSString stringWithFormat:json, reference.url];
+    NSString *formatedJson = [NSString stringWithFormat:json, [reference getData:@"URL"]];
     
     NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
     
@@ -156,14 +155,14 @@ const NSString *apiUrl = @"/_api/lists";
     return 0;
 }
 
-- (NSURLSessionDataTask *)addReference:(NSString *)name item:(Reference *)reference callback:(void (^)(BOOL, NSError *))callback
+- (NSURLSessionDataTask *)addReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [name urlencode]];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items", self.Url , apiUrl, [@"Research References" urlencode]];
     
     NSString *json = [[NSString alloc] init];
-    json = @"{ 'URL': {'Url':'%@'}}";
+    json = @"{ 'URL': %@, 'Comments':'%@', 'Project':'%@'}";
     
-    NSString *formatedJson = [NSString stringWithFormat:json, reference.url, reference.description];
+    NSString *formatedJson = [NSString stringWithFormat:json, [reference getData:@"URL"], [reference getData:@"Comments"], [reference getData:@"Project"]];
     
     NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
     
@@ -186,19 +185,23 @@ const NSString *apiUrl = @"/_api/lists";
 }
 
 
-- (NSURLSessionDataTask *)getProjectReferences:(NSString *)name projectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback{
-    NSString *queryString = [NSString stringWithFormat:@"filter=Project eq '%@'", projectId];
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items?%@", self.Url , apiUrl, [name urlencode], [queryString urlencode]];
+- (NSURLSessionDataTask *)getReferencesByProjectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback{
+    NSString *queryString = [NSString stringWithFormat:@"Project eq '%@'", projectId];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items?$filter=%@", self.Url , apiUrl, [@"Research References" urlencode], [queryString urlencode]];
     HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential url:url];
     
     NSString *method = (NSString*)[[Constants alloc] init].Method_Get;
     
     return [connection execute:method callback:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
+                                                                   options: NSJSONReadingMutableContainers
+                                                                     error:nil];
+        
         NSMutableArray *array = [NSMutableArray array];
         
         NSMutableArray *listsItemsArray =[self parseDataArray: data];
         for (NSDictionary* value in listsItemsArray) {
-            [array addObject: [[Reference alloc] initWithDictionary:value]];
+            [array addObject: [[ListItem alloc] initWithDictionary:value]];
         }
         
         callback(array ,error);

@@ -29,7 +29,7 @@
         NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.FileNameTxt.text] forKeys:@[@"_metadata",@"Title"]];
         [newProject initWithDictionary:dic];
         
-        NSURLSessionTask* task = [client addProject:@"Research Projects" item:newProject callback:^(BOOL success, NSError *error) {
+        NSURLSessionTask* task = [client addProject:newProject callback:^(BOOL success, NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
