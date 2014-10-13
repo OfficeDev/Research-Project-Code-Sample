@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.microsoft.aad.adal.AuthenticationCallback;
@@ -19,95 +18,58 @@ import com.microsoft.aad.adal.AuthenticationResult;
 import com.microsoft.aad.adal.AuthenticationResult.AuthenticationStatus;
 import com.microsoft.aad.adal.PromptBehavior;
 import com.microsoft.researchtracker.Constants;
-import com.microsoft.researchtracker.R;
 import com.microsoft.researchtracker.App;
 import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 public class AuthManager {
 
     private static final String TAG = "AuthManager";
-    private static final String PREFS_HAS_CACHED_CREDENTIALS = "has_cached_creds";
+    public static final String LAST_USER_ID_KEY = "user_id";
 
-    private App mApplication;
     private AuthenticationContext mAuthContext;
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mPrefs;
 
-    private AuthToken mCachedAuthToken;
+    private AuthenticationResult mCachedAuthResult;
     private boolean mAuthInProgress;
 
 
     public AuthManager(App application) throws NoSuchAlgorithmException, NoSuchPaddingException {
-        mApplication = application;
+        //AAD_AUTHORITY is in the form of "https://login.windows.net/yourtenant.onmicrosoft.com"
         mAuthContext = new AuthenticationContext(application, Constants.AAD_AUTHORITY, false);
-        mSharedPreferences = application.getSharedPreferences("authmanager_prefs", Context.MODE_PRIVATE);
-    }
-
-    private AuthToken getAuthToken() {
-        if (mCachedAuthToken == null) {
-            mCachedAuthToken = new AuthToken();
-            mCachedAuthToken.readFrom(mSharedPreferences);
-        }
-        return mCachedAuthToken;
+        mPrefs = application.getSharedPreferences("login_prefs", Context.MODE_PRIVATE);
     }
 
     public OAuthCredentials getOAuthCredentials() {
-        AuthToken authToken = getAuthToken();
-        if (!authToken.isValid()) {
+
+        if (!isCachedAuthResultValid()) {
             //Must call authenticate, forceAuthenticate or refresh before invoking this method
             throw new RuntimeException("Auth token is not valid");
         }
 
-        return new OAuthCredentials(authToken.getAccessToken());
+        return new OAuthCredentials(mCachedAuthResult.getAccessToken());
     }
 
-    private void updateAuthToken(AuthToken token) {
-        assert token != null;
-        mCachedAuthToken = token;
-        mCachedAuthToken.writeTo(mSharedPreferences);
-        mSharedPreferences
-                .edit()
-                .putBoolean(PREFS_HAS_CACHED_CREDENTIALS, mCachedAuthToken.isValid())
-                .apply();
+    private boolean isCachedAuthResultValid() {
+        return mCachedAuthResult != null && !mCachedAuthResult.isExpired();
     }
 
-    public boolean getAuthenticationInProgress() {
-        return mAuthInProgress;
+    private void updateCachedAuthResult(AuthenticationResult result) {
+        mCachedAuthResult = result;
+        String userId = isCachedAuthResultValid() ?  result.getUserInfo().getUserId() : null;
+        mPrefs.edit().putString(LAST_USER_ID_KEY, userId).apply();
     }
 
     public boolean hasCachedCredentials() {
-        return mSharedPreferences.getBoolean(PREFS_HAS_CACHED_CREDENTIALS, false);
+        return mPrefs.getString(LAST_USER_ID_KEY, null) != null;
+    }
+
+    public boolean isAuthenticationInProgress() {
+        return mAuthInProgress;
     }
 
     public void clearAuthTokenAndCachedCredentials() {
+        updateCachedAuthResult(null);
         mAuthContext.getCache().removeAll();
-        updateAuthToken(new AuthToken());
-    }
-
-    /**
-     * Attempts to retrieve a new auth token.
-     *
-     * Note: must be called from the UI thread.
-     *
-     * @param currentActivity
-     * @param handler
-     */
-    public void forceAuthenticate(final Activity currentActivity, final AuthCallback handler) {
-
-        assert currentActivity != null;
-        assert handler != null;
-
-        mAuthInProgress = true;
-
-        //No refresh tokens - ask the user to authenticate directly
-        mAuthContext.acquireToken(currentActivity,
-            /* Resource         */ Constants.AAD_RESOURCE_ID,
-            /* Client Id        */ Constants.AAD_CLIENT_ID,
-            /* Redirect Uri     */ Constants.AAD_REDIRECT_URL,
-            /* Login Hint       */ Constants.AAD_LOGIN_HINT,
-            /* Prompt Behaviour */ PromptBehavior.Auto,
-            /* Extra            */ null,
-                createAuthCallback(handler)
-        );
     }
 
     /**
@@ -119,14 +81,12 @@ public class AuthManager {
      * @param currentActivity
      * @param handler
      */
-    public void authenticate(final Activity currentActivity, final AuthCallback handler) {
+    public void forceAuthenticate(final Activity currentActivity, final AuthCallback handler) {
 
         assert currentActivity != null;
         assert handler != null;
 
-        final AuthToken token = getAuthToken();
-
-        if (token.isValid()) {
+        if (isCachedAuthResultValid()) {
             //Already authenticated...
             handler.onSuccess();
             return;
@@ -134,28 +94,16 @@ public class AuthManager {
 
         mAuthInProgress = true;
 
-        //Try and refresh using a refresh token
-        final String refreshToken = token.getRefreshToken();
-
-        //Do we have a refresh token?
-        if (!TextUtils.isEmpty(refreshToken)) {
-            mAuthContext.acquireTokenByRefreshToken(
-                /* Refresh token */ refreshToken,
-                /* Client Id     */ Constants.AAD_CLIENT_ID,
-                    createAuthCallback(new CallbackWrapper(handler) {
-                        @Override public void onFailure(String errorDescription) {
-
-                            //something went wrong refreshing the token - fall back to forceAuthenticate
-                            Log.e(TAG, "Error refreshing token: " + errorDescription);
-
-                            forceAuthenticate(currentActivity, handler);
-                        }
-                    })
-            );
-            return;
-        }
-
-        forceAuthenticate(currentActivity, handler);
+        //Asks the user to authenticate directly only if it cannot acquire a refresh token
+        mAuthContext.acquireToken(currentActivity,
+            /* Resource         */ Constants.AAD_RESOURCE_ID,
+            /* Client Id        */ Constants.AAD_CLIENT_ID,
+            /* Redirect Uri     */ Constants.AAD_REDIRECT_URL,
+            /* Login Hint       */ null,
+            /* Prompt Behaviour */ PromptBehavior.Always,
+            /* Extra            */ null,
+                createAuthCallback(handler)
+        );
     }
 
     /**
@@ -163,32 +111,22 @@ public class AuthManager {
      *
      * @param handler
      */
-    public void refresh(final AuthCallback handler) {
+    public void authenticateSilently(final AuthCallback handler) {
 
         assert handler != null;
 
-        final AuthToken token = getAuthToken();
-        String refreshToken = token.getRefreshToken();
-
-        if (refreshToken == null) {
-            handler.onFailure(mApplication.getString(R.string.auth_manager_error_no_refresh_token));
-            return;
-        }
-
-        if (token.isValid()) {
+        if (isCachedAuthResultValid()) {
             //Already authenticated...
             handler.onSuccess();
             return;
         }
 
-        mAuthInProgress = true;
-
-        AuthenticationCallback<AuthenticationResult> callback = createAuthCallback(handler);
-
-        mAuthContext.acquireTokenByRefreshToken(
-            /* Refresh token */ refreshToken,
-            /* Client Id     */ Constants.AAD_CLIENT_ID,
-                callback
+        //Will not prompt the user if it cannot acquire a token
+        mAuthContext.acquireTokenSilent(
+            /* Resource  */ Constants.AAD_RESOURCE_ID,
+            /* Client Id */ Constants.AAD_CLIENT_ID,
+            /* User Id   */ mPrefs.getString(LAST_USER_ID_KEY, null),
+                createAuthCallback(handler)
         );
     }
 
@@ -200,7 +138,7 @@ public class AuthManager {
                 final AuthenticationStatus status = authResult.getStatus();
                 if (status == AuthenticationStatus.Succeeded) {
                     // create a credentials instance using the token from ADAL
-                    updateAuthToken(new AuthToken(authResult));
+                    updateCachedAuthResult(authResult);
                     handler.onSuccess();
                 }
                 else if (status == AuthenticationStatus.Failed) {
@@ -230,82 +168,6 @@ public class AuthManager {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mAuthContext.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private class AuthToken {
-
-        private static final String PREFS_REFRESH_TOKEN = "refreshToken";
-        private static final String PREFS_ACCESS_TOKEN = "accessToken";
-        private static final String PREFS_EXPIRES_ON = "expiresOn";
-
-        private String mAccessToken;
-        private Date mExpiresOn;
-
-        private String mRefreshToken;
-
-        public AuthToken() {
-
-        }
-
-        public AuthToken(AuthenticationResult source) {
-            mAccessToken = source.getAccessToken();
-            mRefreshToken = source.getRefreshToken();
-            mExpiresOn = source.getExpiresOn();
-        }
-
-        public String getAccessToken() {
-            return mAccessToken;
-        }
-
-        public String getRefreshToken() {
-            return mRefreshToken;
-        }
-
-        public boolean isValid() {
-            return mExpiresOn != null && mExpiresOn.after(new Date());
-        }
-
-        //TODO: currently we're storing the refresh token in SharedPreferences in plaintext.
-        //Ideally this would be updated to use the android AccountManager API or some other
-        //encrypted storage mechanism
-
-        public void readFrom(SharedPreferences prefs) {
-            mRefreshToken = prefs.getString(PREFS_REFRESH_TOKEN, null);
-            mAccessToken = prefs.getString(PREFS_ACCESS_TOKEN , null);
-            long ms = prefs.getLong(PREFS_EXPIRES_ON, 0);
-            if (ms > 0) {
-                mExpiresOn = new Date(ms);
-            }
-        }
-
-        public void writeTo(SharedPreferences prefs) {
-            prefs
-                .edit()
-                .putString(PREFS_REFRESH_TOKEN, mRefreshToken)
-                .putString(PREFS_ACCESS_TOKEN, mAccessToken)
-                .putLong(PREFS_EXPIRES_ON, mExpiresOn == null ? 0 : mExpiresOn.getTime())
-                .apply();
-        }
-    }
-
-    private class CallbackWrapper implements AuthCallback {
-        private final AuthCallback mInner;
-
-        public CallbackWrapper(AuthCallback handler) {
-            mInner = handler;
-        }
-
-        @Override public void onFailure(String errorDescription) {
-            mInner.onFailure(errorDescription);
-        }
-
-        @Override public void onCancelled() {
-            mInner.onCancelled();
-        }
-
-        @Override public void onSuccess() {
-            mInner.onSuccess();
-        }
     }
 }
 

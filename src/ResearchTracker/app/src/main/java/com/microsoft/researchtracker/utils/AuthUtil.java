@@ -17,7 +17,7 @@ public class AuthUtil {
         final App application = (App) activity.getApplication();
         final AuthManager authManager = application.getAuthManager();
 
-        authManager.refresh(new AuthCallback() {
+        authManager.authenticateSilently(new AuthCallback() {
             @Override
             public void onSuccess() {
                 handler.onSuccess();

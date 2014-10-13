@@ -14,7 +14,6 @@ public final class Constants {
 
     public static final String AAD_DOMAIN = "foxintergen.onmicrosoft.com";
     public static final String AAD_CLIENT_ID = "13b04d26-95fc-4fb4-a67e-c850e07822a8";
-    public static final String AAD_LOGIN_HINT = "user@" + AAD_DOMAIN;
     public static final String AAD_AUTHORITY = "https://login.windows.net/common"; //"https://login.windows.net/" + AAD_DOMAIN;
     public static final String AAD_REDIRECT_URL = "http://android/complete";
 

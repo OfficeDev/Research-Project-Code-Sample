@@ -45,8 +45,9 @@
     <string name="dialog_share_error_title">Whoops!</string>
     <string name="dialog_share_error_not_supported_message">We don\'t support sharing that kind of data.</string>
 
-    <string name="activity_login_sign_in_complete">Signed in</string>
     <string name="activity_login_title">Research Tracker</string>
+    <string name="activity_login_sign_in_complete">Signed in</string>
+    <string name="activity_login_already_signed_in">Already signed in</string>
 
     <string name="activity_list_projects_title">Projects</string>
     <string name="activity_list_projects_error_loading_projects">There was an error while retrieving your projects</string>

@@ -42,4 +42,19 @@ public class DialogUtil {
                     }
                 });
     }
+
+    public static AlertDialog.Builder makeRetryDialog(final Context context, final int titleResource, final int messageResource, final Runnable onRetryClicked) {
+        return new AlertDialog.Builder(context)
+                .setTitle(titleResource)
+                .setMessage(messageResource)
+                .setCancelable(false)
+                .setNegativeButton(R.string.action_cancel, null)
+                .setPositiveButton(R.string.label_retry, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (onRetryClicked != null) {
+                            onRetryClicked.run();
+                        }
+                    }
+                });
+    }
 }

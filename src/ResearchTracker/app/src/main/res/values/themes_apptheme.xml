@@ -25,5 +25,13 @@
     <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
 
   </style>
+1
+  <style name="SplashTheme" parent="@style/AppTheme">
+
+    <item name="android:windowBackground">@color/apptheme_color_dark</item>
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+
+  </style>
 
 </resources>
