@@ -82,19 +82,27 @@
         ProjectClient* client = [self getClient];
         
         NSURLSessionTask* task = [client updateReference:editedReference callback:^(BOOL result, NSError *error) {
-            if(error == nil){
+            if(error == nil && result){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
                     ProjectDetailsViewController *View = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
                     [self.navigationController popToViewController:View animated:YES];
                 });
             }else{
-                NSString *errorMessage = [@"Update Project failed. Reason: " stringByAppendingString: error.description];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Retry" otherButtonTitles:@"Cancel", nil];
-                [alert show];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [spinner stopAnimating];
+                    NSString *errorMessage = (error) ? [@"Update Reference failed. Reason: " stringByAppendingString: error.description] : @"Invalid Url";
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                });
             }
         }];
         [task resume];
+    }else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Complete all fields" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        });
     }
 }
 

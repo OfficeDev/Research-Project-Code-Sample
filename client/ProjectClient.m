@@ -41,7 +41,6 @@ const NSString *apiUrl = @"/_api/lists";
         
         callback(list, error);
     }];
-    return 0;
 }
 
 - (NSURLSessionDataTask *)updateProject:(ListItem *)project callback:(void (^)(BOOL, NSError *))callback
@@ -76,8 +75,7 @@ const NSString *apiUrl = @"/_api/lists";
                                                                  error:nil];
     NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    ListEntity *list;
-    callback(list, error);
+    callback((!jsonResult && [myString isEqualToString:@""]), error);
 
     return 0;
 }
@@ -118,8 +116,7 @@ const NSString *apiUrl = @"/_api/lists";
                                                                  error:nil];
     NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    ListEntity *list;
-    callback(list, error);
+    callback((!jsonResult && [myString isEqualToString:@""]), error);
     
     return 0;
 }
@@ -150,7 +147,6 @@ const NSString *apiUrl = @"/_api/lists";
         
         callback(list, error);
     }];
-    return 0;
 }
 
 
