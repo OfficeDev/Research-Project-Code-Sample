@@ -23,6 +23,12 @@ namespace OutlookResearchTrackerWeb.Controllers
             _repository = repository;
         }
 
+        [HttpGet]
+        public ActionResult QuickLoad()
+        {
+            return View();
+        }
+
         /// <summary>
         /// This action is called when the App is first loaded.
         /// It initiates the process of getting an access token for SharePoint.

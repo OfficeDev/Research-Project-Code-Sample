@@ -16,7 +16,7 @@
     <Capability Name="Mailbox" />
   </Capabilities>
   <DesktopSettings>
-    <SourceLocation DefaultValue="~remoteAppUrl/Home" />
+    <SourceLocation DefaultValue="~remoteAppUrl/Home/QuickLoad" />
     <RequestedHeight>450</RequestedHeight>
   </DesktopSettings>
   <Permissions>ReadItem</Permissions>

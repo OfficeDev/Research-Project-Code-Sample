@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "QuickLoad";
+}
+
+<h2>Loading...</h2>
+
+@section scripts {
+    <script>
+
+        (function () {
+            "use strict";
+            Office.initialize = function (reason) {
+
+                (function () {
+                    "use strict";
+
+                    jQuery(function () {
+
+                        window.location.replace(window.location.protocol + "//" + window.location.host + "/Home");
+
+                    });
+
+                }());
+
+            };
+
+        }());
+
+    </script>
+}
