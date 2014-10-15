@@ -30,15 +30,19 @@
         
         [spinner startAnimating];
         
-        [self.project setValue:self.ProjectNameTxt.text forKey:@"Title"];
+        ListItem* editedProject = [[ListItem alloc] init];
+        
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.ProjectNameTxt.text, self.project.Id] forKeys:@[@"_metadata",@"Title",@"Id"]];
+        [editedProject initWithDictionary:dic];
         
         ProjectClient* client = [self getClient];
         
-        NSURLSessionTask* task = [client updateProject:@"Research Projects" item:self.project callback:^(BOOL result, NSError *error) {
+        NSURLSessionTask* task = [client updateProject:editedProject callback:^(BOOL result, NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    ProjectTableViewController *View = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+                    [self.navigationController popToViewController:View animated:YES];
                 });
             }else{
                 NSString *errorMessage = [@"Update Project failed. Reason: " stringByAppendingString: error.description];
@@ -47,6 +51,7 @@
             }
         }];
         [task resume];
+        
     }
 }
 

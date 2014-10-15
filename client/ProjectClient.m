@@ -33,10 +33,10 @@ const NSString *apiUrl = @"/_api/lists";
     NSString *method = (NSString*)[[Constants alloc] init].Method_Post;
     
     return [connection execute:method callback:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-        ListEntity *list;
+        ListItem *list;
         
         if(error == nil){
-            list = [[ListEntity alloc] initWithJson:data];
+            list = [[ListItem alloc] initWithJson:data];
         }
         
         callback(list, error);
@@ -44,77 +44,25 @@ const NSString *apiUrl = @"/_api/lists";
     return 0;
 }
 
-- (NSURLSessionDataTask *)updateProject:(NSString *)name item:(ListItem *)listItem callback:(void (^)(BOOL, NSError *))callback
+- (NSURLSessionDataTask *)updateProject:(ListItem *)project callback:(void (^)(BOOL, NSError *))callback
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [name urlencode], listItem.Id];
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [@"Research Projects" urlencode], project.Id];
     
     NSString *json = [[NSString alloc] init];
-    json = @"{ 'Title': '%@'}}";
+    json = @"{ 'Title': '%@'}";
     
-    NSString *formatedJson = [NSString stringWithFormat:json, [listItem getTitle]];
+    NSString *formatedJson = [NSString stringWithFormat:json, [project getTitle]];
     
     NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
     
     NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     [theRequest setHTTPMethod:@"POST"];
-    [theRequest setValue:@"json" forHTTPHeaderField:@"Content-Type"];
-    [theRequest setValue:@"MERGE" forHTTPHeaderField:@"X-HTTP-Method"];
-    
-    
-    NSURLResponse * response = nil;
-    NSError * error = nil;
-    NSData * data = [NSURLConnection sendSynchronousRequest:theRequest
-                                          returningResponse:&response
-                                                      error:&error];
-    
-    ListEntity *list;
-    callback(list, error);
-
-    
-    /*HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential
-                                                                         url:url
-                                                                   bodyArray: jsonData];
-    
-    NSString *method = (NSString*)[[Constants alloc] init].Method_Post;
-    
-    return [connection execute:method callback:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options: NSJSONReadingMutableContainers
-                                                                     error:nil];
-        
-        ListEntity *list;
-        
-        if(error == nil){
-            list = [[ListEntity alloc] initWithJson:data];
-        }
-        
-        callback(list, error);
-    }];*/
-    return 0;
-}
-
-- (NSURLSessionDataTask *)updateReference:(NSString *)name item:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback
-{
-    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [name urlencode], reference.Id];
-    
-    NSString *json = [[NSString alloc] init];
-    json = @"{ 'URL': {'Url':'%@'}}";
-    
-    NSString *formatedJson = [NSString stringWithFormat:json, [reference getData:@"URL"]];
-    
-    NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
-    
-    //HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential
-                                                                         //url:url
-                                                                   //bodyArray: jsonData];
-    
-    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [theRequest setHTTPMethod:@"POST"];
-    [theRequest setValue:@"application/json;odata=verbose" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [theRequest setValue:@"MERGE" forHTTPHeaderField:@"X-HTTP-Method"];
     [theRequest setValue:@"*" forHTTPHeaderField:@"IF-MATCH"];
+    [theRequest setHTTPBody:jsonData];
+    [self.Credential prepareRequest:theRequest];
     
     
     NSURLResponse * response = nil;
@@ -126,32 +74,53 @@ const NSString *apiUrl = @"/_api/lists";
     NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
                                                                options: NSJSONReadingMutableContainers
                                                                  error:nil];
+    NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
+    ListEntity *list;
+    callback(list, error);
+
+    return 0;
+}
+
+- (NSURLSessionDataTask *)updateReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items(%@)", self.Url , apiUrl, [@"Research References" urlencode], reference.Id];
+    
+    NSString *json = [[NSString alloc] init];
+    json = @"{ 'Comments': '%@', 'URL':{'Url':'%@', 'Description':'%@'}}";
+    
+    NSDictionary *dic =[reference getData:@"URL"];
+    NSString *refUrl = [dic valueForKey:@"Url"];
+    NSString *refTitle = [dic valueForKey:@"Description"];
+    
+    NSString *formatedJson = [NSString stringWithFormat:json, [reference getData:@"Comments"], refUrl, refTitle];
+    
+    NSData *jsonData = [formatedJson dataUsingEncoding: NSUTF8StringEncoding];
+    
+    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    [theRequest setHTTPMethod:@"POST"];
+    [theRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setValue:@"MERGE" forHTTPHeaderField:@"X-HTTP-Method"];
+    [theRequest setValue:@"*" forHTTPHeaderField:@"IF-MATCH"];
+    [theRequest setHTTPBody:jsonData];
+    [self.Credential prepareRequest:theRequest];
+    
+    
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:theRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
+                                                               options: NSJSONReadingMutableContainers
+                                                                 error:nil];
     NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     ListEntity *list;
     callback(list, error);
     
-    
-    /*NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-    
-    //NSString *method = (NSString*)[[Constants alloc] init].Method_Post;
-    
-    theConnection
-    
-    return [connection execute:method callback:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options: NSJSONReadingMutableContainers
-                                                                     error:nil];
-        
-        ListEntity *list;
-        
-        if(error == nil){
-            list = [[ListEntity alloc] initWithJson:data];
-        }
-        
-        callback(list, error);
-    }];*/
     return 0;
 }
 

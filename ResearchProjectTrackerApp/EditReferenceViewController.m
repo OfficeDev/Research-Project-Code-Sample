@@ -69,17 +69,24 @@
         
         [spinner startAnimating];
         
-        //self.selectedReference.title = self.referenceTitle.text;
-        //self.selectedReference.comments = self.referenceDescription.text;
-        //self.selectedReference.url = self.referenceUrlTxt.text;
         
+        ListItem* editedReference = [[ListItem alloc] init];
+        
+        NSDictionary* urlDic = [NSDictionary dictionaryWithObjects:@[self.referenceUrlTxt.text, self.referenceTitle.text] forKeys:@[@"Url",@"Description"]];
+        
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[urlDic, self.referenceDescription.text, [self.selectedReference getData:@"Project"], self.selectedReference.Id] forKeys:@[@"URL",@"Comments",@"Project",@"Id"]];
+        
+        [editedReference initWithDictionary:dic];
+        
+
         ProjectClient* client = [self getClient];
         
-        NSURLSessionTask* task = [client updateReference:@"Research References" item:self.selectedReference callback:^(BOOL result, NSError *error) {
+        NSURLSessionTask* task = [client updateReference:editedReference callback:^(BOOL result, NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    ProjectDetailsViewController *View = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3];
+                    [self.navigationController popToViewController:View animated:YES];
                 });
             }else{
                 NSString *errorMessage = [@"Update Project failed. Reason: " stringByAppendingString: error.description];
