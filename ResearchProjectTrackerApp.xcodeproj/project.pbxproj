@@ -61,13 +61,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3CC805E31958BA4D00E9590E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3CC805C11958BA4D00E9590E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3CC805C81958BA4D00E9590E;
-			remoteInfo = "file-app";
-		};
 		D9DE4EFF19D5B9F900CCDEC5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D9DE4EF819D5B9F900CCDEC5 /* ADALiOS.xcodeproj */;
@@ -248,7 +241,6 @@
 /* Begin PBXFileReference section */
 		3C88DE791958BB0E00D105A6 /* file_app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = file_app.xcdatamodel; sourceTree = "<group>"; };
 		3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResearchProjectTrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchProjectTrackerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D92FE07619E408E400FBD6F8 /* EditProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditProjectViewController.h; path = ResearchProjectTrackerApp/EditProjectViewController.h; sourceTree = SOURCE_ROOT; };
 		D92FE07719E408E400FBD6F8 /* EditProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditProjectViewController.m; path = ResearchProjectTrackerApp/EditProjectViewController.m; sourceTree = SOURCE_ROOT; };
 		D92FE08019E40AD400FBD6F8 /* EditReferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditReferenceViewController.h; path = ResearchProjectTrackerApp/EditReferenceViewController.h; sourceTree = SOURCE_ROOT; };
@@ -330,13 +322,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3CC805DF1958BA4D00E9590E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D9FC857419E55C9D00C3B15C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,7 +383,6 @@
 			isa = PBXGroup;
 			children = (
 				3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */,
-				3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */,
 				D9FC857719E55C9D00C3B15C /* ResearchProjectTracker.appex */,
 			);
 			name = Products;
@@ -624,24 +608,6 @@
 			productReference = 3CC805C91958BA4D00E9590E /* ResearchProjectTrackerApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3CC805E11958BA4D00E9590E /* ResearchProjectTrackerAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3CC805EF1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerAppTests" */;
-			buildPhases = (
-				3CC805DE1958BA4D00E9590E /* Sources */,
-				3CC805DF1958BA4D00E9590E /* Frameworks */,
-				3CC805E01958BA4D00E9590E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3CC805E41958BA4D00E9590E /* PBXTargetDependency */,
-			);
-			name = ResearchProjectTrackerAppTests;
-			productName = "file-appTests";
-			productReference = 3CC805E21958BA4D00E9590E /* ResearchProjectTrackerAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		D9FC857619E55C9D00C3B15C /* ResearchProjectTracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9FC858E19E55C9D00C3B15C /* Build configuration list for PBXNativeTarget "ResearchProjectTracker" */;
@@ -675,10 +641,6 @@
 				TargetAttributes = {
 					3CC805C81958BA4D00E9590E = {
 						CreatedOnToolsVersion = 6.0;
-					};
-					3CC805E11958BA4D00E9590E = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 3CC805C81958BA4D00E9590E;
 					};
 					D9FC857619E55C9D00C3B15C = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -721,7 +683,6 @@
 			projectRoot = "";
 			targets = (
 				3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */,
-				3CC805E11958BA4D00E9590E /* ResearchProjectTrackerAppTests */,
 				D9FC857619E55C9D00C3B15C /* ResearchProjectTracker */,
 			);
 		};
@@ -830,13 +791,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3CC805E01958BA4D00E9590E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D9FC857519E55C9D00C3B15C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -875,13 +829,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3CC805DE1958BA4D00E9590E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D9FC857319E55C9D00C3B15C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -896,11 +843,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3CC805E41958BA4D00E9590E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */;
-			targetProxy = 3CC805E31958BA4D00E9590E /* PBXContainerItemProxy */;
-		};
 		D9DE4F3319D5BA6D00CCDEC5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "office365-base-sdk";
@@ -1093,58 +1035,6 @@
 			};
 			name = Release;
 		};
-		3CC805F01958BA4D00E9590E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/file-app.app/file-app";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "file-appTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Office365-gdhsdeljuyoldrfikcbcrpthjmzp/Build/Products/Debug-iphoneos",
-					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-files-sdk/build/Debug-iphoneos",
-					"/Users/gustavo/Documents/azure-activedirectory-library-for-ios/ADALiOS/build/Debug-iphoneos",
-					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-base-sdk/build/Debug-iphoneos",
-				);
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = ResearchProjectTrackerAppTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		3CC805F11958BA4D00E9590E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/file-app.app/file-app";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "file-appTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Office365-gdhsdeljuyoldrfikcbcrpthjmzp/Build/Products/Debug-iphoneos",
-					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-files-sdk/build/Debug-iphoneos",
-					"/Users/gustavo/Documents/azure-activedirectory-library-for-ios/ADALiOS/build/Debug-iphoneos",
-					"/Users/gustavo/Documents/MSOpenTech/Sdk-ObjectiveC/office365-base-sdk/build/Debug-iphoneos",
-				);
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = ResearchProjectTrackerAppTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Release;
-		};
 		D9FC858519E55C9D00C3B15C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1192,15 +1082,6 @@
 			buildConfigurations = (
 				3CC805ED1958BA4D00E9590E /* Debug */,
 				3CC805EE1958BA4D00E9590E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3CC805EF1958BA4D00E9590E /* Build configuration list for PBXNativeTarget "ResearchProjectTrackerAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3CC805F01958BA4D00E9590E /* Debug */,
-				3CC805F11958BA4D00E9590E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
