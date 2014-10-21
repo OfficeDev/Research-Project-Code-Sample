@@ -10,11 +10,13 @@ namespace WordResearchTrackerWeb
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/DataTables-1.10.0/jquery.dataTables.js",
                         "~/Scripts/DataTables-1.10.0/dataTables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/knockoutjs").Include(
+                        "~/Scripts/knockout-{version}.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -39,7 +41,8 @@ namespace WordResearchTrackerWeb
                       "~/Content/site.css",
                       "~/Content/app.css",
                       "~/Content/DataTables-1.10.0/css/jquery.dataTables.css",
-                      "~/Content/DataTables-1.10.0/css/dataTables.bootstrap.css"));
+                      "~/Content/DataTables-1.10.0/css/dataTables.bootstrap.css",
+                      "~/Content/research.css"));
 
         }
     }

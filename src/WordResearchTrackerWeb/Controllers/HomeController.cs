@@ -1,4 +1,5 @@
-﻿using Microsoft.Office365.OAuth;
+﻿using System.Collections.Generic;
+using Microsoft.Office365.OAuth;
 using Microsoft.Office365.SharePoint;
 using System;
 using System.Configuration;
@@ -92,9 +93,20 @@ namespace WordResearchTrackerWeb.Controllers
             viewModel.SelectedProject = projectName == null ? "Select..." : projectName;
             viewModel.Projects = await _repository.GetProjects();
             viewModel.Projects.Insert(0, new Project() { Title = "Select...", Id = -1 });
-            viewModel.References = await _repository.GetReferences();
+            //viewModel.References = await _repository.GetReferences();
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetReferences(string projectName)
+        {
+            if (string.IsNullOrWhiteSpace(projectName))
+            {
+                return Json(new object[0], JsonRequestBehavior.AllowGet);
+            }
+            List<Reference> references = await _repository.GetReferences(projectName);
+
+            return Json(references, JsonRequestBehavior.AllowGet);
+        }
     }
 }

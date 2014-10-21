@@ -13,7 +13,7 @@ namespace WordResearchTrackerWeb.Models
     public interface IResearchRepository
     {
         Task<List<Project>> GetProjects();
-        Task<List<Reference>> GetReferences();
+        Task<List<Reference>> GetReferences(string projectName);
     }
     /// <summary>
     /// The ResearchRepository is the core data access class
@@ -56,8 +56,9 @@ namespace WordResearchTrackerWeb.Models
         /// <summary>
         /// Returns a collection of references
         /// </summary>
+        /// <param name="projectName"></param>
         /// <returns>List</returns>
-        public async Task<List<Reference>> GetReferences()
+        public async Task<List<Reference>> GetReferences(string projectName)
         {
             List<Reference> references = new List<Reference>();
 
@@ -65,7 +66,7 @@ namespace WordResearchTrackerWeb.Models
                 .Append(this.SharePointServiceRoot)
                 .Append("/_api/web/lists/getbyTitle('")
                 .Append(this.ReferencesListName)
-                .Append("')/items?$select=ID,Title,URL,Comments,Project");
+                .AppendFormat("')/items?$filter=Project eq '{0}'&$select=ID,Title,URL,Comments,Project", projectName);
 
             string accessToken = GetAccessToken();
             HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
