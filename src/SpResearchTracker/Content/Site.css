@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
 }
 
@@ -27,7 +26,9 @@ textarea {
     }
 
 .page-splash {
-    z-index: 99999 !important;
+    margin: 0;
+    padding: 0;
+    z-index: 80000 !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -84,3 +85,82 @@ textarea {
   display: table-cell;
 }
 /*#endregion */
+
+.purple-background {
+    background-color: #64007e;
+    color: white;
+}
+
+.purple {
+    color: #64007e;
+}
+
+.side-nav {
+    height: 100vh;
+    padding-top: 30px;
+}
+.side-nav .nav-item {
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+.side-nav .nav-item .nav-icon {
+    width: 100%;
+    font-size: 50px;
+}
+.side-nav .nav-item .nav-link {
+    color: white;
+}
+
+.main-container {
+    padding-top: 50px;
+}
+
+ul.project-list {
+    list-style: none;
+    /*padding: 0 0 0 10px;*/
+    padding: 5px 0 0 0;
+}
+
+ul.project-list li {
+    padding: 10px;
+    
+}
+
+ul.project-list li:hover {
+    cursor: pointer;
+    background-color: rgba(100,0,126, 0.2)
+}
+
+.no-rounded-corners {
+    border-radius: 0 !important;
+}
+h2.purple {
+    border-bottom: solid 1px gray;
+    padding-bottom: 5px;
+}
+
+.reference-link-padding {
+    
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.reference-link {
+    border-bottom: solid 1px gray;
+}
+
+.research-tracker-splash {
+    background-image: url('../images/RTracker Splash.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    z-index: 99999 !important;
+    opacity: 1;
+}
+
+
+.nav-item a {
+    color: white;
+}

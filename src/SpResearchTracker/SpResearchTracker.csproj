@@ -231,11 +231,12 @@
     <Content Include="App\projects\list.js" />
     <Content Include="App\references\detailEdit.html" />
     <Content Include="App\references\detailEdit.js" />
-    <Content Include="App\references\list.html" />
-    <Content Include="App\references\list.js" />
+    <Content Include="App\references\detailView.html" />
+    <Content Include="App\references\detailView.js" />
     <Content Include="App\services\datacontext.angular.js" />
     <Content Include="App\services\datacontext.breeze.js" />
     <Content Include="App\services\directives.js" />
+    <Content Include="App\services\navigation.js" />
     <Content Include="Content\animation.css" />
     <Content Include="App\common\spinner.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -251,6 +252,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\RTracker Splash.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js">
       <DependentUpon>angular-animate.js</DependentUpon>

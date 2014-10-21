@@ -1,5 +1,5 @@
 ﻿@{
-  ViewBag.Title = "SPA";
+    ViewBag.Title = "SPA";
 }
 
 <div data-ng-include="'/App/layout/shell.html'"></div>
@@ -7,14 +7,13 @@
 
 @section scripts {
 
-  @functions{
+    @functions{
 
-    public string TokenHeaderValue()
-    {
-      string cookieToken, formToken;
-      AntiForgery.GetTokens(null, out cookieToken, out formToken);
-      return cookieToken + ":" + formToken;
+        public string TokenHeaderValue()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
     }
-
-  }
 }

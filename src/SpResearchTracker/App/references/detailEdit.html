@@ -1,5 +1,5 @@
 ﻿<script type="text/ng-template" id="myReferenceModalContent.html">
-  <div class="modal-header">
+  <div class="modal-header purple">
     <h2 data-ng-bind="pageTitle"></h2>
   </div>
   <div class="modal-body">
@@ -27,14 +27,19 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary"
-            data-ng-disabled="!entityIsDirty"
-            data-ng-click="goSave()">save</button>
-    <button type="button" class="btn btn-default"
-            data-ng-click="goCancel()">cancel</button>
-    <button type="button" class="btn btn-danger"
-            data-ng-show="templateMode=='edit'"
-            data-ng-click="goDelete()">delete
-    </button>
+      <button type="button" class="btn purple-background no-rounded-corners"
+              data-ng-disabled="!entityIsDirty"
+              data-ng-click="goSave()">
+          Save
+      </button>
+      <button type="button" class="btn btn-default no-rounded-corners "
+              data-ng-click="goCancel()">
+          Cancel
+      </button>
+      <button type="button" class="btn btn-danger no-rounded-corners"
+              data-ng-show="templateMode=='edit'"
+              data-ng-click="goDelete()">
+          Delete
+      </button>
   </div>
 </script>

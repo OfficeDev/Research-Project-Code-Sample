@@ -19,19 +19,19 @@
       $routeProvider.when(route.url, route.config);
     });
     // if a route isn't found, send to spa's 404
-    $routeProvider.otherwise({ redirectTo: '/' });
+    $routeProvider.otherwise({ redirectTo: '/projects' });
   }
 
   // build routes
   function getRoutes() {
     return [
-      {
-        url: '/',
-        config: {
-          templateUrl: '/App/dashboard/dashboard.html',
-          title: 'Dashboard'
-        }
-      },
+      //{
+      //  url: '/',
+      //  config: {
+      //    templateUrl: '/App/dashboard/dashboard.html',
+      //    title: 'Dashboard'
+      //  }
+      //},
       // projects
       {
         url: '/projects',
@@ -47,6 +47,14 @@
           title: 'View an Existing Project',
           templateMode: 'view'
         }
+      },
+      {
+          url: '/projects/:projectId/reference/:referenceId',
+          config: {
+              templateUrl: '/App/references/detailView.html',
+              title: 'View Reference',
+              templateMode: 'view'
+          }
       },
       {
         url: '/addreference/:urlToAdd',
