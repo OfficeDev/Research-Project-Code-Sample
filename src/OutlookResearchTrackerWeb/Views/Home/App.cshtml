@@ -1,135 +1,234 @@
-﻿@model OutlookResearchTrackerWeb.Models.ViewModel
+﻿@using Newtonsoft.Json
+@model OutlookResearchTrackerWeb.Models.ViewModel
 @{
     ViewBag.Title = "Research Tracker";
 }
 
-@using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Research Projects
-                </div>
-                <div class="panel-body">
-                    @Html.DropDownList("projectName", new SelectList(Model.Projects, "Id", "Title", Model.SelectedProject), new { style = "width:200px" })
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Discovered Links
-                </div>
-                <div class="panel-body">
-                    <select id="referenceLink" name="referenceLink" style="width:200px;"><option>Select...</option></select>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-2">
-            <button id="addRef" type="submit" class="btn btn-link">
-                Add Link to Project
-            </button>
-        </div>
-
-        @Html.Hidden("referenceEntityType", Model.ReferenceEntityType)
-
-    </div>
-}
-
-<!-- Busy indicator-->
-<div id="busyRow" class="row">
-    <div class="col-sm-12">
-        <img src="~/Images/PROGRESS.GIF" />
-    </div>
-</div>
-
-<!-- Reference Links-->
 <div class="row">
     <div class="col-sm-12">
-        <div class="table-responsive">
-            <table id="referencesTable" class="hide table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Project</th>
-                        <th>Title</th>
-                        <th>Reference</th>
-                        <th>URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var reference in Model.References)
-                    {
-                        <tr>
-                            <td>
-                                @reference.Project
-                            </td>
-                            <td>
-                                @reference.Title
-                            </td>
-                            <td>
-                                <a href="@reference.Url">@reference.Url</a>
-                            </td>
-                            <td>
-                                @reference.Notes
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="panel-purple">
+            <div class="panel-heading">
+                <h1>
+                    <img src="/Images/rtracker.png" class="icon-image" />
+                    <span class="verticalAlign">Research Projects</span>
+                </h1>
+                <span style="height:32px;">
+                    <select class="project-select-list verticalAlign" data-bind="options: projects, optionsValue: 'id', optionsText: 'title', value: selectedProjectId"></select>
+                </span>
+                <span class="arrow-container">
+                    <div class="left-arrow" data-bind="click: toggleReferences"></div>
+                </span>
+            </div>
+
+            <div class="panel-body" >
+                <div id ="referenceLinks" style="display:none;">
+                    <div data-bind="if: references().length > 0">
+                        <ul class="link-selector collapse in" data-bind="foreach: references">
+                            <li class="link already-added">
+                                <h2 data-bind="text: title"></h2>
+                                <span class="project-link" data-bind="text: url, attr: {title: url}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div data-bind="if: references().length == 0">Please select a project</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="panel panel-purple">
+            <div class="panel-heading">
+                <h1>
+                    <img src="~/Images/Link.png" class="icon-image" />
+                    <span class="verticalAlign">Available New Links</span>
+                </h1>
+            </div>
+            <div class="panel-body">
+                <div data-bind="if: pageLinks().length > 0">
+                    <ul class="link-selector collapse in" data-bind="foreach: pageLinks">
+                        <li class="link" data-bind="click: !alreadyAdded || $parent.toggleSelectedLink, css: {selected: isSelected() === true, 'already-added': alreadyAdded}">
+                            <span data-bind="visible: alreadyAdded">Already added: </span>
+                            <span class="project-link" data-bind="text: link, attr: {title: link}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div data-bind="if: pageLinks().length === 0">No links available</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add to document -->
+    <div class="col-sm-2"> 
+        <button id="addRef" type="button" class="btn btn-purple" data-bind="enable: enableAddButton, click: addSelectedProjects">
+            Add Link to Project
+        </button>
+    </div>
+</div>
+
+
+<!-- Busy indicator-->
+<div id="busyRow" class="row" data-bind="visible: showLoader">
+    <div id="loading">
+        <div class="col-sm-12">
+            <img src="~/Images/PROGRESS.GIF" id="loading-image" />
         </div>
     </div>
 </div>
+
+
 
 @section scripts {
     <script>
 
-        (function () {
+        (function() {
             "use strict";
-            Office.initialize = function (reason) {
+            Office.initialize = function(reason) {
 
-                (function () {
+                (function() {
                     "use strict";
 
-                    jQuery(function () {
+                    jQuery(function() {
 
-                        //load the list
+                        var referenceModel = function(reference) {
+                            var self = this;
+                            self.id = reference.Id;
+                            self.title = reference.Title;
+                            self.url = reference.Url;
+                            self.notes = reference.Notes;
+                            self.project = reference.Project;
+                            self.isSelected = ko.observable(false);
+                        };
+
+                        var projectModel = function(project) {
+                            var self = this;
+                            self.id = project.Id;
+                            self.title = project.Title;
+                        }
+
+                        var pageLinkModel = function(link) {
+                            var self = this;
+                            self.link = link;
+                            self.isSelected = ko.observable(false);
+                            self.alreadyAdded = ko.observable(false);
+                        }
+
+
+                        var projects = $.parseJSON('@Html.Raw(JsonConvert.SerializeObject(Model.Projects))');
+                        var projectModels = $.map(projects, function(project) {
+                            return new projectModel(project);
+                        });
+
+
+                        var viewModel = function() {
+                            var self = this,
+                                markAlreadyItems = function() {
+                                    ko.utils.arrayForEach(self.pageLinks(), function(pageLink) {
+                                        var match = ko.utils.arrayFirst(self.references(), function(reference) {
+                                            return reference.url === pageLink.link;
+                                        });
+                                        if (match) {
+                                            pageLink.isSelected(false);
+                                            pageLink.alreadyAdded(true);
+                                        } else {
+                                            pageLink.alreadyAdded(false);
+                                        }
+                                    });
+                                },
+                                loadReferences = function() {
+                                    $.getJSON("/Home/GetReferences?projectId=" + self.selectedProjectId(), function (data) {
+                                        var referenceModels = $.map(data, function(reference) {
+                                            return new referenceModel(reference);
+                                        });
+                                        self.references(referenceModels);
+
+                                        markAlreadyItems();
+
+                                        self.showLoader(false);
+                                    });
+                                }
+                        
+                        self.referenceEntityType = '@Model.ReferenceEntityType';
+                        self.referencesShown = ko.observable(false);
+                        self.showLoader = ko.observable(false);
+                        self.projects = ko.observableArray(projectModels);
+                        self.selectedProjectId = ko.observable();
+                        self.selectedProjectId.subscribe(function(newValue) {
+
+                            if (newValue < 0) {
+                                self.references([]);
+                                markAlreadyItems();
+                                return;
+                            }
+                            self.showLoader(true);
+                            loadReferences();
+                        });
+
+                        self.addSelectedProjects = function() {
+                            if (self.selectedLinksToAdd().length > 0) {
+
+                                self.showLoader(true);
+                                var postData = {
+                                    projectName: self.selectedProjectId(),
+                                    referenceEntityType: self.referenceEntityType,
+                                    referenceLinks: $.map(self.selectedLinksToAdd(), function(link) { return link.link; })
+                                }
+
+                                $.ajax({
+                                    url: '/Home/App',
+                                    method: 'PoST',
+                                    data: postData,
+                                    traditional: true,
+                                    success: function(data, textStatus, jqXhR) {
+                                        loadReferences();
+                                    },
+                                    error: function(data, textStatus, jqXhR) {
+                                        self.showLoader(false);
+                                        toastr.error('An unexpected error occurred adding links. Please try again');
+                                    }
+                                });
+                            }
+                        };
+
+
+                        self.references = ko.observableArray([]);
+                        self.toggleReferences = function() {
+                            if ($(event.currentTarget).hasClass('down-arrow')) {
+                                $(event.currentTarget).removeClass('down-arrow').addClass('left-arrow');
+                                $("#referenceLinks").css('display', 'none');
+                            } else {
+                                $(event.currentTarget).removeClass('left-arrow').addClass('down-arrow');
+                                $("#referenceLinks").css('display', 'block');
+                            }
+                        }
+
+                        self.pageLinks = ko.observableArray([]);
+                        self.selectedLinksToAdd = ko.computed(function() {
+                            return ko.utils.arrayFilter(self.pageLinks(), function(link) {
+                                return link.isSelected() === true;
+                            });
+                        });
+                        self.enableAddButton = ko.computed(function() {
+                            return self.selectedProjectId() > 0 && self.selectedLinksToAdd().length > 0;
+                        });
+
                         var item = Office.cast.item.toItemRead(Office.context.mailbox.item);
                         var matches = item.getRegExMatches().Link;
                         for (var i = 0; i < matches.length; i++) {
-                            $("#referenceLink").append("<option value='" + matches[i] + "'>" + matches[i] + "</option>");
+                            self.pageLinks.push(new pageLinkModel(matches[i]));
                         }
+                        self.toggleSelectedLink = function(link) {
+                            link.isSelected(!link.isSelected());                            
+                        };
+                    };
 
-                        //data table
-                        var refTable = $("#referencesTable").dataTable({
-                            "bLengthChange": false,
-                            "iDisplayLength": 5,
-                            "bFilter": true,
-                            "sDom": "lrtip"
-                        });
-                        $("#referencesTable").DataTable().column(0).visible(false);
-                        refTable.fnFilter($("#projectName").val());
-                        $("#referencesTable").removeClass("hide");
-                        $("#busyRow").addClass("hide");
 
-                        //projects list
-                        $("#projectName").change(function (evt) {
-                            refTable.fnFilter($(this).val());
-                        })
+                    ko.applyBindings(new viewModel());
+                });
 
-                        //submit button
-                        $("#addRef").click(function () {
-                            $("#busyRow").removeClass("hide");
-                        })
-                    });
-
-                }());
-
-            };
-
-        }());
+            }());
+        };
+    }());
 
     </script>
 }

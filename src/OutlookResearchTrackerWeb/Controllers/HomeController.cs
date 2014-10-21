@@ -1,4 +1,7 @@
-﻿using Microsoft.Office365.OAuth;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using Microsoft.Office365.OAuth;
 using OutlookResearchTrackerWeb.Models;
 using System;
 using System.Configuration;
@@ -81,30 +84,49 @@ namespace OutlookResearchTrackerWeb.Controllers
             viewModel.SelectedProject = projectName == null ? "Select..." : projectName;
             viewModel.Projects = await _repository.GetProjects();
             viewModel.Projects.Insert(0, new Project() { Title = "Select...", Id = -1, eTag = string.Empty, Type = string.Empty });
-            viewModel.References = await _repository.GetReferences();
-            viewModel.ProjectEntityType = await _repository.GetProjectEntityType();
+            //viewModel.ProjectEntityType = await _repository.GetProjectEntityType();
             viewModel.ReferenceEntityType = await _repository.GetReferenceEntityType();
             return View(viewModel);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> App(string projectName, string referenceLink, string referenceEntityType)
+        public async Task<JsonResult> GetReferences(string projectId)
         {
-            if (projectName != "Select..." && referenceLink != "Select...")
+            var references =  await _repository.GetReferences(projectId);
+
+            return Json(references, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> App(string projectName, IEnumerable<string> referenceLinks, string referenceEntityType)
+        {
+            if (referenceLinks != null && referenceLinks.Any())
             {
-                Reference reference = new Reference()
+                IEnumerable<Task<Reference>> tasks = referenceLinks.Select(referenceLink =>
                 {
-                    Title = string.Empty,
-                    Type = referenceEntityType,
-                    eTag = "0",
-                    Id = 0,
-                    Notes = "Created by Outlook",
-                    Project = projectName,
-                    Url = referenceLink
-                };
-                Reference newReference = await _repository.CreateReference(reference);
+
+                    var reference = new Reference
+                    {
+                        Title = string.Empty,
+                        Type = referenceEntityType,
+                        eTag = "0",
+                        Id = 0,
+                        Notes = "Created by Outlook",
+                        Project = projectName,
+                        Url = referenceLink
+                    };
+                    return _repository.CreateReference(reference);
+                });
+                try
+                {
+                    await Task.WhenAll(tasks);
+                }
+                catch (Exception)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
-            return RedirectToAction("App", new { projectName = projectName });
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
     }
 }

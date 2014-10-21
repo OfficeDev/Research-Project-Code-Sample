@@ -21,7 +21,7 @@ namespace OutlookResearchTrackerWeb.Models
     public interface IResearchRepository
     {
         Task<List<Project>> GetProjects();
-        Task<List<Reference>> GetReferences();
+        Task<List<Reference>> GetReferences(string projectId);
         Task<Reference> CreateReference(Reference reference);
         Task<string> GetProjectEntityType();
         Task<string> GetReferenceEntityType();
@@ -78,8 +78,9 @@ namespace OutlookResearchTrackerWeb.Models
         /// <summary>
         /// Returns a collection of References
         /// </summary>
+        /// <param name="projectId"></param>
         /// <returns>List</returns>
-        public async Task<List<Reference>> GetReferences()
+        public async Task<List<Reference>> GetReferences(string projectId)
         {
             List<Reference> references = new List<Reference>();
 
@@ -87,7 +88,7 @@ namespace OutlookResearchTrackerWeb.Models
                 .Append(this.SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
                 .Append(this.ReferencesListName)
-                .Append("')/items?$select=ID,Title,URL,Comments,Project");
+                .AppendFormat("')/items?$filter=Project eq '{0}'&select=ID,Title,URL,Comments,Project", projectId);
 
             HttpResponseMessage response = await this.Get(requestUri.ToString(), GetAccessToken());
             string responseString = await response.Content.ReadAsStringAsync();
