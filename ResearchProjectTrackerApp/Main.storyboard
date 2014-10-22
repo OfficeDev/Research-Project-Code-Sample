@@ -89,50 +89,70 @@
             <point key="canvasLocation" x="596" y="272"/>
         </scene>
         <!--Projects-->
-        <scene sceneID="S5H-0O-SCu">
+        <scene sceneID="Kgl-Wz-xcj">
             <objects>
-                <tableViewController storyboardIdentifier="filesvc" id="8OI-97-zND" customClass="ProjectTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="g8L-os-twk">
+                <viewController storyboardIdentifier="projectsList" id="mUA-jI-ppK" customClass="ProjectTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yFL-wg-jfJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="bRH-hx-8G6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xIu-Z5-KAY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProjectListCell" rowHeight="62" id="xGC-8H-r1d" customClass="ProjectTableViewCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="62"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xGC-8H-r1d" id="6vM-gY-hIg">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pJ-GA-h4u">
-                                            <rect key="frame" x="20" y="20" width="158" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wZc-la-vKb">
+                                <rect key="frame" x="0.0" y="49" width="320" height="373"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProjectListCell" rowHeight="62" id="bv4-mj-ypq" customClass="ProjectTableViewCell">
+                                        <rect key="frame" x="0.0" y="253" width="320" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bv4-mj-ypq" id="L4V-cf-gUu">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzH-c8-25V">
+                                                    <rect key="frame" x="20" y="20" width="158" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="ProjectName" destination="pzH-c8-25V" id="dw0-nY-NOU"/>
+                                            <segue destination="a66-NU-J6w" kind="push" identifier="detail" id="xse-Qh-3F6"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
-                                    <outlet property="ProjectName" destination="1pJ-GA-h4u" id="WOO-Ln-Bpe"/>
+                                    <outlet property="dataSource" destination="mUA-jI-ppK" id="cAc-2Q-OwO"/>
+                                    <outlet property="delegate" destination="mUA-jI-ppK" id="vYW-LG-Qp7"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                    </tableView>
+                            </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Projects" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ler-15-yJe">
+                                <rect key="frame" x="16" y="20" width="63" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92779806389999997" green="0.92779806389999997" blue="0.92779806389999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <navigationItem key="navigationItem" title="Projects" id="DIM-TL-Mrc" userLabel="Navigation Item - Projects">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aZG-s3-AjX">
                             <connections>
-                                <action selector="Cancel" destination="8OI-97-zND" id="xcd-0s-qpc"/>
                                 <segue destination="qHb-c8-ZYL" kind="push" identifier="newProject" id="GLi-FA-ErU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="a66-NU-J6w" kind="push" identifier="detail" id="jvI-K3-sdt"/>
+                        <outlet property="tableView" destination="wZc-la-vKb" id="wRv-eL-CMx"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hZB-gE-7RQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xbe-G0-Em3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="272"/>
+            <point key="canvasLocation" x="1007" y="272"/>
         </scene>
         <!--New Project-->
         <scene sceneID="A0G-Tq-Jon">

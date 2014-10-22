@@ -30,6 +30,7 @@ NSURLSessionDownloadTask* task;
                                                                    [UIColor whiteColor], NSForegroundColorAttributeName, nil];
     
     self.projectsList = [[NSMutableArray alloc] init];
+    currentEntity = nil;
     
     [self loadData];
 }
@@ -56,6 +57,7 @@ NSURLSessionDownloadTask* task;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    currentEntity = nil;
     [self loadData];
 }
 
@@ -166,6 +168,9 @@ NSURLSessionDownloadTask* task;
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"detail" sender:self];
+}
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    return ([identifier isEqualToString:@"detail"] && currentEntity) || [identifier isEqualToString:@"newProject"];
 }
 
 

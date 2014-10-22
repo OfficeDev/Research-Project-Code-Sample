@@ -43,7 +43,7 @@ NSString* token;
         {
             token = t;
             
-            ProjectTableViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"filesvc"];
+            ProjectTableViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"projectsList"];
             controller.token = t;
             
             [self.navigationController pushViewController:controller animated:YES];
