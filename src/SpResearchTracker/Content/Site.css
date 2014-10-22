@@ -96,7 +96,8 @@ textarea {
 }
 
 .side-nav {
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     padding-top: 30px;
 }
 .side-nav .nav-item {
