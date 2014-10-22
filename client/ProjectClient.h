@@ -19,6 +19,9 @@
 - (NSURLSessionDataTask *)deleteListItem:(NSString *)name itemId:(NSString *)itemId callback:(void (^)(BOOL result, NSError *error))callback;
 - (NSURLSessionDataTask *)updateProject:(ListItem *)project callback:(void (^)(BOOL, NSError *))callback;
 - (NSURLSessionDataTask *)updateReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback;
+- (NSURLSessionDataTask *)getProjectsAndCallback:(void (^)(NSMutableArray *listItems, NSError *))callback;
+
+
 +(ProjectClient*)getClient:(NSString *) token;
 +(LoginClient*)getLoginClient;
 

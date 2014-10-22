@@ -254,6 +254,27 @@ const NSString *clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
     return bytes;
 }
 
+- (NSURLSessionDataTask *)getProjectsAndCallback:(void (^)(NSMutableArray *listItems, NSError *))callback{
+    
+    NSString *aditionalParams = [NSString stringWithFormat:@"?$select=%@&$expand=Editor", [@"ID,Title,Modified,Editor/Title" urlencode]];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@/GetByTitle('%@')/Items%@", self.Url , apiUrl, [@"Research Projects" urlencode],aditionalParams];
+    HttpConnection *connection = [[HttpConnection alloc] initWithCredentials:self.Credential url:url];
+    
+    NSString *method = (NSString*)[[Constants alloc] init].Method_Get;
+    
+    return [connection execute:method callback:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSMutableArray *array = [NSMutableArray array];
+        
+        NSMutableArray *listsItemsArray =[self parseDataArray: data];
+        for (NSDictionary* value in listsItemsArray) {
+            [array addObject: [[ListItem alloc] initWithDictionary:value]];
+        }
+        
+        callback(array ,error);
+    }];
+}
+
 
 +(ProjectClient*)getClient:(NSString *) token{
     OAuthentication* authentication = [OAuthentication alloc];

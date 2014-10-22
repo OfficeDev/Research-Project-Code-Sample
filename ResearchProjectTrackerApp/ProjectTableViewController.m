@@ -95,7 +95,7 @@ NSURLSessionDownloadTask* task;
 -(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
     ProjectClient* client = [ProjectClient getClient:self.token];
     
-    NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
+    NSURLSessionTask* listProjectsTask = [client getProjectsAndCallback:^(NSMutableArray *listItems, NSError *error) {
         if(!error){
             self.projectsList = listItems;
             
@@ -142,6 +142,9 @@ NSURLSessionDownloadTask* task;
     ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
     cell.ProjectName.text = [item getTitle];
     
+    NSDictionary *dic =[item getData:@"Editor"];
+    cell.lastModifier.text =[NSString stringWithFormat:@"Last modified by %@ on %@", [dic valueForKey:@"Title"],[item getData:@"Modified"]];
+    
     return cell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -159,9 +162,6 @@ NSURLSessionDownloadTask* task;
         controller.token = self.token;
     }
     
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 40;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
