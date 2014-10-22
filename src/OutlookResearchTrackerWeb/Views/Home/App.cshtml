@@ -136,15 +136,20 @@
                                     });
                                 },
                                 loadReferences = function() {
-                                    $.getJSON("/Home/GetReferences?projectId=" + self.selectedProjectId(), function (data) {
-                                        var referenceModels = $.map(data, function(reference) {
-                                            return new referenceModel(reference);
-                                        });
-                                        self.references(referenceModels);
+                                    $.ajax({
+                                        url: "/Home/GetReferences?projectId=" + self.selectedProjectId(),
+                                        method: 'get',
+                                        cache: false,
+                                        success: function (data) {
+                                            var referenceModels = $.map(data, function (reference) {
+                                                return new referenceModel(reference);
+                                            });
+                                            self.references(referenceModels);
 
-                                        markAlreadyItems();
+                                            markAlreadyItems();
 
-                                        self.showLoader(false);
+                                            self.showLoader(false);
+                                        }
                                     });
                                 }
                         

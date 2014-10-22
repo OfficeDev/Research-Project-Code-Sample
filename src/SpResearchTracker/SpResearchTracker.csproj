@@ -307,6 +307,7 @@
     <Content Include="Scripts\angular-animate.min.js.map">
       <DependentUpon>angular-animate.js</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\teeudev3-research-tracker.pubxml" />
     <None Include="Scripts\breeze.intellisense.js">
       <DependentUpon>breeze.debug.js</DependentUpon>
     </None>
@@ -353,7 +354,9 @@
       <DependentUpon>toastr.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\toastr.min.js.map">
       <DependentUpon>toastr.js</DependentUpon>
     </Content>
