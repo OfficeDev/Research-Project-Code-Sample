@@ -5,7 +5,7 @@
 
   <style name="AppTheme" parent="@style/_AppTheme"/>
 
-  <style name="_AppTheme" parent="android:Theme.Holo.Light">
+  <style name="_AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
 
     <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
 
@@ -23,6 +23,8 @@
     <item name="android:buttonStyle">@style/ButtonAppTheme</item>
 
     <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+
+    <item name="android:actionBarStyle">@style/ActionBarAppTheme</item>
 
   </style>
 1
