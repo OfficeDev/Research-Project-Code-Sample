@@ -14,6 +14,8 @@
     function shell($rootScope, $route, dataContextAngular, common, config) {
         var vm = this;
 
+        vm.rootUrl = window.location.origin;
+
         // Boolean property used to show/hide splash page
         vm.showSplashPage = true;
         // props to control the busy indicator

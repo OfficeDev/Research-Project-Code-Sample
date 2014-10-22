@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="nav-item">
-                    <a title="Install add project reference bookmarklet" href="javascript:(function(){ var regex = new RegExp('2F','gi'); var target = 'https://localhost:44362/Home/SPA#/addreference/' + encodeURIComponent(window.location.href).replace(regex,'5C'); var opener = function(){ if (!window.open(target,'prtav1','location=1,links=0,scrollbars=0,toolbar=0,width=800,height=525')) location.href = target; }; opener(); })()">
+                    <a title="Install add project reference bookmarklet" data-ng-href="javascript:(function(){ var regex = new RegExp('2F','gi'); var target = '{{vm.rootUrl}}/Home/SPA#/addreference/' + encodeURIComponent(window.location.href).replace(regex,'5C'); var opener = function(){ if (!window.open(target,'prtav1','location=1,links=0,scrollbars=0,toolbar=0,width=800,height=525')) location.href = target; }; opener(); })()">
                         <span class="glyphicon glyphicon-star-empty nav-icon"></span>
                         <span class="nav-link">Bookmarklet</span>
                     </a>
