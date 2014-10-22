@@ -1,16 +1,8 @@
 ﻿using SpResearchTracker.Controllers;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
-using SpResearchTracker.Utils;
-using System.Web.Helpers;
 
 namespace SpResearchTracker.Models
 {
@@ -53,9 +45,9 @@ namespace SpResearchTracker.Models
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> Get(string requestUri, string accessToken)
+        public Task<HttpResponseMessage> Get(string requestUri, string accessToken)
         {
-            return await this.Get(requestUri, accessToken, string.Empty);
+            return Get(requestUri, accessToken, string.Empty);
         }
 
         /// <summary>
@@ -71,7 +63,7 @@ namespace SpResearchTracker.Models
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            requestData.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/atom+xml");
+            requestData.Headers.ContentType = MediaTypeHeaderValue.Parse("application/atom+xml");
             request.Content = requestData;
             return await client.SendAsync(request);
         }

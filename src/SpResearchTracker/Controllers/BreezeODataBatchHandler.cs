@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.OData.Batch;
@@ -19,6 +17,7 @@ namespace SpResearchTracker.Controllers
             OAuthController.RemoveFromCache("formToken");
             return response;
         }
+
         public override void ValidateRequest(System.Net.Http.HttpRequestMessage request)
         {
             string cookieToken = string.Empty;
@@ -38,6 +37,7 @@ namespace SpResearchTracker.Controllers
             }
 
             AntiForgery.Validate(cookieToken, formToken);
+        
             base.ValidateRequest(request);
         }
 

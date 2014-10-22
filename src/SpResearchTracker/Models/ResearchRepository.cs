@@ -81,13 +81,13 @@ namespace SpResearchTracker.Models
 
             StringContent requestData = new StringContent(
             new XElement(ExtensionMethods.atom + "entry",
-            new XAttribute(XNamespace.Xmlns + "d", ExtensionMethods.d),
-            new XAttribute(XNamespace.Xmlns + "m", ExtensionMethods.m),
-            new XElement(ExtensionMethods.atom + "category", new XAttribute("term", "SP.List"), new XAttribute("scheme", "http://schemas.microsoft.com/ado/2007/08/dataservices/scheme")),
-            new XElement(ExtensionMethods.atom + "content", new XAttribute("type", "application/xml"),
-                new XElement(ExtensionMethods.m + "properties",
-                    new XElement(ExtensionMethods.d + "Title", listName),
-                    new XElement(ExtensionMethods.d + "BaseTemplate", listTemplate)))).ToString());
+                new XAttribute(XNamespace.Xmlns + "d", ExtensionMethods.d),
+                new XAttribute(XNamespace.Xmlns + "m", ExtensionMethods.m),
+                new XElement(ExtensionMethods.atom + "category", new XAttribute("term", "SP.List"), new XAttribute("scheme", "http://schemas.microsoft.com/ado/2007/08/dataservices/scheme")),
+                new XElement(ExtensionMethods.atom + "content", new XAttribute("type", "application/xml"),
+                    new XElement(ExtensionMethods.m + "properties",
+                        new XElement(ExtensionMethods.d + "Title", listName),
+                        new XElement(ExtensionMethods.d + "BaseTemplate", listTemplate)))).ToString());
 
             HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestData);
             return response.IsSuccessStatusCode;
