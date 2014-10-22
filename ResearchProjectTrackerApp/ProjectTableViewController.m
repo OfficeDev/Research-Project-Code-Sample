@@ -67,6 +67,8 @@ NSURLSessionDownloadTask* task;
 //Loading Projects
 -(void)loadData{
     //Create and add a spinner
+    double x = self.view.frame.size.width / 2 - self.view.frame.size.width / 2;
+    double y = self.view.frame.size.height / 2 - self.view.frame.size.height / 2;
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:spinner];
