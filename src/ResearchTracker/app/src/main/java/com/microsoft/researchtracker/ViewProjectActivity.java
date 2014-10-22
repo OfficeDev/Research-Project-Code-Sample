@@ -26,9 +26,11 @@ import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.DialogUtil;
+import com.microsoft.researchtracker.utils.ProjectUtils;
 import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
+import java.text.DateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class ViewProjectActivity extends Activity {
 
     private App mApp;
 
+    private TextView mIconLabel;
     private TextView mTitleLabel;
+    private TextView mModifiedLabel;
     private ListView mListView;
     private ProgressBar mProgress;
 
@@ -62,8 +66,14 @@ public class ViewProjectActivity extends Activity {
 
         mApp = (App) getApplication();
 
+        mIconLabel = (TextView) findViewById(R.id.letter_icon);
+        mIconLabel.setVisibility(View.INVISIBLE);
+
         mTitleLabel = (TextView) findViewById(R.id.title_label);
-        mTitleLabel.setText("");
+        mTitleLabel.setVisibility(View.INVISIBLE);
+
+        mModifiedLabel = (TextView) findViewById(R.id.modified_label);
+        mModifiedLabel.setVisibility(View.INVISIBLE);
 
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -221,9 +231,27 @@ public class ViewProjectActivity extends Activity {
                             return;
                         }
 
+                        String title = result.project.getTitle();
+                        String letter = title == null || title.length() == 0 ? "" : title.substring(0, 1);
+                        int color = ProjectUtils.getProjectColor(result.project);
+
+                        DateFormat format = android.text.format.DateFormat.getDateFormat(ViewProjectActivity.this);
+
                         mProjectETag = result.project.getODataEtag();
 
-                        mTitleLabel.setText(result.project.getTitle());
+                        mIconLabel.setText(letter);
+                        mIconLabel.setVisibility(View.VISIBLE);
+                        mIconLabel.setBackgroundColor(color);
+
+                        mTitleLabel.setText(title);
+                        mTitleLabel.setVisibility(View.VISIBLE);
+
+                        String editorName = result.project.getEditor().getDisplayName();
+                        String dateString = format.format(result.project.getModified());
+
+                        mModifiedLabel.setText(getString(R.string.format_last_modifed, editorName, dateString));
+                        mModifiedLabel.setVisibility(View.VISIBLE);
+
                         mAdapter = new ReferencesListAdapter(result.references);
                         mListView.setAdapter(mAdapter);
                     }

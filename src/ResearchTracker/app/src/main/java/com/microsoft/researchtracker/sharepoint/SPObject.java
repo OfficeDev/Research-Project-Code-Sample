@@ -89,6 +89,14 @@ public class SPObject {
         return new SPETag(value);
     }
 
+    public SPUserDetail getUserDetailField(final String fieldName) {
+        JsonObject value = mData.getAsJsonObject(fieldName);
+        if (value == null || value.isJsonNull()) {
+            return null;
+        }
+        return new SPUserDetail(value);
+    }
+
     public void setField(final String fieldName, boolean value) {
         mData.add(fieldName, new JsonPrimitive(value));
     }

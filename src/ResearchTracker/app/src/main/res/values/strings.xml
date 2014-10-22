@@ -81,5 +81,6 @@
 
     <string name="activity_receive_share_title">Research Tracker</string>
     <string name="activity_view_reference_error_loading_reference">There was an error while retrieving the reference</string>
+    <string name="format_last_modifed">Last modified by %1$s on %2$s</string>
 
 </resources>

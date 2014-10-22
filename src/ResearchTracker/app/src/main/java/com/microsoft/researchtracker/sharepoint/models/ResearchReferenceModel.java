@@ -6,9 +6,11 @@ import com.microsoft.researchtracker.sharepoint.SPUrl;
 
 public class ResearchReferenceModel {
 
-    public static final String[] FIELDS = {
+    public static final String[] SELECT = {
         "ID", "Project", "URL", "Comments"
     };
+
+    public static final String[] EXPAND = { };
 
     private SPObject mData;
 

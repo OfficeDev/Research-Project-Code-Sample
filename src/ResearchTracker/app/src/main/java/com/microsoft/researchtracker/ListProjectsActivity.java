@@ -17,12 +17,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.microsoft.researchtracker.sharepoint.SPUserDetail;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
+import com.microsoft.researchtracker.utils.ProjectUtils;
 import com.microsoft.researchtracker.utils.ViewUtil;
 import com.microsoft.researchtracker.utils.auth.DefaultAuthHandler;
 
+import java.text.DateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -166,11 +169,15 @@ public class ListProjectsActivity extends Activity {
 
         private final List<ResearchProjectModel> mItems;
         private final LayoutInflater mInflater;
+        private final DateFormat mFormat;
+        private final String mModifiedFormat;
 
         public ProjectsListAdapter(List<ResearchProjectModel> folderList) {
 
             mItems = folderList;
             mInflater = getLayoutInflater();
+            mFormat = android.text.format.DateFormat.getDateFormat(ListProjectsActivity.this);
+            mModifiedFormat = getString(R.string.format_last_modifed);
         }
 
         @Override
@@ -191,9 +198,26 @@ public class ListProjectsActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            TextView view = (TextView) ViewUtil.prepareView(mInflater, android.R.layout.simple_list_item_1, convertView, parent);
+            View view = ViewUtil.prepareView(mInflater, R.layout.project_list_item, convertView, parent);
 
-            view.setText(mItems.get(position).getTitle());
+            TextView letterIcon = (TextView) ViewUtil.findChildView(view, R.id.letter_icon);
+            TextView text1 = (TextView) ViewUtil.findChildView(view, R.id.title_label);
+            TextView text2 = (TextView) ViewUtil.findChildView(view, R.id.modified_label);
+
+            ResearchProjectModel project = mItems.get(position);
+            SPUserDetail editor = project.getEditor();
+
+            //Find the character to use for the "letter" icon
+            String projectTitle = project.getTitle();
+            String editorTitle = String.format(mModifiedFormat, editor.getDisplayName(), mFormat.format(project.getModified()) );
+
+            String letter = projectTitle == null ? "" : projectTitle.substring(0, 1);
+            int color = ProjectUtils.getProjectColor(project);
+
+            letterIcon.setText(letter);
+            letterIcon.setBackgroundColor(color);
+            text1.setText(projectTitle);
+            text2.setText(editorTitle);
 
             return view;
         }

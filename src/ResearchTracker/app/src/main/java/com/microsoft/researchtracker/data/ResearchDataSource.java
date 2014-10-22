@@ -27,7 +27,8 @@ public class ResearchDataSource {
 
     public List<ResearchProjectModel> getResearchProjects() throws IOException {
 
-        Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+        Query query = QueryOperations.select(ResearchProjectModel.SELECT)
+                                     .expand(ResearchProjectModel.EXPAND);
 
         SPCollection result = mClient.getListItems(Constants.RESEARCH_PROJECTS_LIST, query);
 
@@ -44,7 +45,8 @@ public class ResearchDataSource {
 
     public ResearchProjectModel getResearchProjectById(int projectId) throws IOException {
 
-        Query query = QueryOperations.select(ResearchProjectModel.FIELDS);
+        Query query = QueryOperations.select(ResearchProjectModel.SELECT)
+                                     .expand(ResearchProjectModel.EXPAND);
 
         SPObject projectData = mClient.getListItemById(Constants.RESEARCH_PROJECTS_LIST, projectId, query);
 
@@ -53,8 +55,11 @@ public class ResearchDataSource {
 
     public List<ResearchReferenceModel> getResearchReferencesByProjectId(int projectId) throws IOException {
 
-        Query query = QueryOperations.field("Project").eq().val(projectId)
-                                           .select(ResearchReferenceModel.FIELDS);
+        Query query = QueryOperations.select(ResearchReferenceModel.SELECT)
+                                     .expand(ResearchReferenceModel.EXPAND);
+
+        //$filter
+        query.field("Project").eq().val(projectId);
 
         SPCollection result = mClient.getListItems(Constants.RESEARCH_REFERENCES_LIST, query);
 
@@ -71,7 +76,8 @@ public class ResearchDataSource {
 
     public ResearchReferenceModel getResearchReferenceById(int referenceId) throws IOException {
 
-        Query query = QueryOperations.select(ResearchReferenceModel.FIELDS);
+        Query query = QueryOperations.select(ResearchReferenceModel.SELECT)
+                                     .expand(ResearchReferenceModel.EXPAND);
 
         SPObject result = mClient.getListItemById(Constants.RESEARCH_REFERENCES_LIST, referenceId, query);
 

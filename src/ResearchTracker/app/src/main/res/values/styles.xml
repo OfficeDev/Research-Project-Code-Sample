@@ -31,4 +31,21 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="LetterIcon" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+
+        <!-- dimensions -->
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">35sp</item>
+
+        <!-- placeholders -->
+        <item name="android:background">@color/apptheme_color</item>
+        <item name="android:text">RT</item>
+    </style>
+
 </resources>
