@@ -15,6 +15,7 @@
 //----------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -55,9 +56,20 @@ namespace OutlookResearchTrackerWeb.Controllers
         //     specified in the state cookie (created by the "GetAuthorizationUrl" method, with its unique ID 
         //     included in the "state" of this method).
         //
+        
+        /*
+         * An ASP.NET session issue was detected when deploying this to a real Office 365 Outlook instance. 
+         * When the Outlook App would attempt to redirect through the OAuth flow, the ASP.NET session cookie was lost
+         * and this caused the items stored in session during the redirections to not be obtainable after successfully
+         * authenticating. To resolve this, the state guid is used as an added key and the values are stored in the 
+         * HttpContext.Current.Cache instance instead of the HttpContext.CurrentSession.
+         * Once the redirection is completed, the access token and refresh token is then stored in the HttpContext.Current.Session
+         * as all communication only happens between the Outlook App and the Outlook App Api.
+         * 
+         */
         public ActionResult Index(string code, string error, string error_description, string resource, string state)
         {
-            resource = GetFromCache("Resource").ToString();
+            resource = GetFromCache(state, "Resource").ToString();
             
             // NOTE: In production, OAuth must be done over a secure HTTPS connection.
             
@@ -113,10 +125,10 @@ namespace OutlookResearchTrackerWeb.Controllers
                 SaveRefreshTokenInCache(result.RefreshToken);
 
                 // Also save the Tenant ID for later use when calling the Graph API.
-                SaveInCache("TenantId", result.TenantId);
+                SaveInCache(state, "TenantId", result.TenantId);
 
                 // Return to the originating page where the user triggered the sign-in
-                Uri redirectTo = (Uri)GetFromCache("RedirectTo");
+                Uri redirectTo = (Uri)GetFromCache(state, "RedirectTo");
                 return Redirect(redirectTo.ToString());
             }
             catch(Exception x)
@@ -140,13 +152,13 @@ namespace OutlookResearchTrackerWeb.Controllers
             //     for use in the Index method (after the login page redirects back to this controller).
             string stateValue = Guid.NewGuid().ToString();
 
-            AddOAuthStateToCache(stateValue);
+            AddOAuthStateToCache(stateValue, stateValue);
 
-            SaveInCache("RedirectTo", request);
-            SaveInCache("Resource", resourceId);
+            SaveInCache(stateValue, "RedirectTo", request);
+            SaveInCache(stateValue, "Resource", resourceId);
 
             // Determine the path of the application, then append the path of the OAuthController.
-            string redirectUri = request.Scheme + "://" + request.Authority + "/OAuth";
+            string redirectUri = string.Format(request.Scheme + "://" + request.Authority + "/OAuth?pie={0}", Uri.EscapeDataString(resourceId));
 
             // Construct the authorization request URL.
             return String.Format(CultureInfo.InvariantCulture,
@@ -235,17 +247,17 @@ namespace OutlookResearchTrackerWeb.Controllers
 
         public static void SaveAccessTokenInCache(string resourceId, object value, object expiration)
         {
-            System.Web.HttpContext.Current.Session[CachePrefix + "AccessToken#" + resourceId] = value;
-            System.Web.HttpContext.Current.Session[CachePrefix + "AccessTokenExpiration#" + resourceId] = expiration;
+            System.Web.HttpContext.Current.Session[CachePrefix + "#" + "AccessToken#" + resourceId] = value;
+            System.Web.HttpContext.Current.Session[CachePrefix + "#" + "AccessTokenExpiration#" + resourceId] = expiration;
         }
 
         public static object GetAccessTokenFromCache(string resourceId)
         {
-            string accessToken = (string)System.Web.HttpContext.Current.Session[CachePrefix + "AccessToken#" + resourceId];
+            string accessToken = (string)System.Web.HttpContext.Current.Cache[CachePrefix + "#" + "AccessToken#" + resourceId];
 
             if (accessToken != null)
             {
-                string expiration = (string)System.Web.HttpContext.Current.Session[CachePrefix + "AccessTokenExpiration#" + resourceId];
+                string expiration = (string)System.Web.HttpContext.Current.Cache[CachePrefix + "#" + "AccessTokenExpiration#" + resourceId];
                 DateTime expirationTime = Convert.ToDateTime(expiration);
 
                 if (expirationTime < DateTime.Now)
@@ -267,12 +279,12 @@ namespace OutlookResearchTrackerWeb.Controllers
 
         public static void SaveRefreshTokenInCache(object value)
         {
-            System.Web.HttpContext.Current.Session[CachePrefix + "RefreshToken"] = value;
+            System.Web.HttpContext.Current.Cache[CachePrefix + "RefreshToken"] = value;
         }
 
         public static object GetRefreshTokenFromCache()
         {
-            return System.Web.HttpContext.Current.Session[CachePrefix + "RefreshToken"];
+            return System.Web.HttpContext.Current.Cache[CachePrefix + "RefreshToken"];
         }
 
         public static void RemoveRefreshTokenFromCache()
@@ -280,14 +292,14 @@ namespace OutlookResearchTrackerWeb.Controllers
             System.Web.HttpContext.Current.Session.Remove(CachePrefix + "RefreshToken");
         }
 
-        public static void AddOAuthStateToCache(object value)
+        public static void AddOAuthStateToCache(string state, object value)
         {
             DateTime currentTime = DateTime.Now;
             string expiration = currentTime.AddMinutes(10).ToString();
             string currentTimeString = currentTime.ToString();
 
-            System.Web.HttpContext.Current.Session[CachePrefix + "OAuthState#" + currentTimeString] = value;
-            System.Web.HttpContext.Current.Session[CachePrefix + "OAuthStateExpiration#" + currentTimeString] = expiration;
+            System.Web.HttpContext.Current.Cache[CachePrefix + state + "#" + "OAuthState#" + currentTimeString] = value;
+            System.Web.HttpContext.Current.Cache[CachePrefix + state + "#" + "OAuthStateExpiration#" + currentTimeString] = expiration;
         }
 
         public static bool FindOAuthStateInCache(string state)
@@ -295,12 +307,12 @@ namespace OutlookResearchTrackerWeb.Controllers
             //
             // First, remove any old outstanding state values that have expired.
             //
-            foreach (object sessionObject in System.Web.HttpContext.Current.Session)
+            foreach (DictionaryEntry sessionObject in System.Web.HttpContext.Current.Cache)
             {
-                string sessionName = (string)sessionObject;
-                if (sessionName.StartsWith(CachePrefix + "OAuthStateExpiration#"))
+                string sessionName = (string)sessionObject.Key;
+                if (sessionName.StartsWith(CachePrefix + state + "#" + "OAuthStateExpiration#"))
                 {
-                    DateTime expiration = Convert.ToDateTime(System.Web.HttpContext.Current.Session[sessionName]);
+                    DateTime expiration = Convert.ToDateTime(System.Web.HttpContext.Current.Cache[sessionName]);
                     if (expiration < DateTime.Now)
                     {
                         // First, find the timestamp value in the session name.
@@ -308,8 +320,8 @@ namespace OutlookResearchTrackerWeb.Controllers
                         string timeStamp = sessionName.Substring(index + 1);
 
                         // Then, remove the corresponding OAuthState and Expiration values.
-                        System.Web.HttpContext.Current.Session.Remove(CachePrefix + "OAuthState#" + timeStamp);
-                        System.Web.HttpContext.Current.Session.Remove(CachePrefix + "OAuthStateExpiration#" + timeStamp);
+                        System.Web.HttpContext.Current.Cache.Remove(CachePrefix + state + "#" + "OAuthState#" + timeStamp);
+                        System.Web.HttpContext.Current.Cache.Remove(CachePrefix + state + "#" + "OAuthStateExpiration#" + timeStamp);
                     }
                 }
             }
@@ -317,12 +329,12 @@ namespace OutlookResearchTrackerWeb.Controllers
             //
             // Finally, look for a corresponding state value, and if found, return true.
             //
-            foreach (object sessionObject in System.Web.HttpContext.Current.Session)
+            foreach (DictionaryEntry sessionObject in System.Web.HttpContext.Current.Cache)
             {
-                string sessionName = (string)sessionObject;
-                if (sessionName.StartsWith(CachePrefix + "OAuthState#"))
+                string sessionName = (string)sessionObject.Key;
+                if (sessionName.StartsWith(CachePrefix + state + "#" + "OAuthState#"))
                 {
-                    if ((string)System.Web.HttpContext.Current.Session[sessionName] == state) return true;
+                    if ((string)System.Web.HttpContext.Current.Cache[sessionName] == state) return true;
                 }
             }
 
@@ -331,43 +343,43 @@ namespace OutlookResearchTrackerWeb.Controllers
 
         public static void RemoveOAuthStateFromCache(string state)
         {
-            foreach (object sessionObject in System.Web.HttpContext.Current.Session)
+            foreach (DictionaryEntry sessionObject in System.Web.HttpContext.Current.Cache)
             {
-                string sessionName = (string)sessionObject;
-                if (sessionName.StartsWith(CachePrefix + "OAuthState#"))
+                string sessionName = (string)sessionObject.Key;
+                if (sessionName.StartsWith(CachePrefix + state + "#" + "OAuthState#"))
                 {
-                    if ((string)System.Web.HttpContext.Current.Session[sessionName] == state)
+                    if ((string)System.Web.HttpContext.Current.Cache[sessionName] == state)
                     {
                         // Find the timestamp value in the session name.
                         int index = sessionName.LastIndexOf("#");
                         string timeStamp = sessionName.Substring(index + 1);
-                        System.Web.HttpContext.Current.Session.Remove(CachePrefix + "OAuthState#" + timeStamp);
-                        System.Web.HttpContext.Current.Session.Remove(CachePrefix + "OAuthStateExpiration#" + timeStamp);
+                        System.Web.HttpContext.Current.Cache.Remove(CachePrefix + state + "#" + "OAuthState#" + timeStamp);
+                        System.Web.HttpContext.Current.Cache.Remove(CachePrefix + state + "#" + "OAuthStateExpiration#" + timeStamp);
                         return;
                     }
                 }
             }
         }
 
-        public static void SaveInCache(string name, object value)
+        public static void SaveInCache(string state, string name, object value)
         {
-            System.Web.HttpContext.Current.Session[CachePrefix + name] = value;
+            System.Web.HttpContext.Current.Cache[CachePrefix + state + "#" + name] = value;
         }
 
-        public static object GetFromCache(string name)
+        public static object GetFromCache(string state, string name)
         {
-            return System.Web.HttpContext.Current.Session[CachePrefix + name];
+            return System.Web.HttpContext.Current.Cache[CachePrefix + state+ "#" + name];
         }
 
-        public static void RemoveFromCache(string name)
+        public static void RemoveFromCache(string state, string name)
         {
-            System.Web.HttpContext.Current.Session.Remove(CachePrefix + name);
+            System.Web.HttpContext.Current.Cache.Remove(CachePrefix + state + "#" + name);
         }
 
         public static void RemoveAllFromCache()
         {
             List<string> keysToRemove = new List<string>();
-            foreach (object session in System.Web.HttpContext.Current.Session)
+            foreach (object session in System.Web.HttpContext.Current.Cache)
             {
                 string sessionName = (string)session;
                 if (sessionName.StartsWith(CachePrefix, StringComparison.Ordinal))
@@ -378,7 +390,7 @@ namespace OutlookResearchTrackerWeb.Controllers
 
             foreach (string key in keysToRemove)
             {
-                System.Web.HttpContext.Current.Session.Remove(key);
+                System.Web.HttpContext.Current.Cache.Remove(key);
             }
         }
 
