@@ -1,41 +1,142 @@
 ﻿<!DOCTYPE html>
 <html data-ng-app="app">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-  <title data-ng-bind="'Project Research Tracker' + pageTitle"></title>
-  @Styles.Render("~/Content/css")
-  @Scripts.Render("~/bundles/jquery")
-  @Scripts.Render("~/bundles/modernizr")
-  @Scripts.Render("~/bundles/thirdparty")
-  @* angular modules *@
-  @Scripts.Render("~/bundles/angular")
-  @* breeze libraries *@
-  @Scripts.Render("~/bundles/breeze")
-  @* custom app modules, services and utilities *@
-  @Scripts.Render("~/bundles/appcore")
-  @Scripts.Render("~/bundles/appcommonmodules")
-  @Scripts.Render("~/bundles/appcontrollers")
-  @Scripts.Render("~/bundles/appservices")
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <title data-ng-bind="'Project Research Tracker' + pageTitle"></title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/thirdparty")
+        @* angular modules *@
+        @Scripts.Render("~/bundles/angular")
+        @* breeze libraries *@
+        @Scripts.Render("~/bundles/breeze")
+        @* custom app modules, services and utilities *@
+        @Scripts.Render("~/bundles/appcore")
+        @Scripts.Render("~/bundles/appcommonmodules")
+        @Scripts.Render("~/bundles/appcontrollers")
+        @Scripts.Render("~/bundles/appservices")
+        <link rel="stylesheet" href="https://prod.msocdn.com/16.00.0458.005/en-US/css/shellg2corecss_60a264cc.css" type="text/css" />
+    </head>
 <body>
-  @*<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        @Html.ActionLink("Project Research Tracker App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-      </div>
-      <div class="navbar-collapse collapse">
-        @Html.Partial("_LoginPartial")
-      </div>
+    @*<div class="office-nav">
+                <div class="single-nav-item tile">
+                    <span class="middle glyphicon glyphicon-th"></span>
+                </div>
+                <div class="single-nav-item" style="width:150px;font-size: 22px;border-left: 1px solid #fff;border-left-color: rgba(255,255,255,.3);padding-left: 20px;padding-right: 20px;">
+                    <a href="https://portal.microsoftonline.com/Home">
+                        Office 365
+                    </a>
+                    <span class="vertical-line"></span>
+                </div>
+                @*<div class="container">
+              <div class="navbar-header">
+                @Html.ActionLink("Project Research Tracker App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+              </div>
+              <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+              </div>
+            </div>
+        </div>*@
+
+    <div autoid="__Microsoft_O365_ShellG2_Core_templates_cs_b" style="background-color: #0072c6;" class="o365cs-nav-header16 o365cs-base o365cst o365spo o365cs-nav-header o365cs-topnavBGColor o365cs-topnavBGImage" id="O365_NavHeader">
+        <div class="o365cs-nav-leftAlign">
+            <div class="o365cs-nav-topItem" style="">
+                <button type="button" class="o365button o365cs-nav-item o365cs-nav-button o365cs-navMenuButton ms-bgc-tdr-h ms-bgc-tp" role="menuitem" aria-label="Open the app launcher to access your Office 365 apps" id="O365_MainLink_NavMenu">
+                    <div class="popupShadow o365cs-base o365cst o365cs-nav-navMenu removeFocusOutline" ispopup="1" tabindex="0" style="display: none;"></div>
+                    <div class="popupShadow o365cs-base o365cst o365cs-nav-inactivityCallout removeFocusOutline" ispopup="1" tabindex="0" style="display: none;"></div>
+                    <span class="wf wf-size-x22 wf-family-o365" role="presentation"></span><div class="o365cs-nav-navMenuBeak" style="display: none;"></div>
+                    <div class="o365cs-nav-inactivityCalloutBeak ms-bcl-tp" style="display: none;"></div>
+                </button>
+            </div>
+            <div class="o365cs-nav-topItem ms-fcl-w" style="display: none;"></div>
+            <div class="o365cs-nav-topItem o365cs-nav-o365Branding">
+                <a class="o365button o365cs-nav-bposLogo o365cs-topnavText o365cs-o365logo" role="link" id="O365_MainLink_Logo" aria-label="Go to your Office 365 home page" href="https://portal.microsoftonline.com/Home">
+                    <span class="o365cs-nav-brandingText">Office 365</span><span class="wf wf-family-o365 wf-o365-x36 o365cs-nav-gallatinLogo" style="display: none;"></span>
+                </a> <div class="o365cs-nav-appTitleLine o365cs-nav-brandingText o365cs-topnavText" style=""></div>
+                <a class="o365button o365cs-nav-appTitle o365cs-topnavText" role="link" aria-label="Go to team sites" href="https://teeudev3.sharepoint.com/ContosoResearchTracker/">
+                    <span class="o365cs-nav-brandingText">Research Tracker</span>
+                </a>
+            </div>
+        </div>
+        <div class="o365cs-nav-centerAlign">
+            <div class="o365cs-nav-tenantBranding ms-fcl-w" style="display: none;"></div>
+        </div>
+        <div class="o365cs-nav-rightAlign o365cs-topnavLinkBackground" id="O365_TopMenu" style="background-color: #0072c6;">
+            <div class="o365cs-nav-headerRegion">
+                <div class="o365cs-nav-notificationTrayContainer">
+                    <div class="o365cs-w100-h100">
+                        <div>
+                            
+                            <div class="o365cs-notifications-notificationEntry" style="display: none;"></div>
+                            <div class="o365cs-notifications-notificationPopupArea o365cs o365cs-base o365cst removeFocusOutline" ispopup="1" tabindex="0" style="display: none;"></div>
+                            <div style="display: none;"></div>
+                        </div>
+                    </div>
+                </div><div class="o365cs-nav-administrationContainer">
+                    <div class="o365cs-nav-O365Links">
+                        <span class="o365button o365cs-nav-item o365cs-nav-link o365cs-topnavText ms-bgc-tdr-h" role="menuitem" tabindex="0" aria-selected="false" aria-label="Open the Admin menu to navigate to a specific admin center" id="O365_MainLink_ShellAdmin" aria-disabled="false" href="#" aria-haspopup="true" style="">
+                            <span style="">Admin</span>
+                            <div class="o365cs-activeLinkIndicator ms-bcl-w" style="display: none;"></div>
+                        </span>
+                    </div> <div class="o365cs-nav-O365Links o365cs-display-none" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="o365cs-nav-rightMenus">
+                <div aria-label="User settings" role="banner">
+                    <div>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="o365cs-nav-topItem" style="display: none;"></div>
+                                    </td>
+                                    <td>
+                                        <div class="o365cs-nav-topItem">
+                                            <button type="button" class="o365button o365cs-nav-item o365cs-nav-button o365cs-topnavText ms-bgc-tdr-h" role="menuitem" aria-label="Open the Settings menu to access personal and app settings" id="O365_MainLink_Settings" title="Open the Settings menu to access personal and app settings" aria-haspopup="true" style="">
+                                                <span class="wf wf-size-x20 wf-family-o365" role="presentation"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="o365cs-nav-topItem">
+                                            <button type="button" class="o365button o365cs-nav-item o365cs-nav-button o365cs-topnavText ms-bgc-tdr-h" role="menuitem" aria-label="Open the Help menu to access help documentation, and legal and privacy information from Microsoft" id="O365_MainLink_Help" aria-haspopup="true" style="">
+                                                <span class="wf wf-size-x20 wf-family-o365" role="presentation"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="o365cs-nav-topItem" style="display: none;"></div>
+                                    </td>
+                                    <td>
+                                        <div class="o365cs-nav-topItem">
+                                            <button autoid="__Microsoft_O365_ShellG2_Core_templates_cs_c" type="button" class="o365button o365cs-nav-item o365cs-nav-button ms-fcl-w o365cs-me-nav-item ms-bgc-tdr-h" role="menuitem" aria-label="MOD Administrator offline menu with submenu" aria-haspopup="true" style="">
+                                                <div class="o365cs-me-tileview-container" style="">
+                                                    <div autoid="__Microsoft_O365_ShellG2_Core_templates_cs_d" class="o365cs-me-tileview"><div autoid="__Microsoft_O365_ShellG2_Core_templates_cs_e" class="o365cs-me-presenceOffline5x50"></div><span autoid="__Microsoft_O365_ShellG2_Core_templates_cs_f" role="presentation" class="owaimg wf wf-size-x61 wf-o365-people wf-family-o365 ms-bgc-nt ms-fcl-w o365cs-me-tileimg"></span><div style=""><div class="o365cs-me-tileimg" style="display: none;"><img autoid="__Microsoft_O365_ShellG2_Core_templates_cs_g" class="o365cs-me-personaimg" title="MOD Administrator"></div></div><div class="o365cs-me-tileimg" style="display: none;"><img autoid="__Microsoft_O365_ShellG2_Core_templates_cs_h" class="o365cs-me-personaimg" title="MOD Administrator" src="https://outlook.office365.com/owa/service.svc/s/GetPersonaPhoto?email=admin@TEEUdev3.onmicrosoft.com&amp;UA=0&amp;size=HR64x64&amp;sc=1413953196841"></div></div>
+                                                </div>
+
+                                                <div style="display: none;"></div>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div tabindex="-1" class="o365cs-themesPanel-overlay" id="o365cs-themesPanel-overlay"></div>
+        <div class="o365cs-themesPanel-wrapper" id="o365cs-themesPanel-wrapper"></div> <div tabindex="-1" class="o365cs-settingsPanel-overlay" id="o365cs-settingsPanel-overlay"></div> <div class="o365cs-settingsPanel-wrapper" id="o365cs-settingsPanel-wrapper"></div> <div id="o365cs-flexpane-overlay" style="display: none;"><div id="O365fpcontainerid" class="o365cs-flexPane-overlay ms-bgc-w ms-bcl-nta"> </div></div>
     </div>
-  </div>*@
-  <div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer>
-      <p>&copy; @DateTime.Now.Year</p>
-    </footer>
-  </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year</p>
+        </footer>
+    </div>
 
 </body>
 </html>
