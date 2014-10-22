@@ -7,13 +7,24 @@
 //
 
 #import "ProjectClientEx.h"
-#import "office365-base-sdk/HttpConnection.h"
 #import "office365-base-sdk/Constants.h"
+#import "office365-base-sdk/HttpConnection.h"
 #import "office365-base-sdk/NSString+NSStringExtensions.h"
+#import "office365-base-sdk/OAuthentication.h"
+#import <ADALiOS/ADAuthenticationContext.h>
+#import <ADALiOS/ADAuthenticationParameters.h>
+#import <ADALiOS/ADAuthenticationSettings.h>
+#import <ADALiOS/ADInstanceDiscovery.h>
+#import <ADALiOS/ADLogger.h>
+#import <office365-base-sdk/LoginClient.h>
 
 @implementation ProjectClientEx
 
 const NSString *apiUrl = @"/_api/lists";
+const NSString *authority = @"https://login.windows.net/common";
+const NSString *redirectUriString = @"http://android/complete";
+const NSString *resourceId = @"https://foxintergen.sharepoint.com";
+const NSString *clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
 
 - (NSURLSessionDataTask *)addReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback
 {
@@ -80,6 +91,19 @@ const NSString *apiUrl = @"/_api/lists";
     NSData* bytes = [replacedDataString dataUsingEncoding:NSUTF8StringEncoding];
     
     return bytes;
+}
+
+
++(ProjectClientEx*)getClient:(NSString *) token{
+    OAuthentication* authentication = [OAuthentication alloc];
+    [authentication setToken:token];
+    
+    return [[ProjectClientEx alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
+                                  credentials: authentication];
+}
+
++(LoginClient*)getLoginClient{
+    return [[LoginClient alloc] initWithParameters:clientId:redirectUriString:resourceId:authority];
 }
 
 @end

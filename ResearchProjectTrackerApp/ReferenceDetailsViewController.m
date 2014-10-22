@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 microsoft. All rights reserved.
 //
 
-#import "ReferenceDetailsViewController.h"
-#import "ReferenceDetailTableCellTableViewCell.h"
 #import "EditReferenceViewController.h"
+#import "ReferenceDetailTableCellTableViewCell.h"
+#import "ReferenceDetailsViewController.h"
 
 @interface ReferenceDetailsViewController ()
 

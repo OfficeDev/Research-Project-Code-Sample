@@ -36,14 +36,6 @@ ListItem* currentEntity;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    authority = [NSString alloc];
-    resourceId = [NSString alloc];
-    clientId = [NSString alloc];
-    redirectUriString = [NSString alloc];
-    authority = @"https://login.windows.net/common";
-    resourceId = @"https://foxintergen.sharepoint.com";
-    clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
-    redirectUriString = @"http://android/complete";
     token = [NSString alloc];
     
     for (NSExtensionItem *item in self.extensionContext.inputItems) {
@@ -75,7 +67,7 @@ ListItem* currentEntity;
 
 - (void) performLogin : (BOOL) clearCache{
     
-    LoginClient *client = [[LoginClient alloc] initWithParameters:clientId:redirectUriString:resourceId:authority];
+    LoginClient *client = [ProjectClientEx getLoginClient];
     [client login:clearCache completionHandler:^(NSString *t, NSError *e) {
         if(e == nil)
         {
@@ -114,7 +106,7 @@ ListItem* currentEntity;
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ListClient* client = [self getClient];
+    ProjectClientEx *client = [ProjectClientEx getClient: token];
     
     NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
         
@@ -135,7 +127,7 @@ ListItem* currentEntity;
 
 
 -(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
-    ListClient* client = [self getClient];
+    ProjectClientEx *client = [ProjectClientEx getClient: token];
     
     NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
         if(!error){
@@ -152,7 +144,7 @@ ListItem* currentEntity;
 
 
 -(void)createProjectList:(UIActivityIndicatorView *) spinner{
-    ListClient* client = [self getClient];
+    ProjectClientEx *client = [ProjectClientEx getClient: token];
     
     ListEntity* newList = [[ListEntity alloc ] init];
     [newList setTitle:@"Research Projects"];
@@ -161,14 +153,6 @@ ListItem* currentEntity;
         [spinner stopAnimating];
     }];
     [createProjectListTask resume];
-}
-
--(ProjectClientEx*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:token];
-    
-    return [[ProjectClientEx alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                               credentials: authentication];
 }
 
 - (IBAction)Login:(id)sender {
@@ -220,7 +204,9 @@ ListItem* currentEntity;
     
     __weak ActionViewController *sself = self;
     
-    NSURLSessionTask* task =[[self getClient] addReference:newReference callback:^(BOOL success, NSError *error) {
+    ProjectClientEx *client = [ProjectClientEx getClient: token];
+    
+    NSURLSessionTask* task =[client addReference:newReference callback:^(BOOL success, NSError *error) {
         if(error == nil){
             dispatch_async(dispatch_get_main_queue(), ^{
                 sself.projectTable.hidden = true;

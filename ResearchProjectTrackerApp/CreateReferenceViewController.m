@@ -56,7 +56,7 @@
         
         [spinner startAnimating];
         
-        ProjectClient* client = [self getClient];
+        ProjectClient* client = [ProjectClient getClient:self.token];
         
         NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.referenceUrlTxt.text, self.referenceTitle.text];
         NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, self.referenceDescription.text, [NSString stringWithFormat:@"%@", self.project.Id]] forKeys:@[@"URL", @"Comments", @"Project"]];
@@ -85,14 +85,6 @@
             [alert show];
         });
     }
-}
-
--(ProjectClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                                  credentials: authentication];
 }
 
 @end

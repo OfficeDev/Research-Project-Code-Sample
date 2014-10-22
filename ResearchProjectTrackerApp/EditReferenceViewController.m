@@ -8,8 +8,8 @@
 
 #import "EditReferenceViewController.h"
 #import "ProjectClient.h"
-#import "office365-base-sdk/OAuthentication.h"
 #import "ProjectDetailsViewController.h"
+#import "office365-base-sdk/OAuthentication.h"
 
 @interface EditReferenceViewController ()
 
@@ -79,7 +79,7 @@
         [editedReference initWithDictionary:dic];
         
 
-        ProjectClient* client = [self getClient];
+        ProjectClient* client = [ProjectClient getClient:self.token];
         
         NSURLSessionTask* task = [client updateReference:editedReference callback:^(BOOL result, NSError *error) {
             if(error == nil && result){
@@ -119,7 +119,7 @@
     
     [spinner startAnimating];
     
-    ProjectClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     NSURLSessionTask* task = [client deleteListItem:@"Research References" itemId:self.selectedReference.Id callback:^(BOOL result, NSError *error) {
         if(error == nil){
@@ -136,15 +136,6 @@
     }];
     
     [task resume];
-}
-
-
--(ProjectClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                                  credentials: authentication];
 }
 
 @end

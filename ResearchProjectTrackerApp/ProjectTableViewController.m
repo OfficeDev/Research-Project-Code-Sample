@@ -1,9 +1,10 @@
-#import "ProjectTableViewController.h"
+#import "ProjectClient.h"
+#import "ProjectDetailsViewController.h"
 #import "ProjectTableViewCell.h"
+#import "ProjectTableViewController.h"
+#import "office365-base-sdk/OAuthentication.h"
 #import "office365-lists-sdk/ListClient.h"
 #import "office365-lists-sdk/ListItem.h"
-#import "ProjectDetailsViewController.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @implementation ProjectTableViewController
 
@@ -67,7 +68,7 @@ NSURLSessionDownloadTask* task;
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ListClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
    NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
         
@@ -87,7 +88,7 @@ NSURLSessionDownloadTask* task;
 }
 
 -(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
-    ListClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
         if(!error){
@@ -104,7 +105,7 @@ NSURLSessionDownloadTask* task;
 
 
 -(void)createProjectList:(UIActivityIndicatorView *) spinner{
-    ListClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     ListEntity* newList = [[ListEntity alloc ] init];
     [newList setTitle:@"Research Projects"];
@@ -121,14 +122,6 @@ NSURLSessionDownloadTask* task;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-}
-
--(ListClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ListClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                               credentials: authentication];
 }
 
 

@@ -1,7 +1,7 @@
-#import "CreateViewController.h"
 
-#import "office365-base-sdk/OAuthentication.h"
+#import "CreateViewController.h"
 #import "ProjectClient.h"
+#import "office365-base-sdk/OAuthentication.h"
 
 @implementation CreateViewController
 
@@ -22,7 +22,7 @@
         
         [spinner startAnimating];
         
-        ProjectClient* client = [self getClient];
+        ProjectClient* client = [ProjectClient getClient:self.token];
         
         ListItem* newProject = [[ListItem alloc] init];
         
@@ -48,13 +48,5 @@
             [alert show];
         });
     }
-}
-
--(ProjectClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                                  credentials: authentication];
 }
 @end

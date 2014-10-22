@@ -1,10 +1,10 @@
-#import "ProjectDetailsViewController.h"
-#import "office365-base-sdk/OAuthentication.h"
-#import "ProjectClient.h"
-#import "ReferencesTableViewCell.h"
-#import "ReferenceDetailsViewController.h"
 #import "CreateReferenceViewController.h"
 #import "EditProjectViewController.h"
+#import "ProjectClient.h"
+#import "ProjectDetailsViewController.h"
+#import "ReferenceDetailsViewController.h"
+#import "ReferencesTableViewCell.h"
+#import "office365-base-sdk/OAuthentication.h"
 
 @implementation ProjectDetailsViewController
 
@@ -35,7 +35,7 @@
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     NSURLSessionTask* task = [client getList:@"Research References" callback:^(ListEntity *list, NSError *error) {
         
@@ -56,7 +56,7 @@
 }
 
 -(void)getReferences:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     NSURLSessionTask* listReferencesTask = [client getReferencesByProjectId:self.project.Id callback:^(NSMutableArray *listItems, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -71,7 +71,7 @@
 }
 
 -(void)createReferencesList:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
     
     ListEntity* newList = [[ListEntity alloc ] init];
     [newList setTitle:@"Research References"];
@@ -80,14 +80,6 @@
         [spinner stopAnimating];
     }];
     [createProjectListTask resume];
-}
-
--(ProjectClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                                  credentials: authentication];
 }
 
 

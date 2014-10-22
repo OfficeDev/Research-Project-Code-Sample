@@ -1,8 +1,8 @@
-#import "EditProjectViewController.h"
 
-#import "office365-base-sdk/OAuthentication.h"
+#import "EditProjectViewController.h"
 #import "ProjectClient.h"
 #import "ProjectTableViewController.h"
+#import "office365-base-sdk/OAuthentication.h"
 
 @implementation EditProjectViewController
 
@@ -35,7 +35,7 @@
         NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.ProjectNameTxt.text, self.project.Id] forKeys:@[@"_metadata",@"Title",@"Id"]];
         [editedProject initWithDictionary:dic];
         
-        ProjectClient* client = [self getClient];
+        ProjectClient* client = [ProjectClient getClient:self.token];
         
         NSURLSessionTask* task = [client updateProject:editedProject callback:^(BOOL result, NSError *error) {
             if(error == nil){
@@ -68,7 +68,7 @@
     
     [spinner startAnimating];
     
-    ProjectClient* client = [self getClient];
+    ProjectClient* client = [ProjectClient getClient:self.token];
 
     NSURLSessionTask* task = [client deleteListItem:@"Research Projects" itemId:self.project.Id callback:^(BOOL result, NSError *error) {
         if(error == nil){
@@ -86,13 +86,5 @@
     }];
     
     [task resume];
-}
-
--(ProjectClient*)getClient{
-    OAuthentication* authentication = [OAuthentication alloc];
-    [authentication setToken:self.token];
-    
-    return [[ProjectClient alloc] initWithUrl:@"https://foxintergen.sharepoint.com/ContosoResearchTracker"
-                                  credentials: authentication];
 }
 @end

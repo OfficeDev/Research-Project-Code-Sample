@@ -8,6 +8,8 @@
 
 #import "office365-lists-sdk/ListClient.h"
 #import "office365-lists-sdk/ListItem.h"
+#import <office365-base-sdk/LoginClient.h>
+
 
 @interface ProjectClient : ListClient
 
@@ -17,5 +19,7 @@
 - (NSURLSessionDataTask *)deleteListItem:(NSString *)name itemId:(NSString *)itemId callback:(void (^)(BOOL result, NSError *error))callback;
 - (NSURLSessionDataTask *)updateProject:(ListItem *)project callback:(void (^)(BOOL, NSError *))callback;
 - (NSURLSessionDataTask *)updateReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback;
++(ProjectClient*)getClient:(NSString *) token;
++(LoginClient*)getLoginClient;
 
 @end

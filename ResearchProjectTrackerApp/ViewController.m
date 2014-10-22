@@ -1,8 +1,10 @@
-#import "ViewController.h"
+#import "ProjectClient.h"
 #import "ProjectTableViewController.h"
+#import "ViewController.h"
 #import "office365-base-sdk/Credentials.h"
-#import <office365-base-sdk/LoginClient.h>
 #import <QuartzCore/QuartzCore.h>
+#import <office365-base-sdk/LoginClient.h>
+
 @interface ViewController ()
             
 
@@ -10,26 +12,12 @@
 
 @implementation ViewController
             
-ADAuthenticationContext* authContext;
-NSString* authority;
-NSString* redirectUriString;
-NSString* resourceId;
-NSString* clientId;
-Credentials* credentials;
 NSString* token;
 
 //ViewController actions
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    authority = [NSString alloc];
-    resourceId = [NSString alloc];
-    clientId = [NSString alloc];
-    redirectUriString = [NSString alloc];
-    authority = @"https://login.windows.net/common";
-    resourceId = @"https://foxintergen.sharepoint.com";
-    clientId = @"13b04d26-95fc-4fb4-a67e-c850e07822a8";
-    redirectUriString = @"http://android/complete";
     token = [NSString alloc];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -49,7 +37,7 @@ NSString* token;
 
 - (void) performLogin : (BOOL) clearCache{
     
-    LoginClient *client = [[LoginClient alloc] initWithParameters:clientId:redirectUriString:resourceId:authority];
+    LoginClient *client = [ProjectClient getLoginClient];
     [client login:clearCache completionHandler:^(NSString *t, NSError *e) {
         if(e == nil)
         {
@@ -71,7 +59,7 @@ NSString* token;
 
 - (IBAction)Clear:(id)sender {
     NSError *error;
-    LoginClient *client = [[LoginClient alloc] initWithParameters: clientId: redirectUriString:resourceId :authority];
+    LoginClient *client = [ProjectClient getLoginClient];
     
     [client clearCredentials: &error];
     
