@@ -23,7 +23,11 @@ NSURLSessionDownloadTask* task;
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = nil;
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.view.backgroundColor = nil;
+    self.navigationController.view.tintColor = [UIColor colorWithRed:98.0/255.0 green:4.0/255.0 blue:126.0/255.0 alpha:1];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:98.0/255.0 green:4.0/255.0 blue:126.0/255.0 alpha:1];
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                   [UIColor whiteColor], NSForegroundColorAttributeName, nil];
     
     self.projectsList = [[NSMutableArray alloc] init];
     
@@ -31,7 +35,6 @@ NSURLSessionDownloadTask* task;
 }
 -(void) viewWillDisappear:(BOOL)animated {
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
-        // Navigation button was pressed. Do some stuff
         [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                       forBarMetrics:UIBarMetricsDefault];
         self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -164,5 +167,6 @@ NSURLSessionDownloadTask* task;
     
     [self performSegueWithIdentifier:@"detail" sender:self];
 }
+
 
 @end
