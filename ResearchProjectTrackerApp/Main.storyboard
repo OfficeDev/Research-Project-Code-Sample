@@ -63,7 +63,7 @@
                                     <action selector="Clear:" destination="FFy-2w-Hh0" eventType="touchUpInside" id="DSA-Tj-YWg"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="wallpaper-image .png" translatesAutoresizingMaskIntoConstraints="NO" id="8di-t7-8Z2">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wallpaper-image .png" translatesAutoresizingMaskIntoConstraints="NO" id="8di-t7-8Z2">
                                 <rect key="frame" x="38" y="90" width="245" height="271"/>
                             </imageView>
                         </subviews>
@@ -75,6 +75,7 @@
                             <constraint firstItem="HI1-bA-oxD" firstAttribute="leading" secondItem="9XX-Yh-udk" secondAttribute="leadingMargin" constant="61" id="QQW-wk-dSI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HI1-bA-oxD" secondAttribute="trailing" constant="60" id="cyj-d8-xd7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Mjw-bc-pCD" secondAttribute="trailing" constant="125" id="eEW-Ow-WBB"/>
+                            <constraint firstItem="HI1-bA-oxD" firstAttribute="top" secondItem="8di-t7-8Z2" secondAttribute="bottom" constant="25" id="oc4-Bb-AzV"/>
                             <constraint firstItem="Mjw-bc-pCD" firstAttribute="top" secondItem="HI1-bA-oxD" secondAttribute="bottom" constant="8" id="yT7-l2-W9K"/>
                         </constraints>
                     </view>
@@ -656,15 +657,19 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IRM-hl-vP7">
-                                <rect key="frame" x="0.0" y="133" width="320" height="156"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="177"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="descriptionContent" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAA-A7-o4k">
-                                        <rect key="frame" x="20" y="0.0" width="280" height="148"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="descriptionContent" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAA-A7-o4k">
+                                        <rect key="frame" x="19" y="2" width="293" height="32"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="cAA-A7-o4k" firstAttribute="leading" secondItem="IRM-hl-vP7" secondAttribute="leading" constant="19" id="PEU-XP-9eL"/>
+                                    <constraint firstAttribute="trailing" secondItem="cAA-A7-o4k" secondAttribute="trailing" constant="8" id="sVt-pV-tB1"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.92779806389999997" green="0.92779806389999997" blue="0.92779806389999997" alpha="1" colorSpace="calibratedRGB"/>

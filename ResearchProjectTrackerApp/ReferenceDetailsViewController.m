@@ -43,6 +43,8 @@
     }else{
         self.descriptionLbl.text = @"";
     }
+    self.descriptionLbl.numberOfLines = 0;
+    [self.descriptionLbl sizeToFit];
     self.urlTableCell.scrollEnabled = NO;
     self.navigationItem.title = [dic valueForKey:@"Description"];
 }
