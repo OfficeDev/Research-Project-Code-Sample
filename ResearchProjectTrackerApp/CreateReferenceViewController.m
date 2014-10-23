@@ -1,11 +1,3 @@
-//
-//  CreateReferenceViewController.m
-//  ResearchProjectTrackerApp
-//
-//  Created by Lucas Damian Napoli on 02/10/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
-
 #import "CreateReferenceViewController.h"
 #import "ProjectClient.h"
 #import "office365-base-sdk/OAuthentication.h"
@@ -49,11 +41,12 @@
 
 -(void)createReference{
     if((![self.referenceUrlTxt.text isEqualToString:@""]) && (![self.referenceDescription.text isEqualToString:@""]) && (![self.referenceTitle.text isEqualToString:@""])){
-        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(135,140,50,50)];
+        double x = ((self.navigationController.view.frame.size.width) - 20)/ 2;
+        double y = ((self.navigationController.view.frame.size.height) - 150)/ 2;
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(x, y, 20, 20)];
         spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         [self.view addSubview:spinner];
         spinner.hidesWhenStopped = YES;
-        
         [spinner startAnimating];
         
         ProjectClient* client = [ProjectClient getClient:self.token];
