@@ -144,8 +144,9 @@ NSURLSessionDownloadTask* task;
     ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
     cell.ProjectName.text = [item getTitle];
     
-    NSDictionary *dic =[item getData:@"Editor"];
-    cell.lastModifier.text =[NSString stringWithFormat:@"Last modified by %@ on %@", [dic valueForKey:@"Title"],[item getData:@"Modified"]];
+    NSDictionary *editorInfo =[item getData:@"Editor"];
+    NSString *editName = [item getData:@"Modified"];
+    cell.lastModifier.text =[NSString stringWithFormat:@"Last modified by %@ on %@", [editorInfo valueForKey:@"Title"],[editName substringToIndex:10]];
     
     return cell;
 }
