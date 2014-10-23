@@ -172,6 +172,8 @@ h2.purple {
         color: white;
     font-family: "SegoeUI-SemiLight-final", "Segoe UI SemiLight", "Segoe UI WPC Semilight", "Segoe UI", Segoe, Tahoma, Helvetica, Arial, sans-serif;
     border: 1px solid #ababab;
+    line-height: 50px;
+font-size: 19px;
 }
     
     .office-nav .single-nav-item {
@@ -199,4 +201,8 @@ display: table-cell;
 
     .office-nav a {
         color: #fff;
+    }
+    .office-nav a:hover {
+        color: #fff;
+        text-decoration: none;
     }
