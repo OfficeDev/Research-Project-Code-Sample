@@ -1,5 +1,6 @@
 package com.microsoft.researchtracker;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -83,11 +85,40 @@ public class EditReferenceActivity extends Activity {
         mProgress = (ProgressBar) findViewById(R.id.progress);
         mProgress.setVisibility(View.GONE);
 
+        configureActionBar();
+
         mModel = null;
         mAvailableProjects = null;
 
         mIsNewReference = false;
         mLoaded = false;
+    }
+
+    private void configureActionBar() {
+        //Action Bar buttons (OK, Cancel)
+        View actionBarButtons = getLayoutInflater().inflate(R.layout.action_buttons_ok_cancel, new LinearLayout(this), false);
+        actionBarButtons.findViewById(R.id.action_accept).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                saveChangesAndFinish();
+            }
+        });
+        actionBarButtons.findViewById(R.id.action_cancel).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //Switch action bar to use entirely custom view
+        ActionBar actionBar = getActionBar();
+
+        assert actionBar != null;
+
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(actionBarButtons);
     }
 
     @Override
@@ -151,30 +182,6 @@ public class EditReferenceActivity extends Activity {
                 retrieveReferenceDetailsAndPrepareView(referenceId);
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_reference, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_accept) {
-            saveChangesAndFinish();
-            return true;
-        }
-        if (id == R.id.action_cancel) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void ensureAuthenticated(final Runnable r) {
