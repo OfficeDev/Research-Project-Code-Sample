@@ -36,22 +36,24 @@ namespace SpResearchTracker.Models
 
             try
             {
-                DiscoveryClient discClient = new DiscoveryClient(AADAppSettings.DiscoveryServiceEndpointUri,
-                async () =>
-                {
-                    var authResult = await authContext.AcquireTokenSilentAsync(AADAppSettings.DiscoveryServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
+                //DiscoveryClient discClient = new DiscoveryClient(AADAppSettings.DiscoveryServiceEndpointUri,
+                //async () =>
+                //{
+                //    var authResult = await authContext.AcquireTokenSilentAsync(AADAppSettings.DiscoveryServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
 
-                    return authResult.AccessToken;
-                });
+                //    return authResult.AccessToken;
+                //});
 
-                var dcr = await discClient.DiscoverCapabilityAsync("MyFiles");
+                //var dcr = await discClient.DiscoverCapabilityAsync("MyFiles");
 
                 //WORKAROUND
-                string filesV1Url = dcr.ServiceEndpointUri.AbsoluteUri.Replace(@"/_api/me", @"/_api/v1.0/me");
+                //string filesV1Url = dcr.ServiceEndpointUri.AbsoluteUri.Replace(@"/_api/me", @"/_api/v1.0/me");
                 //END:WORKAROUND
 
-                var result = await authContext.AcquireTokenSilentAsync(dcr.ServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
-                return result.AccessToken;
+                //var result = await authContext.AcquireTokenSilentAsync(dcr.ServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
+                //var authResult = await authContext.AcquireTokenSilentAsync(AADAppSettings.DiscoveryServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
+                var authResult = await authContext.AcquireTokenAsync(AADAppSettings.DiscoveryServiceResourceId, AADAppSettings.ClientId, new UserCredential(AADAppSettings.ClientId, AADAppSettings.AppKey));
+                return authResult.AccessToken;
             }
             catch (AdalException exception)
             {

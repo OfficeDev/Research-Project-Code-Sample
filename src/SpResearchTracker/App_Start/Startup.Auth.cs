@@ -75,7 +75,7 @@ namespace SpResearchTracker
                             // this allows you to deploy your app (to Azure Web Sites, for example)without having to change settings
                             // Remember that the base URL of the address used here must be provisioned in Azure AD beforehand.
                             string appBaseUrl = context.Request.Scheme + "://" + context.Request.Host + context.Request.PathBase;
-                            context.ProtocolMessage.RedirectUri = appBaseUrl + "/";
+                            context.ProtocolMessage.RedirectUri = appBaseUrl + "/Home/SPA";
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
 
                             return Task.FromResult(0);
