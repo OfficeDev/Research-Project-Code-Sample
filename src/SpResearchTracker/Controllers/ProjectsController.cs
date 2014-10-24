@@ -11,7 +11,6 @@ using System.Web.Http.OData.Query;
 using System.Web.Http.OData.Routing;
 using SpResearchTracker.Models;
 using Microsoft.Data.OData;
-using SpResearchTracker.Filters;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using SpResearchTracker.Utils;
@@ -19,7 +18,6 @@ using SpResearchTracker.Utils;
 namespace SpResearchTracker.Controllers
 {
     [Authorize]
-    [OAuthExceptionFilter]
 
     public class ProjectsController : ODataController
     {
@@ -39,7 +37,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetProjects(ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -64,7 +62,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetProject([FromODataUri] int key, ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -98,17 +96,15 @@ namespace SpResearchTracker.Controllers
         // PUT: odata/Projects(5)
         public IHttpActionResult Put([FromODataUri] int key, Project project)
         {
-            Request.ValidateAntiForgery();
             return StatusCode(HttpStatusCode.NotImplemented);
         }
 
         // POST: odata/Projects
         public async Task<IHttpActionResult> Post(Project project)
         {
-            Request.ValidateAntiForgery();
 
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -128,10 +124,9 @@ namespace SpResearchTracker.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Project> delta)
         {
-            Request.ValidateAntiForgery();
 
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -174,10 +169,9 @@ namespace SpResearchTracker.Controllers
         // DELETE: odata/Projects(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Request.ValidateAntiForgery();
 
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();

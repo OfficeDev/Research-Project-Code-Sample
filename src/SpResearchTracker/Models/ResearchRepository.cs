@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Net;
 using SpResearchTracker.Controllers;
 using SpResearchTracker.Utils;
+using SpResearchTracker.Helpers;
 
 namespace SpResearchTracker.Models
 {
@@ -160,7 +161,7 @@ namespace SpResearchTracker.Models
                 configurations.Add(new ConfigurationInfo() { Key = "List", Value = title });
                 
                 //Save the SharePoint type for use in creates and updates
-                OAuthController.SaveInCache(title, type);
+                CacheHelper.SaveInCache(title, type);
             }
             return configurations;
         }

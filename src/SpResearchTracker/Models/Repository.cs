@@ -3,6 +3,12 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Globalization;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Office365.SharePoint.CoreServices;
+using Microsoft.Office365.Discovery;
+using SpResearchTracker.Utils;
+using System.Security.Claims;
 
 namespace SpResearchTracker.Models
 {
@@ -19,10 +25,43 @@ namespace SpResearchTracker.Models
         /// in the name of the current user for the given tenancy.
         /// </summary>
         /// <returns>string containing the access token</returns>
-        public string GetAccessToken()
-        {
-            string accessToken = OAuthController.GetAccessTokenFromCacheOrRefreshToken(this.Tenant, this.Resource);
-            return accessToken;
+        public async Task<string> GetAccessToken()
+        {       
+            // Redeem the authorization code from the response for an access token and refresh token.
+            var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var tenantId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid").Value;
+            
+            AuthenticationContext authContext = new AuthenticationContext(string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantId), new NaiveSessionCache(signInUserId));
+
+            try
+            {
+                DiscoveryClient discClient = new DiscoveryClient(AADAppSettings.DiscoveryServiceEndpointUri,
+                async () =>
+                {
+                    var authResult = await authContext.AcquireTokenSilentAsync(AADAppSettings.DiscoveryServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
+
+                    return authResult.AccessToken;
+                });
+
+                var dcr = await discClient.DiscoverCapabilityAsync("MyFiles");
+
+                //WORKAROUND
+                string filesV1Url = dcr.ServiceEndpointUri.AbsoluteUri.Replace(@"/_api/me", @"/_api/v1.0/me");
+                //END:WORKAROUND
+
+                var result = await authContext.AcquireTokenSilentAsync(dcr.ServiceResourceId, new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), new UserIdentifier(userObjectId, UserIdentifierType.UniqueId));
+                return result.AccessToken;
+            }
+            catch (AdalException exception)
+            {
+                //handle token acquisition failure
+                if (exception.ErrorCode == AdalError.FailedToAcquireTokenSilently)
+                {
+                    authContext.TokenCache.Clear();
+                }
+                return null;
+            }
 
         }
 

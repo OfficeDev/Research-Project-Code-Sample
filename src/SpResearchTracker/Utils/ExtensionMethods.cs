@@ -39,31 +39,5 @@ namespace SpResearchTracker.Utils
             string title = URL.Descendants(d + "Description").First().Value;
             return new Reference(id, etag, title, url, notes, project);
         }
-
-        public static void ValidateAntiForgery(this HttpRequestMessage request)
-        {
-            string cookieToken = string.Empty;
-            string formToken = string.Empty;
-
-            IEnumerable<string> tokenHeaders;
-            if (request.Headers.TryGetValues("RequestVerificationToken", out tokenHeaders))
-            {
-                string[] tokens = tokenHeaders.First().Split(':');
-                if (tokens.Length == 2)
-                {
-                    cookieToken = tokens[0].Trim();
-                    formToken = tokens[1].Trim();
-                    OAuthController.SaveInCache("cookieToken", cookieToken);
-                    OAuthController.SaveInCache("formToken", formToken);
-                }
-            }
-            else
-            {
-                cookieToken = OAuthController.GetFromCache("cookieToken").ToString();
-                formToken = OAuthController.GetFromCache("formToken").ToString();
-            }
-
-            AntiForgery.Validate(cookieToken, formToken);
-        }
     }
 }

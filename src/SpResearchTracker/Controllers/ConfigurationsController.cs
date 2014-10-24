@@ -1,4 +1,4 @@
-﻿using SpResearchTracker.Filters;
+﻿
 using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,6 @@ using System.Web.Http;
 namespace SpResearchTracker.Controllers
 {
     [Authorize]
-    [OAuthExceptionFilter]
     public class ConfigurationsController : ApiController
     {
         //This interface is used to support dependency injection
@@ -34,7 +33,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Get()
         {
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await ((Repository)_repository).GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();

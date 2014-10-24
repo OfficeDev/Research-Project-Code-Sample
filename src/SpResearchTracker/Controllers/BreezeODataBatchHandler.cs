@@ -13,8 +13,6 @@ namespace SpResearchTracker.Controllers
         public override async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> ProcessBatchAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
         {
             System.Net.Http.HttpResponseMessage response = await base.ProcessBatchAsync(request, cancellationToken);
-            OAuthController.RemoveFromCache("cookieToken");
-            OAuthController.RemoveFromCache("formToken");
             return response;
         }
 
@@ -31,8 +29,6 @@ namespace SpResearchTracker.Controllers
                 {
                     cookieToken = tokens[0].Trim();
                     formToken = tokens[1].Trim();
-                    OAuthController.SaveInCache("cookieToken", cookieToken);
-                    OAuthController.SaveInCache("formToken", formToken);
                 }
             }
 

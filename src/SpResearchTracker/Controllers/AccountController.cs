@@ -1,42 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.IdentityModel.Services;
-using System.IdentityModel.Services.Configuration;
-using System.Linq;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using SpResearchTracker.Utils;
+using System;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using SpResearchTracker.Models;
 
 namespace SpResearchTracker.Controllers
 {
     public class AccountController : Controller
     {
-        public ActionResult SignOut()
+        public void SignIn()
         {
-            WsFederationConfiguration config = FederatedAuthentication.FederationConfiguration.WsFederationConfiguration;
+            if (!Request.IsAuthenticated)
+            {
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+            }
+        }
+        public void SignOut()
+        {
+            // Remove all cache entries for this user and send an OpenID Connect sign-out request.
+            string usrObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            AuthenticationContext authContext = new AuthenticationContext(AADAppSettings.Authority, new NaiveSessionCache(usrObjectId));
+            authContext.TokenCache.Clear();
 
-            // Redirect to SignOutCallback after signing out.
-            string callbackUrl = Url.Action("SignOutCallback", "Account", routeValues: null, protocol: Request.Url.Scheme);
-            SignOutRequestMessage signoutMessage = new SignOutRequestMessage(new Uri(config.Issuer), callbackUrl);
-            signoutMessage.SetParameter("wtrealm", IdentityConfig.Realm ?? config.Realm);
-            FederatedAuthentication.SessionAuthenticationModule.SignOut();
+            HttpContext.GetOwinContext().Authentication.SignOut(
+                OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+        }
+        
+        public ActionResult ConsentApp()
+        {
+            string strResource = Request.QueryString["resource"];
+            string strRedirectController = Request.QueryString["redirect"];
 
-            return new RedirectResult(signoutMessage.WriteQueryString());
+            string authorizationRequest = String.Format(
+                "https://login.windows-ppe.net/common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}",
+                    Uri.EscapeDataString(AADAppSettings.ClientId),
+                    Uri.EscapeDataString(strResource),
+                    Uri.EscapeDataString(String.Format("{0}/{1}",this.Request.Url.GetLeftPart(UriPartial.Authority).ToString(),strRedirectController))
+                    );
+
+            return new RedirectResult(authorizationRequest);           
         }
 
-        public ActionResult SignOutCallback()
+        public ActionResult AdminConsentApp()
         {
-            if (Request.IsAuthenticated)
-            {
-                // Redirect to home page if the user is authenticated.
-                return RedirectToAction("Index", "Home");
-            }
+            string strResource = Request.QueryString["resource"];
+            string strRedirectController = Request.QueryString["redirect"];
 
-            return View();
+            string authorizationRequest = String.Format(
+                "https://login.windows-ppe.net/common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}&prompt={3}",
+                    Uri.EscapeDataString(AADAppSettings.ClientId),
+                    Uri.EscapeDataString(strResource),
+                    Uri.EscapeDataString(String.Format("{0}/{1}", this.Request.Url.GetLeftPart(UriPartial.Authority).ToString(), strRedirectController)),
+                    Uri.EscapeDataString("admin_consent")
+                    );
+
+            return new RedirectResult(authorizationRequest); 
+        }
+
+        public void RefreshSession()
+        {
+            string strRedirectController = Request.QueryString["redirect"];
+
+            HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = String.Format("/{0}",strRedirectController) }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
         }
     }
 }

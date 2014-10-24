@@ -7,6 +7,7 @@ using SpResearchTracker.Utils;
 using System.Runtime.Serialization;
 using System.Configuration;
 using SpResearchTracker.Controllers;
+using SpResearchTracker.Helpers;
 
 namespace SpResearchTracker.Models
 {
@@ -50,7 +51,7 @@ namespace SpResearchTracker.Models
             return new XElement(ExtensionMethods.atom + "entry",
                     new XAttribute(XNamespace.Xmlns + "d", ExtensionMethods.d),
                     new XAttribute(XNamespace.Xmlns + "m", ExtensionMethods.m),
-                    new XElement(ExtensionMethods.atom + "category", new XAttribute("term", OAuthController.GetFromCache(this.ReferencesListName)), new XAttribute("scheme", "http://schemas.microsoft.com/ado/2007/08/dataservices/scheme")),
+                    new XElement(ExtensionMethods.atom + "category", new XAttribute("term", CacheHelper.GetFromCache(this.ReferencesListName)), new XAttribute("scheme", "http://schemas.microsoft.com/ado/2007/08/dataservices/scheme")),
                     new XElement(ExtensionMethods.atom + "content", new XAttribute("type", "application/xml"),
                         new XElement(ExtensionMethods.m + "properties",
                             new XElement(ExtensionMethods.d + "URL", new XAttribute(ExtensionMethods.m + "type", "SP.FieldUrlValue"),
