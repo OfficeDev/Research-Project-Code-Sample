@@ -207,10 +207,10 @@ public class ListProjectsActivity extends Activity {
             ResearchProjectModel project = mItems.get(position);
             SPUserDetail editor = project.getEditor();
 
-            //Find the character to use for the "letter" icon
             String projectTitle = project.getTitle();
             String editorTitle = String.format(mModifiedFormat, editor.getDisplayName(), mFormat.format(project.getModified()) );
 
+            //Find the character to use for the "letter" icon
             String letter = projectTitle == null ? "" : projectTitle.substring(0, 1);
             int color = ProjectUtils.getProjectColor(project);
 
