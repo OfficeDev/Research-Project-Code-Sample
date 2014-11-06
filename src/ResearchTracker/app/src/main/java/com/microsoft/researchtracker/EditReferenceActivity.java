@@ -2,15 +2,12 @@ package com.microsoft.researchtracker;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,10 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchDataSource;
-import com.microsoft.researchtracker.sharepoint.SPUrl;
+import com.microsoft.researchtracker.sharepoint.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
+import com.microsoft.researchtracker.sharepoint.models.UrlModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.DialogUtil;
@@ -157,7 +154,7 @@ public class EditReferenceActivity extends Activity {
                 mIsNewReference = true;
 
                 //Intialize the model from passed in arguments
-                SPUrl url = new SPUrl();
+                UrlModel url = new UrlModel();
                 url.setUrl(launchIntent.getStringExtra(PARAM_NEW_REFERENCE_URL));
                 url.setTitle(launchIntent.getStringExtra(PARAM_NEW_REFERENCE_TITLE));
 
@@ -194,7 +191,7 @@ public class EditReferenceActivity extends Activity {
 
     private void prepareView() {
 
-        SPUrl url = mModel.getURL();
+        UrlModel url = mModel.getURL();
 
         mUrlText.setText(url == null ? null : url.getUrl());
         mUrlText.setEnabled(true);
@@ -380,7 +377,7 @@ public class EditReferenceActivity extends Activity {
                             final ResearchDataSource data = mApp.getDataSource();
                             final ResearchReferenceModel model = new ResearchReferenceModel();
 
-                            SPUrl url = new SPUrl();
+                            UrlModel url = new UrlModel();
 
                             url.setUrl(mUrlText.getText().toString());
                             url.setTitle(mTitleText.getText().toString());
@@ -401,7 +398,8 @@ public class EditReferenceActivity extends Activity {
                                 data.createResearchReference(model);
                             }
                             else {
-                                data.updateResearchReference(mModel.getId(), mModel.getODataETag(), model);
+                                model.setId(mModel.getId());
+                                data.updateResearchReference(model);
                             }
 
                             return true;

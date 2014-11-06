@@ -1,58 +1,58 @@
 package com.microsoft.researchtracker.sharepoint.models;
 
-import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.SPObject;
-import com.microsoft.researchtracker.sharepoint.SPUserDetail;
+import com.microsoft.listservices.SPListItem;
+import com.microsoft.researchtracker.utils.SPListItemWrapper;
+
+import org.json.JSONObject;
 
 import java.util.Date;
 
 public class ResearchProjectModel {
 
     public static final String[] SELECT = {
-        "ID", "Title", "Modified", "Editor/Title"
+        "Id", "Title", "Modified", "Editor/Title"
     };
     
     public static final String[] EXPAND = {
         "Editor"
     };
-    
-    private SPObject mData;
 
-    public ResearchProjectModel(SPObject data) {
-        mData = data;
-    }
+    private final SPListItemWrapper mData;
 
     public ResearchProjectModel() {
-        mData = new SPObject();
+        this(new SPListItem());
     }
 
-    public SPETag getODataEtag() {
-        return mData.getETagField("odata.etag");
+    public ResearchProjectModel(SPListItem listItem) {
+        mData = new SPListItemWrapper(listItem);
     }
-
-    public SPUserDetail getEditor() {
-        return mData.getUserDetailField("Editor");
-    }
-
-    public Date getModified() { return mData.getDateField("Modified"); }
 
     public int getId() {
-        return mData.getIntField("ID");
+        return mData.getInt("Id");
     }
 
     public void setId(int value) {
-        mData.setField("ID", value);
+        mData.setInt("Id", value);
     }
 
     public String getTitle() {
-        return mData.getStringField("Title");
+        return mData.getString("Title");
     }
 
     public void setTitle(String value) {
-        mData.setField("Title", value);
+        mData.setString("Title", value);
     }
 
-    public SPObject getInternalData() {
-        return mData;
+    public UserDetailModel getEditor() {
+        JSONObject data = mData.getObject("Editor");
+        return new UserDetailModel(data);
+    }
+
+    public Date getModified() {
+        return mData.getDate("Modified");
+    }
+
+    public SPListItem getData() {
+        return mData.getInner();
     }
 }

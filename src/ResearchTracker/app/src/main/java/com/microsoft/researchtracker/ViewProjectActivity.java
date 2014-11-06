@@ -19,8 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchDataSource;
-import com.microsoft.researchtracker.sharepoint.SPETag;
+import com.microsoft.researchtracker.sharepoint.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
@@ -55,7 +54,6 @@ public class ViewProjectActivity extends Activity {
     private ListAdapter mAdapter;
 
     private int mProjectId;
-    private SPETag mProjectETag;
 
     private boolean mLoaded;
 
@@ -237,8 +235,6 @@ public class ViewProjectActivity extends Activity {
 
                         DateFormat format = android.text.format.DateFormat.getDateFormat(ViewProjectActivity.this);
 
-                        mProjectETag = result.project.getODataEtag();
-
                         mIconLabel.setText(letter);
                         mIconLabel.setVisibility(View.VISIBLE);
                         mIconLabel.setBackgroundColor(color);
@@ -307,7 +303,7 @@ public class ViewProjectActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            mApp.getDataSource().deleteResearchProject(mProjectId, mProjectETag);
+                            mApp.getDataSource().deleteResearchProject(mProjectId);
                             return true;
                         }
                         catch (Exception e) {

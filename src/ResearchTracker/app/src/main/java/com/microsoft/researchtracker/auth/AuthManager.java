@@ -1,7 +1,6 @@
 package com.microsoft.researchtracker.auth;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import javax.crypto.NoSuchPaddingException;
 
@@ -19,7 +18,6 @@ import com.microsoft.aad.adal.AuthenticationResult.AuthenticationStatus;
 import com.microsoft.aad.adal.PromptBehavior;
 import com.microsoft.researchtracker.Constants;
 import com.microsoft.researchtracker.App;
-import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
 
 public class AuthManager {
 
@@ -39,14 +37,14 @@ public class AuthManager {
         mPrefs = application.getSharedPreferences("login_prefs", Context.MODE_PRIVATE);
     }
 
-    public OAuthCredentials getOAuthCredentials() {
+    public String getAccessToken() {
 
         if (!isCachedAuthResultValid()) {
             //Must call authenticate, forceAuthenticate or refresh before invoking this method
             throw new RuntimeException("Auth token is not valid");
         }
 
-        return new OAuthCredentials(mCachedAuthResult.getAccessToken());
+        return mCachedAuthResult.getAccessToken();
     }
 
     private boolean isCachedAuthResultValid() {

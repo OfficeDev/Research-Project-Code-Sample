@@ -1,60 +1,68 @@
 package com.microsoft.researchtracker.sharepoint.models;
 
-import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.SPObject;
-import com.microsoft.researchtracker.sharepoint.SPUrl;
+import com.microsoft.listservices.SPListItem;
+import com.microsoft.researchtracker.utils.SPListItemWrapper;
+
+import org.json.JSONObject;
 
 public class ResearchReferenceModel {
 
     public static final String[] SELECT = {
-        "ID", "Project", "URL", "Comments"
+        "Id", "Project", "URL", "Comments"
     };
 
     public static final String[] EXPAND = { };
 
-    private SPObject mData;
-
-    public ResearchReferenceModel(SPObject data) {
-        mData = data;
-    }
+    private final SPListItemWrapper mData;
 
     public ResearchReferenceModel() {
-        mData = new SPObject();
+        this(new SPListItem());
     }
 
-    public SPETag getODataETag() {
-        return mData.getETagField("odata.etag");
+    public ResearchReferenceModel(SPListItem listItem) {
+        mData = new SPListItemWrapper(listItem);
     }
 
     public int getId() {
-        return mData.getIntField("ID");
+        return mData.getInt("Id");
+    }
+
+    public void setId(int value) {
+        mData.setInt("Id", value);
     }
 
     public int getProjectId() {
-        return mData.getIntField("Project");
+        try {
+            return Integer.parseInt(mData.getString("Project"));
+        }
+        catch (Exception ex) {
+            return -1;
+        }
     }
 
     public void setProjectId(int projectId) {
-        mData.setField("Project", Integer.toString(projectId));
+        mData.setString("Project", Integer.toString(projectId));
     }
 
-    public SPUrl getURL() {
-        return mData.getUrlField("URL");
+    public UrlModel getURL() {
+        JSONObject data = mData.getObject("URL");
+        return new UrlModel(data);
     }
 
-    public void setURL(SPUrl value) {
-        mData.setField("URL", value);
+    public void setURL(UrlModel value) {
+        JSONObject data = (value == null) ? null : value.getData();
+        mData.setObject("URL", data);
     }
 
     public String getDescription() {
-        return mData.getStringField("Comments");
+        return mData.getString("Comments");
     }
 
     public void setDescription(String value) {
-        mData.setField("Comments", value);
+        mData.setString("Comments", value);
     }
 
-    public SPObject getInternalData() {
-        return mData;
+    public SPListItem getData() {
+        return mData.getInner();
     }
 }

@@ -17,8 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.sharepoint.SPUserDetail;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
+import com.microsoft.researchtracker.sharepoint.models.UserDetailModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.ProjectUtils;
@@ -205,7 +205,7 @@ public class ListProjectsActivity extends Activity {
             TextView text2 = (TextView) ViewUtil.findChildView(view, R.id.modified_label);
 
             ResearchProjectModel project = mItems.get(position);
-            SPUserDetail editor = project.getEditor();
+            UserDetailModel editor = project.getEditor();
 
             String projectTitle = project.getTitle();
             String editorTitle = String.format(mModifiedFormat, editor.getDisplayName(), mFormat.format(project.getModified()) );

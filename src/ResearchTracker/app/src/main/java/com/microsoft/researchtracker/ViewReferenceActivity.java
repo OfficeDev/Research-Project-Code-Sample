@@ -20,10 +20,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchDataSource;
-import com.microsoft.researchtracker.sharepoint.SPETag;
-import com.microsoft.researchtracker.sharepoint.SPUrl;
+import com.microsoft.researchtracker.sharepoint.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.models.ResearchReferenceModel;
+import com.microsoft.researchtracker.sharepoint.models.UrlModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
 import com.microsoft.researchtracker.utils.DialogUtil;
@@ -50,7 +49,6 @@ public class ViewReferenceActivity extends Activity {
 
     private int mReferenceId;
     private int mReferenceProjectId;
-    private SPETag mReferenceETag;
 
     private boolean mLoaded;
 
@@ -208,10 +206,9 @@ public class ViewReferenceActivity extends Activity {
                             return;
                         }
 
-                        mReferenceETag = result.getODataETag();
                         mReferenceProjectId = result.getProjectId();
 
-                        SPUrl url = result.getURL();
+                        UrlModel url = result.getURL();
 
                         mTitleLabel.setText(url.getTitle());
                         mUrlLabel.setText(makeLinkText(url.getUrl()));
@@ -258,7 +255,7 @@ public class ViewReferenceActivity extends Activity {
                     public Boolean run() {
                         try {
 
-                            mApp.getDataSource().deleteResearchReference(mReferenceId, mReferenceETag);
+                            mApp.getDataSource().deleteResearchReference(mReferenceId);
                             return true;
                         }
                         catch (Exception e) {

@@ -2,21 +2,17 @@ package com.microsoft.researchtracker;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.microsoft.researchtracker.data.ResearchDataSource;
-import com.microsoft.researchtracker.sharepoint.SPETag;
+import com.microsoft.researchtracker.sharepoint.data.ResearchDataSource;
 import com.microsoft.researchtracker.sharepoint.models.ResearchProjectModel;
 import com.microsoft.researchtracker.utils.AsyncUtil;
 import com.microsoft.researchtracker.utils.AuthUtil;
@@ -37,7 +33,6 @@ public class EditProjectActivity extends Activity {
     private ProgressBar mProgress;
 
     private int mProjectId;
-    private SPETag mProjectETag;
 
     private boolean mLoaded;
 
@@ -164,7 +159,6 @@ public class EditProjectActivity extends Activity {
                             return;
                         }
 
-                        mProjectETag = model.getODataEtag();
                         prepareView(model);
                     }
                 })
@@ -212,7 +206,8 @@ public class EditProjectActivity extends Activity {
                                 data.createResearchProject(model);
                             }
                             else {
-                                data.updateResearchProject(mProjectId, mProjectETag, model);
+                                model.setId(mProjectId);
+                                data.updateResearchProject(model);
                             }
                             return true;
                         }

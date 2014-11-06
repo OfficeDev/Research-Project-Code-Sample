@@ -3,10 +3,10 @@ package com.microsoft.researchtracker;
 import android.app.Application;
 import android.util.Log;
 
+import com.microsoft.listservices.SharepointListsClient;
+import com.microsoft.listservices.http.OAuthCredentials;
 import com.microsoft.researchtracker.auth.AuthManager;
-import com.microsoft.researchtracker.data.ResearchDataSource;
-import com.microsoft.researchtracker.sharepoint.ListsClient;
-import com.microsoft.researchtracker.sharepoint.OAuthCredentials;
+import com.microsoft.researchtracker.sharepoint.data.ResearchDataSource;
 
 public class App extends Application {
 
@@ -31,9 +31,13 @@ public class App extends Application {
 
     public ResearchDataSource getDataSource() {
 
-        final OAuthCredentials credentials = getAuthManager().getOAuthCredentials();
+        String accessToken = mAuthManager.getAccessToken();
 
-        final ListsClient client = new ListsClient(Constants.SHAREPOINT_URL, Constants.SHAREPOINT_SITE_PATH, credentials);
+        SharepointListsClient client = new SharepointListsClient(
+            Constants.SHAREPOINT_URL,
+            Constants.SHAREPOINT_SITE_PATH,
+            new OAuthCredentials(accessToken)
+        );
 
         return new ResearchDataSource(client);
     }
