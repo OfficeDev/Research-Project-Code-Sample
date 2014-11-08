@@ -1,13 +1,9 @@
-﻿using SpResearchTracker.Controllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml.Linq;
 using SpResearchTracker.Utils;
 
@@ -35,6 +31,10 @@ namespace SpResearchTracker.Models
 
             HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
             string responseString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
             XElement root = XElement.Parse(responseString);
             
             foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
@@ -57,7 +57,10 @@ namespace SpResearchTracker.Models
 
             HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken, eTag);
             string responseString = await response.Content.ReadAsStringAsync();
-            XElement root = XElement.Parse(responseString);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
 
             return XElement.Parse(responseString).ToProject();
 
@@ -76,6 +79,10 @@ namespace SpResearchTracker.Models
             StringContent requestContent = new StringContent(entry.ToString());
             HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestContent);
             string responseString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
 
             return XElement.Parse(responseString).ToProject();
 

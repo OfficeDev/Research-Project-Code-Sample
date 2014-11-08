@@ -1,12 +1,24 @@
+using System;
+using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using SpResearchTracker.Utils;
 
-namespace SpResearchTracker.Models
+namespace SpResearchTracker.Utils
 {
     public class AccessTokenProvider
     {
+        private readonly HttpRequestMessage _requestMessage;
+
+        public AccessTokenProvider(HttpRequestMessage requestMessage)
+        {
+            if (requestMessage == null)
+                throw new ArgumentNullException("requestMessage");
+
+            _requestMessage = requestMessage;
+        }
+
         /// <summary>
         /// Utilizes the OAuthController to get the access token for SharePoint
         /// in the name of the current user for the given tenancy.
@@ -21,16 +33,17 @@ namespace SpResearchTracker.Models
 
             AuthenticationContext authContext = new AuthenticationContext(
                 string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantId), 
-                new NaiveSessionCache(signInUserId)
+                new SimpleDatabaseCache(signInUserId)
             );
 
             try
             {
                 var result = await authContext.AcquireTokenSilentAsync(
-                    AADAppSettings.Resource, 
-                    new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey), 
+                    AADAppSettings.Resource,
+                    new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey),
                     new UserIdentifier(userObjectId, UserIdentifierType.UniqueId)
-                );
+                    );
+
                 return result.AccessToken;
             }
             catch (AdalException exception)
@@ -40,8 +53,9 @@ namespace SpResearchTracker.Models
                 {
                     authContext.TokenCache.Clear();
                 }
-                return null;
             }
+
+            return null;
         }
     }
 }

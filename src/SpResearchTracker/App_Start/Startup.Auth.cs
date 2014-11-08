@@ -42,8 +42,7 @@ namespace SpResearchTracker
 
                     Notifications = new OpenIdConnectAuthenticationNotifications {
                         // If there is a code in the OpenID Connect response, redeem it for an access token and refresh token, and store those away. 
-                        AuthorizationCodeReceived = (context) =>
-                        {
+                        AuthorizationCodeReceived = (context) => {
                             var code = context.Code;
 
                             ClientCredential credential = new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey);
@@ -52,15 +51,15 @@ namespace SpResearchTracker
 
                             AuthenticationContext authContext = new AuthenticationContext(
                                 string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantID), 
-                                new NaiveSessionCache(signedInUserID)
+                                new SimpleDatabaseCache(signedInUserID)
                             );
 
                             // Get the access token for AAD Graph. Doing this will also initialize the token cache associated with the authentication context
                             // In theory, you could acquire token for any service your application has access to here so that you can initialize the token cache
                             AuthenticationResult result = authContext.AcquireTokenByAuthorizationCode(
                                 code, 
-                                new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path)), 
-                                credential, 
+                                new Uri(context.Request.Uri.GetLeftPart(UriPartial.Path)), 
+                                credential,
                                 AADAppSettings.AADGraphResourceId
                             );
 

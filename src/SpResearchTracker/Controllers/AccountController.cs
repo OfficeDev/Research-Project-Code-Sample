@@ -31,7 +31,7 @@ namespace SpResearchTracker.Controllers
             // Remove all cache entries for this user and send an OpenID Connect sign-out request.
             string usrObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
-            new NaiveSessionCache(usrObjectId).Clear();
+            new SimpleDatabaseCache(usrObjectId).Clear();
 
             HttpContext.GetOwinContext().Authentication.SignOut(
                 OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);

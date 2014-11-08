@@ -1,9 +1,10 @@
-﻿
+﻿using System.Web.Http.Controllers;
 using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using SpResearchTracker.Utils;
 
 namespace SpResearchTracker.Controllers
 {
@@ -12,12 +13,17 @@ namespace SpResearchTracker.Controllers
     {
         //This interface is used to support dependency injection
         private readonly IResearchRepository _repository;
-        private readonly AccessTokenProvider _tokenProvider;
+        private AccessTokenProvider _tokenProvider;
 
         public ConfigurationsController(IResearchRepository repository)
         {
             _repository = repository;
-            _tokenProvider = new AccessTokenProvider();
+        }
+
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            _tokenProvider = new AccessTokenProvider(Request);
         }
 
         /// <summary>

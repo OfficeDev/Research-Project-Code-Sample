@@ -247,7 +247,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccessTokenProvider.cs" />
+    <Compile Include="Models\CacheEntry.cs" />
+    <Compile Include="Utils\AccessTokenProvider.cs" />
     <Compile Include="Models\ConfigurationInfo.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
@@ -255,15 +256,13 @@
     <Compile Include="Models\ReferencesRepository.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\ResearchRepository.cs" />
-    <Compile Include="Models\TenantDbContext.cs" />
-    <Compile Include="Models\TenantRegistrationModels.cs" />
+    <Compile Include="Models\AdCacheDbContext.cs" />
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AADAppSettings.cs" />
-    <Compile Include="Utils\DatabaseIssuerNameRegistry.cs" />
     <Compile Include="Utils\ExtensionMethods.cs" />
-    <Compile Include="Utils\NaiveSessionCache.cs" />
+    <Compile Include="Utils\SimpleDatabaseCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\bookmarklet\add.html" />

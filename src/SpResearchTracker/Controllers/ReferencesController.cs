@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
 using SpResearchTracker.Models;
 using Microsoft.Data.OData;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using SpResearchTracker.Utils;
 
 namespace SpResearchTracker.Controllers
 {
@@ -19,12 +21,17 @@ namespace SpResearchTracker.Controllers
 
         //This interface is used to support dependency injection
         private readonly IReferencesRepository _repository;
-        private readonly AccessTokenProvider _tokenProvider;
+        private AccessTokenProvider _tokenProvider;
 
         public ReferencesController(IReferencesRepository repository)
         {
             _repository = repository;
-            _tokenProvider = new AccessTokenProvider();
+        }
+
+        protected override void Initialize(HttpControllerContext controllerContext)
+        {
+            base.Initialize(controllerContext);
+            _tokenProvider = new AccessTokenProvider(Request);
         }
 
         // GET: odata/References
