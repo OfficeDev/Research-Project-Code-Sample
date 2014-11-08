@@ -1,42 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
-using System.Web.Http.OData.Routing;
 using SpResearchTracker.Models;
 using Microsoft.Data.OData;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
-using SpResearchTracker.Utils;
 
 namespace SpResearchTracker.Controllers
 {
-
     [Authorize]
     public class ReferencesController : ODataController
     {
+        private static readonly ODataValidationSettings _validationSettings = new ODataValidationSettings();
+
         //This interface is used to support dependency injection
-        private IReferencesRepository _repository;
+        private readonly IReferencesRepository _repository;
+        private readonly AccessTokenProvider _tokenProvider;
 
         public ReferencesController(IReferencesRepository repository)
         {
             _repository = repository;
+            _tokenProvider = new AccessTokenProvider();
         }
-
-        private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
         // GET: odata/References
         [Queryable]
         public async Task<IHttpActionResult> GetReferences(ODataQueryOptions<Reference> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -54,14 +50,14 @@ namespace SpResearchTracker.Controllers
 
             //Get projects from SharePoint
             IEnumerable<Reference> references = await _repository.GetReferences(accessToken);
-            return Ok<IQueryable<Reference>>(references.AsQueryable());
+            return Ok(references.AsQueryable());
         }
 
         // GET: odata/References(5)
         public async Task<IHttpActionResult> GetReference([FromODataUri] int key, ODataQueryOptions<Reference> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -86,10 +82,8 @@ namespace SpResearchTracker.Controllers
             {
                 return new StatusCodeResult(HttpStatusCode.NotModified, Request);
             }
-            else
-            {
-                return Ok<Reference>(reference);
-            }
+            
+            return Ok(reference);
         }
 
         // PUT: odata/References(5)
@@ -102,7 +96,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Post(Reference reference)
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -124,7 +118,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -171,16 +165,11 @@ namespace SpResearchTracker.Controllers
                 {
                     return StatusCode(HttpStatusCode.NoContent);
                 }
-                else
-                {
-                    return StatusCode(HttpStatusCode.InternalServerError);
-                }
-
+                
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
-            else
-            {
-                return StatusCode(HttpStatusCode.Conflict);
-            }
+            
+            return StatusCode(HttpStatusCode.Conflict);
         }
 
         // DELETE: odata/References(5)
@@ -188,7 +177,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -198,7 +187,7 @@ namespace SpResearchTracker.Controllers
             string eTag = Request.Headers.IfMatch.ToString();
             Reference reference = await _repository.GetReference(accessToken, key, eTag);
 
-            if (eTag == string.Empty || eTag == null)
+            if (String.IsNullOrEmpty(eTag))
             {
                 eTag = "*";
             }
@@ -209,15 +198,11 @@ namespace SpResearchTracker.Controllers
                 {
                     return StatusCode(HttpStatusCode.NoContent);
                 }
-                else
-                {
-                    return StatusCode(HttpStatusCode.InternalServerError);
-                }
+                
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
-            else
-            {
-                return StatusCode(HttpStatusCode.Conflict);
-            }
+
+            return StatusCode(HttpStatusCode.Conflict);
         }
     }
 }

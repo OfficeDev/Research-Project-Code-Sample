@@ -2,12 +2,7 @@
 using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace SpResearchTracker.Controllers
@@ -16,11 +11,13 @@ namespace SpResearchTracker.Controllers
     public class ConfigurationsController : ApiController
     {
         //This interface is used to support dependency injection
-        private IResearchRepository _repository;
+        private readonly IResearchRepository _repository;
+        private readonly AccessTokenProvider _tokenProvider;
 
         public ConfigurationsController(IResearchRepository repository)
         {
             _repository = repository;
+            _tokenProvider = new AccessTokenProvider();
         }
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Get()
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();

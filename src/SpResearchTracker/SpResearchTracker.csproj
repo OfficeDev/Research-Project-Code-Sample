@@ -247,6 +247,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccessTokenProvider.cs" />
     <Compile Include="Models\ConfigurationInfo.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
@@ -361,6 +362,7 @@
     <Content Include="Scripts\angular-animate.min.js.map">
       <DependentUpon>angular-animate.js</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\teeudev3-research-tracker.pubxml" />
     <None Include="Scripts\breeze.intellisense.js">
       <DependentUpon>breeze.debug.js</DependentUpon>
     </None>

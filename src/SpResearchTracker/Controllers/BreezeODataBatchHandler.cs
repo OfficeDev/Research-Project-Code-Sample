@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Helpers;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.OData.Batch;
 
 namespace SpResearchTracker.Controllers
@@ -15,27 +12,5 @@ namespace SpResearchTracker.Controllers
             System.Net.Http.HttpResponseMessage response = await base.ProcessBatchAsync(request, cancellationToken);
             return response;
         }
-
-        public override void ValidateRequest(System.Net.Http.HttpRequestMessage request)
-        {
-            string cookieToken = string.Empty;
-            string formToken = string.Empty;
-
-            IEnumerable<string> tokenHeaders;
-            if (request.Headers.TryGetValues("RequestVerificationToken", out tokenHeaders))
-            {
-                string[] tokens = tokenHeaders.First().Split(':');
-                if (tokens.Length == 2)
-                {
-                    cookieToken = tokens[0].Trim();
-                    formToken = tokens[1].Trim();
-                }
-            }
-
-            AntiForgery.Validate(cookieToken, formToken);
-        
-            base.ValidateRequest(request);
-        }
-
     }
 }
