@@ -1,43 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
-using System.Web.Http.OData.Routing;
 using SpResearchTracker.Models;
 using Microsoft.Data.OData;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
-using SpResearchTracker.Utils;
 
 namespace SpResearchTracker.Controllers
 {
     [Authorize]
-
     public class ProjectsController : ODataController
     {
+        private static readonly ODataValidationSettings _validationSettings = new ODataValidationSettings();
+        
         //This interface is used to support dependency injection
-        private IProjectsRepository _repository;
+        private readonly IProjectsRepository _repository;
+        private readonly AccessTokenProvider _tokenProvider;
 
         public ProjectsController(IProjectsRepository repository)
         {
             _repository = repository;
+            _tokenProvider = new AccessTokenProvider();
         }
-
-        private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
-
 
         // GET: odata/Projects
         [Queryable]
         public async Task<IHttpActionResult> GetProjects(ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -55,14 +50,14 @@ namespace SpResearchTracker.Controllers
 
             //Get projects from SharePoint
             IEnumerable<Project> projects = await _repository.GetProjects(accessToken);
-            return Ok<IQueryable<Project>>(projects.AsQueryable());
+            return Ok(projects.AsQueryable());
         }
 
         // GET: odata/Projects(5)
         public async Task<IHttpActionResult> GetProject([FromODataUri] int key, ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -89,7 +84,7 @@ namespace SpResearchTracker.Controllers
             }
             else
             {
-                return Ok<Project>(project);
+                return Ok(project);
             }
         }
 
@@ -104,7 +99,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -126,7 +121,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -171,18 +166,18 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
             }
 
             //Get project from SharePoint
-            string rootUri = Request.RequestUri.OriginalString.Substring(0, Request.RequestUri.OriginalString.IndexOf(Request.GetODataPath().Segments[0].ToString()));
+            //string rootUri = Request.RequestUri.OriginalString.Substring(0, Request.RequestUri.OriginalString.IndexOf(Request.GetODataPath().Segments[0].ToString()));
             string eTag = Request.Headers.IfMatch.ToString();
             Project project = await _repository.GetProject(accessToken, key, eTag);
 
-            if (eTag == string.Empty || eTag == null)
+            if (String.IsNullOrEmpty(eTag))
             {
                 eTag = "*";
             }
@@ -193,15 +188,11 @@ namespace SpResearchTracker.Controllers
                 {
                     return StatusCode(HttpStatusCode.NoContent);
                 }
-                else
-                {
-                    return StatusCode(HttpStatusCode.InternalServerError);
-                }
+                
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
-            else
-            {
-                return StatusCode(HttpStatusCode.Conflict);
-            }
+
+            return StatusCode(HttpStatusCode.Conflict);
         }
     }
 }

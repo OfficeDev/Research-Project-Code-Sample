@@ -7,70 +7,30 @@ namespace SpResearchTracker.Utils
 
     public class AADAppSettings
     {
-        
-        private static string _clientId = ConfigurationManager.AppSettings["ida:ClientId"] ?? ConfigurationManager.AppSettings["ida:ClientID"];
-        private static string _appKey = ConfigurationManager.AppSettings["ida:AppKey"] ?? ConfigurationManager.AppSettings["ida:Password"];
-        private static string _authorizationUri = ConfigurationManager.AppSettings["ida:AuthorizationUri"];
-        private static string _graphResourceId = ConfigurationManager.AppSettings["ida:GraphResourceId"];
+        private static readonly string _resource = ConfigurationManager.AppSettings["ida:Resource"];
+        private static readonly string _clientId = ConfigurationManager.AppSettings["ida:ClientId"] ?? ConfigurationManager.AppSettings["ida:ClientID"];
+        private static readonly string _appKey = ConfigurationManager.AppSettings["ida:AppKey"] ?? ConfigurationManager.AppSettings["ida:Password"];
+        private static readonly string _authorizationUri = ConfigurationManager.AppSettings["ida:AuthorizationUri"];
+        private static readonly string _graphResourceId = ConfigurationManager.AppSettings["ida:GraphResourceId"];
 
-        private static string _authority="https://login.windows-ppe.net/common/";
-        private static string _discoverySvcResourceId = "https://api.officeppe.com/discovery/";
-        private static string _discoverySvcEndpointUri = "https://api.officeppe.com/discovery/me/";
+        private const string AUTHORITY = "https://login.windows.net/common/";
+        private const string DISCOVERY_SVC_RESOURCE_ID = "https://api.office.com/discovery/";
+        private const string DISCOVERY_SVC_ENDPOINT_URI = "https://api.office.com/discovery/me/";
 
-        public static string ClientId
-        {
-            get
-            {
-                return _clientId;
-            }
-        }
+        public static string Resource { get { return _resource; } }
 
-        public static string AppKey
-        {
-            get
-            {
-                return _appKey;
-            }
-        }
+        public static string ClientId { get { return _clientId; } }
 
-        public static string AuthorizationUri
-        {
-            get
-            {
-                return _authorizationUri;
-            }
-        }
+        public static string AppKey { get { return _appKey; } }
 
-        public static string Authority
-        {
-            get
-            {
-                return _authority;
-            }
-        }
+        public static string AuthorizationUri { get { return _authorizationUri; } }
 
-        public static string AADGraphResourceId
-        {
-            get
-            {
-                return _graphResourceId;
-            }
-        }
+        public static string Authority { get { return AUTHORITY; } }
 
-        public static string DiscoveryServiceResourceId
-        {
-            get
-            {
-                return _discoverySvcResourceId;
-            }
-        }
+        public static string AADGraphResourceId { get { return _graphResourceId; } }
 
-        public static Uri DiscoveryServiceEndpointUri
-        {
-            get
-            {
-                return new Uri(_discoverySvcEndpointUri);
-            }
-        }
+        public static string DiscoveryServiceResourceId { get { return DISCOVERY_SVC_RESOURCE_ID; } }
+
+        public static Uri DiscoveryServiceEndpointUri { get { return new Uri(DISCOVERY_SVC_ENDPOINT_URI); } }
     }
 }

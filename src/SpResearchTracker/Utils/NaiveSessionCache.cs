@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using System.Collections.Generic;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Threading;
 using System.Web;
 
@@ -8,17 +9,17 @@ namespace SpResearchTracker.Utils
     /// A basic token cache using current session
     /// ADAL will automatically save tokens in the cache whenever you obtain them.  
     /// More details here: http://www.cloudidentity.com/blog/2014/07/09/the-new-token-cache-in-adal-v2/
+    /// Warning: If the session is lost, the user will need to sign out and then in again.
     /// </summary>
     public class NaiveSessionCache : TokenCache
     {
-        private static ReaderWriterLockSlim SessionLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
-        string UserObjectId = string.Empty;
-        string CacheId = string.Empty;
+        private static readonly ReaderWriterLockSlim SessionLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+        
+        readonly string CacheId = string.Empty;
 
         public NaiveSessionCache(string userId)
         {
-            UserObjectId = userId;
-            CacheId = UserObjectId + "_TokenCache";
+            CacheId = userId + "_TokenCache";
 
             this.AfterAccess = AfterAccessNotification;
             this.BeforeAccess = BeforeAccessNotification;
