@@ -181,7 +181,8 @@ font-size: 19px;
         height: 50px;
         text-align: center;
         vertical-align: middle;
-display: table-cell;
+        display: table-cell;
+        white-space: nowrap !important;
     }
     .office-nav .tile {
         font-size: 18px!important;
