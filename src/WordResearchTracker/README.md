@@ -84,10 +84,10 @@ In order for the ASP.NET Web application to run, it must be configured to use th
 All the changes can be done in the **[WordResearchTrackerWeb](../WordResearchTrackerWeb)** project’s `web.config`. Use the values you filled out in the table above to make the following changes:
 
 ##Line 19 – App Setting “ida:SiteURL”
-Update the value to the **Fully Qualified URL of the SharePoint Site** you will use for testing the app.
+Update the value with the **Fully Qualified URL of the SharePoint Site**.
 ##Line 24 – App Setting “ida:Resource”
-Update the value to the **Fully Qualified SharePoint Online Resource**.
+Update the value with the **Fully Qualified SharePoint Online Resource**.
 ##Line 25 – App Setting “ida:ClientID”
-Update the value to the **Azure AD App Client ID**.
+Update the value with the **Azure AD App Client ID**.
 ##Line 26 – App Setting “ida:AppKey”
-Update the value to the **Azure AD App Key**.
+Update the value with the **Azure AD App Key**.

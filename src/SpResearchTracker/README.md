@@ -73,38 +73,25 @@ Now you need to grant the Azure AD application permissions to Office 365. Scroll
 
 ![Configuring Application Permissions](readme_resources/06.png)
 
+Next, update the **Reply Url** to include additional links as shown in the following image:
+
+![Configuring an Application](readme_resources/07.png) 
+
 Save your changes.
 
-
-
-At this point the Azure AD application has been created and configured. The next step is to update the ASP.NET Web application.
+Save your changes. At this point the Azure AD application has been created and configured. The next step is to update the ASP.NET Web application.
 
 #Configure the ASP.NET Web Application
 In order for the ASP.NET Web application to run, it must be configured to use the app that was created in AAD in the previous setup.  Once the changes have been performed, the sample ASP.NET Web application can be either deployed to an Azure Web Site to test, or it can be launched from Visual Studio in Debug mode.
 
-All the changes can be done in the project’s `web.config` for simplicity… the values you saved from the table above to make the following changes:
+All the changes can be done in the **[SpResearchTracker](../SpResearchTracker)** project’s `web.config`. Use the values you filled out in the table above to make the following changes:
 
-##Line 24 – App Setting “ida:FederationMetadataLocation”
-Update the **[[REPLACE]]** string with the **Office 365 Tenant ID URL**.
-##Line 25 – App Setting “ida:Realm”
-Update the value of the setting to the **Azure AD App ID URL Name**.
-##Line 26 – App Setting “ida:AudienceUri”
-Update the value of the setting to the **Azure AD App ID URL Name**.
-##Line 27 – App Setting “ida:Tenant”
-Update the **[[REPLACE]]** string with the **Office 365 Tenant ID**.
-##Line 28 – App Setting “ida:Audience”
-Update the value of the setting to the **Azure AD App ID URL Name**.
-##Line 29 – App Setting “ida:ClientID”
-Update the value of the setting to the **Azure AD App Client ID**.
-##Line 30 – App Setting “ida:AppKey”
-Update the value of the setting to the **Azure AD App Key**.
-##Line 31 – App Setting “ida:Resource”
-Update the **[[REPLACE]]** with the **Fully Qualified SharePoint Online Resource**.
-##Line 32 – App Setting “ida:SiteURL”
-Update the value of the setting to the **Fully Qualified URL of the SharePoint Site** you will use for testing the app.
-##Line 54 – Identity Configuration Audience URI
-Set the value of the `<add>` node to the **Azure AD ID URL Name**.
-##Line 112 – wsFederation Configuration “issuer”
-Within the `wsFederation` element, update the **[[REPLACE]]** in the `issuer` attribute to the value of the **Office 365 Tenant ID**.
-##Line 113 – wsFederation Configuration “realm”
-Within the `wsFederation` element, set the value of the `realm` attribute to the value of the **Azure App ID URL Name**.
+##Line 21 – App Setting “ida:SiteURL”
+Update the value with the **Fully Qualified URL of the SharePoint Site**.
+##Line 26 – App Setting “ida:Resource”
+Update the value with the **Fully Qualified SharePoint Online Resource**.
+##Line 27 – App Setting “ida:ClientID”
+Update the value with the **Azure AD App Client ID**.
+##Line 28 – App Setting “ida:AppKey”
+Update the value with the **Azure AD App Key**.
+
