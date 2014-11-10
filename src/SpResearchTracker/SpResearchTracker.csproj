@@ -258,7 +258,7 @@
     <Compile Include="Models\AdCacheDbContext.cs" />
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
+    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Utils\AADAppSettings.cs" />
     <Compile Include="Utils\ExtensionMethods.cs" />
     <Compile Include="Utils\SimpleDatabaseTokenCache.cs" />

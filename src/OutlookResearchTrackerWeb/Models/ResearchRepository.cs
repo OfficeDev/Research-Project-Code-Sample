@@ -4,17 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Microsoft.Office365.OAuth;
 using System.Threading.Tasks;
 using System.Text;
 using System.Configuration;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
-using OutlookResearchTrackerWeb.Controllers;
 
 namespace OutlookResearchTrackerWeb.Models
 {
-
     /// <summary>
     /// The repository interface
     /// </summary>
@@ -32,47 +29,41 @@ namespace OutlookResearchTrackerWeb.Models
     /// </summary>
     public class ResearchRepository : IResearchRepository
     {
-
         public string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
         public string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
         public string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
-        public string Resource = ConfigurationManager.AppSettings["ida:Resource"];
-        public string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
 
-
-        /// <summary>
-        /// Retrieves an access token from the OAuth Controller
-        /// </summary>
-        /// <returns>Access Token</returns>
-        private string GetAccessToken()
+        private Task<string> GetAccessTokenAsync()
         {
-            return OAuthController.GetAccessTokenFromCacheOrRefreshToken(this.Tenant, this.Resource);
+            return new TokenProvider().GetSharePointAccessToken();
         }
-        
+
         /// <summary>
         /// Returns a collection of projects
         /// </summary>
         /// <returns>List</returns>
         public async Task<List<Project>> GetProjects()
         {
-            List<Project> projects = new List<Project>();
-
             StringBuilder requestUri = new StringBuilder()
                 .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
                 .Append(ProjectsListName)
                 .Append("')/items?$select=ID,Title&$orderby=Title");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), GetAccessToken());
+            HttpResponseMessage response = await Get(requestUri.ToString(), await GetAccessTokenAsync());
             string responseString = await response.Content.ReadAsStringAsync();
-            XElement root = XElement.Parse(responseString);
 
-            foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
+            if (!response.IsSuccessStatusCode)
             {
-                projects.Add(entryElem.ToProject());
+                throw new Exception("Error Retrieving Projects: " + responseString);
             }
 
-            return projects;
+            XElement root = XElement.Parse(responseString);
+
+            return root.Elements()
+                       .Where(e => e.Name.LocalName == "entry")
+                       .Select(e => e.ToProject())
+                       .ToList();
         }
 
         /// <summary>
@@ -82,36 +73,37 @@ namespace OutlookResearchTrackerWeb.Models
         /// <returns>List</returns>
         public async Task<List<Reference>> GetReferences(string projectId)
         {
-            List<Reference> references = new List<Reference>();
-
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ReferencesListName)
+                .Append(ReferencesListName)
                 .AppendFormat("')/items?$filter=Project eq '{0}'&select=ID,Title,URL,Comments,Project", projectId);
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), GetAccessToken());
+            HttpResponseMessage response = await Get(requestUri.ToString(), await GetAccessTokenAsync());
             string responseString = await response.Content.ReadAsStringAsync();
-            XElement root = XElement.Parse(responseString);
 
-            foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
+            if (!response.IsSuccessStatusCode)
             {
-                references.Add(entryElem.ToReference());
+                throw new Exception("Error Retrieving References: " + responseString);
             }
 
+            XElement root = XElement.Parse(responseString);
 
-            return references;
+            return root.Elements()
+                       .Where(e => e.Name.LocalName == "entry")
+                       .Select(entryElem => entryElem.ToReference())
+                       .ToList();
 
         }
 
-        public async Task<string> GetProjectEntityType()
+        public Task<string> GetProjectEntityType()
         {
-            return await GetListEntityType(ProjectsListName);
+            return GetListEntityType(ProjectsListName);
         }
 
-        public async Task<string> GetReferenceEntityType()
+        public Task<string> GetReferenceEntityType()
         {
-            return await GetListEntityType(ReferencesListName);
+            return GetListEntityType(ReferencesListName);
         }
 
         /// <summary>
@@ -120,22 +112,22 @@ namespace OutlookResearchTrackerWeb.Models
         /// <returns>Entity type name</returns>
         private async Task<string> GetListEntityType(string ListName)
         {
-
-
             StringBuilder requestUri = new StringBuilder()
                 .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
                 .Append(ListName)
                 .Append("')");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), GetAccessToken());
+            HttpResponseMessage response = await Get(requestUri.ToString(), await GetAccessTokenAsync());
             string responseString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error Retrieving ListEntityType: " + responseString);
+            }
             XElement root = XElement.Parse(responseString);
             return root.Descendants(ExtensionMethods.d + "ListItemEntityTypeFullName").First().Value;
-
-
         }
-        
+
         /// <summary>
         /// Adds a new reference based on links in the e-mail message body
         /// </summary>
@@ -144,12 +136,12 @@ namespace OutlookResearchTrackerWeb.Models
         public async Task<Reference> CreateReference(Reference reference)
         {
             StringBuilder requestUri = new StringBuilder()
-                 .Append(this.SiteUrl)
+                 .Append(SiteUrl)
                  .Append("/_api/web/lists/getbyTitle('")
-                 .Append(this.ReferencesListName)
+                 .Append(ReferencesListName)
                  .Append("')/items");
 
-            if (reference.Title == null || reference.Title.Length == 0)
+            if (string.IsNullOrEmpty(reference.Title))
             {
                 reference.Title = await GetTitleFromLink(reference.Url);
             }
@@ -157,9 +149,12 @@ namespace OutlookResearchTrackerWeb.Models
             XElement entry = reference.ToXElement();
 
             StringContent requestContent = new StringContent(entry.ToString());
-            HttpResponseMessage response = await this.Post(requestUri.ToString(), GetAccessToken(), requestContent);
+            HttpResponseMessage response = await Post(requestUri.ToString(), await GetAccessTokenAsync(), requestContent);
             string responseString = await response.Content.ReadAsStringAsync();
-
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error Creating reference: " + responseString);
+            }
             return XElement.Parse(responseString).ToReference();
 
         }
@@ -198,10 +193,10 @@ namespace OutlookResearchTrackerWeb.Models
         public async Task<HttpResponseMessage> Post(string requestUri, string accessToken, StringContent requestData)
         {
             HttpClient client = new HttpClient();
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            requestData.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/atom+xml");
+            requestData.Headers.ContentType = MediaTypeHeaderValue.Parse("application/atom+xml");
             request.Content = requestData;
             return await client.SendAsync(request);
         }
@@ -217,10 +212,10 @@ namespace OutlookResearchTrackerWeb.Models
         public async Task<HttpResponseMessage> Patch(string requestUri, string accessToken, string eTag, StringContent requestData)
         {
             HttpClient client = new HttpClient();
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri.ToString());
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            requestData.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/atom+xml");
+            requestData.Headers.ContentType = MediaTypeHeaderValue.Parse("application/atom+xml");
             request.Headers.IfMatch.Add(new EntityTagHeaderValue("\"" + eTag + "\""));
             request.Headers.Add("X-Http-Method", "PATCH");
             request.Content = requestData;
@@ -265,12 +260,8 @@ namespace OutlookResearchTrackerWeb.Models
             {
                 return match.Groups[1].Value;
             }
-            else
-            {
-                return "Unknown Title";
-            }
 
+            return "Unknown Title";
         }
-
     }
 }

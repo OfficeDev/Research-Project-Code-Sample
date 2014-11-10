@@ -2,19 +2,14 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using SpResearchTracker.Utils;
-using System.Security.Claims;
 
 namespace SpResearchTracker.Models
 {
     public abstract class Repository
     {
+        public string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
         public string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
         public string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
-        public string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
-        public string Resource = ConfigurationManager.AppSettings["ida:Resource"];
-        public string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
 
         /// <summary>
         /// Implements common GET functionality

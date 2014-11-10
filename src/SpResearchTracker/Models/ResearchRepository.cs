@@ -1,19 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using System.Configuration;
-using System.Globalization;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml.Linq;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using System.Security.Claims;
-using System.Net;
-using SpResearchTracker.Controllers;
 using SpResearchTracker.Utils;
 using SpResearchTracker.Helpers;
 
@@ -38,12 +28,12 @@ namespace SpResearchTracker.Models
         public async Task<bool> ListExists(string accessToken, string listName)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists?$select=Title&$filter=Title eq '")
                 .Append(listName)
                 .Append("'");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken);
             string responseString = await response.Content.ReadAsStringAsync();
             XElement root = XElement.Parse(responseString);
 
@@ -78,7 +68,7 @@ namespace SpResearchTracker.Models
         public async Task<bool> CreateList(string accessToken, string listName, string listTemplate)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl).Append("/_api/web/lists");
+                .Append(SiteUrl).Append("/_api/web/lists");
 
             StringContent requestData = new StringContent(
             new XElement(ExtensionMethods.atom + "entry",
@@ -90,7 +80,7 @@ namespace SpResearchTracker.Models
                         new XElement(ExtensionMethods.d + "Title", listName),
                         new XElement(ExtensionMethods.d + "BaseTemplate", listTemplate)))).ToString());
 
-            HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestData);
+            HttpResponseMessage response = await Post(requestUri.ToString(), accessToken, requestData);
             return response.IsSuccessStatusCode;
         }
 
@@ -110,7 +100,7 @@ namespace SpResearchTracker.Models
         {
 
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl).Append("/_api/web/lists/getByTitle('")
+                .Append(SiteUrl).Append("/_api/web/lists/getByTitle('")
                 .Append(listName)
                 .Append("')/fields");
 
@@ -124,7 +114,7 @@ namespace SpResearchTracker.Models
                         new XElement(ExtensionMethods.d + "Title", fieldName),
                         new XElement(ExtensionMethods.d + "FieldTypeKind", fieldTypeKind)))).ToString());
 
-            HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestData);
+            HttpResponseMessage response = await Post(requestUri.ToString(), accessToken, requestData);
 
             return response.IsSuccessStatusCode;
 
@@ -141,14 +131,14 @@ namespace SpResearchTracker.Models
             List<ConfigurationInfo> configurations = new List<ConfigurationInfo>();
 
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists?$select=Title,ListItemEntityTypeFullName&$filter=(Title eq '")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("') or (Title eq '")
-                .Append(this.ReferencesListName)
+                .Append(ReferencesListName)
                 .Append("')");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken);
             string responseString = await response.Content.ReadAsStringAsync();
             XElement root = XElement.Parse(responseString);
 

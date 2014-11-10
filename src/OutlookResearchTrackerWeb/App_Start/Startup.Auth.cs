@@ -1,18 +1,18 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IdentityModel.Claims;
+using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using SpResearchTracker.Utils;
+using OutlookResearchTrackerWeb.Utils;
 using Owin;
-using System;
-using System.IdentityModel.Claims;
-using System.Threading.Tasks;
 
-namespace SpResearchTracker
+namespace OutlookResearchTrackerWeb
 {
     public partial class Startup
-    {  
+    {
         public void ConfigureAuth(IAppBuilder app)
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
@@ -50,15 +50,15 @@ namespace SpResearchTracker
                             string nameIdentifier = context.AuthenticationTicket.Identity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                             AuthenticationContext authContext = new AuthenticationContext(
-                                string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantID), 
-                                new SimpleDatabaseTokenCache(nameIdentifier)
+                                string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantID),
+                                new SimpleTokenCache(nameIdentifier)
                             );
 
                             // Get the access token for AAD Graph. Doing this will also initialize the token cache associated with the authentication context
                             // In theory, you could acquire token for any service your application has access to here so that you can initialize the token cache
                             AuthenticationResult result = await authContext.AcquireTokenByAuthorizationCodeAsync(
-                                context.Code, 
-                                new Uri(context.Request.Uri.GetLeftPart(UriPartial.Path)), 
+                                context.Code,
+                                new Uri(context.Request.Uri.GetLeftPart(UriPartial.Path)),
                                 serviceCredential,
                                 AADAppSettings.SharePointResourceId
                             );
@@ -71,7 +71,7 @@ namespace SpResearchTracker
                             // this allows you to deploy your app (to Azure Web Sites, for example)without having to change settings
                             // Remember that the base URL of the address used here must be provisioned in Azure AD beforehand.
                             string appBaseUrl = context.Request.Scheme + "://" + context.Request.Host + context.Request.PathBase;
-                            context.ProtocolMessage.RedirectUri = appBaseUrl + "/Home/SPA";
+                            context.ProtocolMessage.RedirectUri = appBaseUrl + "/Home/App";
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
 
                             return Task.FromResult(0);
@@ -79,7 +79,7 @@ namespace SpResearchTracker
 
                         AuthenticationFailed = (context) => {
                             // Suppress the exception
-                            context.HandleResponse(); 
+                            context.HandleResponse();
 
                             return Task.FromResult(0);
                         }
