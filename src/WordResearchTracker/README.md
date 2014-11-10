@@ -81,15 +81,13 @@ Save your changes. At this point the Azure AD application has been created and c
 #Configure the ASP.NET Web Application
 In order for the ASP.NET Web application to run, it must be configured to use the app that was created in AAD in the previous setup.  Once the changes have been performed, the sample ASP.NET Web application can be either deployed to an Azure Web Site to test, or it can be launched from Visual Studio in Debug mode.
 
-All the changes can be done in the **[WordResearchTrackerWeb](../WordResearchTrackerWeb)** project’s `web.config` for simplicity… the values you saved from the table above to make the following changes:
+All the changes can be done in the **[WordResearchTrackerWeb](../WordResearchTrackerWeb)** project’s `web.config`. Use the values you filled out in the table above to make the following changes:
 
-##Line 21 – App Setting “ida:ClientID”
-Update the value of the setting to the **Azure AD App Client ID**.
-##Line 22 – App Setting “ida:AppKey”
-Update the value of the setting to the **Azure AD App Key**.
-##Line 23 – App Setting “ida:Password
-Update the value of the setting to the **Azure AD App Key**.
+##Line 19 – App Setting “ida:SiteURL”
+Update the value to the **Fully Qualified URL of the SharePoint Site** you will use for testing the app.
 ##Line 24 – App Setting “ida:Resource”
-Update the **[[REPLACE]]** with the **Fully Qualified SharePoint Online Resource**.
-##Line 25 – App Setting “ida:SiteURL”
-Update the value of the setting to the **Fully Qualified URL of the SharePoint Site** you will use for testing the app.
+Update the value to the **Fully Qualified SharePoint Online Resource**.
+##Line 25 – App Setting “ida:ClientID”
+Update the value to the **Azure AD App Client ID**.
+##Line 26 – App Setting “ida:AppKey”
+Update the value to the **Azure AD App Key**.
