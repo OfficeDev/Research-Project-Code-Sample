@@ -1,5 +1,4 @@
-﻿using System.Web.Http.Controllers;
-using SpResearchTracker.Models;
+﻿using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -38,24 +37,24 @@ namespace SpResearchTracker.Controllers
             }
 
             //Check to see if the lists exist
-            bool projectsListExists = await _repository.ListExists(accessToken, ((Repository)_repository).ProjectsListName);
-            bool referencesListExists = await _repository.ListExists(accessToken, ((Repository)_repository).ReferencesListName);
+            bool projectsListExists = await _repository.ListExists(accessToken, Repository.ProjectsListName);
+            bool referencesListExists = await _repository.ListExists(accessToken, Repository.ReferencesListName);
 
             //Create the "Projects" list, if necessary
             if (!projectsListExists)
             {
-                bool projectsListCreated = await _repository.CreateList(accessToken, ((Repository)_repository).ProjectsListName, "100");
+                bool projectsListCreated = await _repository.CreateList(accessToken, Repository.ProjectsListName, "100");
             }
 
             //Create the "References" list, if necessary
             if (!referencesListExists)
             {
-                bool referencesListCreated = await _repository.CreateList(accessToken, ((Repository)_repository).ReferencesListName, "103");
+                bool referencesListCreated = await _repository.CreateList(accessToken, Repository.ReferencesListName, "103");
 
                 //Add required fields to the list
                 if (referencesListCreated)
                 {
-                    bool projectNameFieldCreated = await _repository.AddFieldToList(accessToken, ((Repository)_repository).ReferencesListName, "Project", "2");
+                    bool projectNameFieldCreated = await _repository.AddFieldToList(accessToken, Repository.ReferencesListName, "Project", "2");
                 }
             }
 

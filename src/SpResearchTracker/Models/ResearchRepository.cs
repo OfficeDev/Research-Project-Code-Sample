@@ -42,20 +42,12 @@ namespace SpResearchTracker.Models
                 return false;
             }
 
-            if (root.Descendants(ExtensionMethods.d + "Title").Count() == 0)
+            if (!root.Descendants(ExtensionMethods.d + "Title").Any())
             {
                 return false;
             }
 
-            if (root.Descendants(ExtensionMethods.d + "Title").First().Value == listName)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return root.Descendants(ExtensionMethods.d + "Title").First().Value == listName;
         }
 
         /// <summary>

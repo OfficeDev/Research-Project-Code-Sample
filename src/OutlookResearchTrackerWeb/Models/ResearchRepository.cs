@@ -29,9 +29,9 @@ namespace OutlookResearchTrackerWeb.Models
     /// </summary>
     public class ResearchRepository : IResearchRepository
     {
-        public string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
-        public string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
-        public string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
+        public static readonly string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
+        public static readonly string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
+        public static readonly string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
 
         private Task<string> GetAccessTokenAsync()
         {

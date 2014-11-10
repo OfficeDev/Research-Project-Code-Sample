@@ -24,12 +24,12 @@ namespace SpResearchTracker.Models
             List<Project> projects = new List<Project>();
             
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/items?$select=ID,Title");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken);
             string responseString = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -48,14 +48,14 @@ namespace SpResearchTracker.Models
         public async Task<Project> GetProject(string accessToken, int Id, string eTag)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(Id.ToString())
+                .Append(Id)
                 .Append("')?$select=ID,Title");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken, eTag);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken, eTag);
             string responseString = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -69,15 +69,15 @@ namespace SpResearchTracker.Models
         public async Task<Project> CreateProject(string accessToken, Project project)
         {
             StringBuilder requestUri = new StringBuilder()
-                 .Append(this.SiteUrl)
+                 .Append(SiteUrl)
                  .Append("/_api/web/lists/getbyTitle('")
-                 .Append(this.ProjectsListName)
+                 .Append(ProjectsListName)
                  .Append("')/items");
 
             XElement entry = project.ToXElement();
 
             StringContent requestContent = new StringContent(entry.ToString());
-            HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestContent);
+            HttpResponseMessage response = await Post(requestUri.ToString(), accessToken, requestContent);
             string responseString = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -91,31 +91,31 @@ namespace SpResearchTracker.Models
         public async Task<bool> UpdateProject(string accessToken, Project project)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(project.Id.ToString())
+                .Append(project.Id)
                 .Append("')");
 
             XElement entry = project.ToXElement();
 
             StringContent requestContent = new StringContent(entry.ToString());
-            HttpResponseMessage response = await this.Patch(requestUri.ToString(), accessToken, project.__eTag, requestContent);
+            HttpResponseMessage response = await Patch(requestUri.ToString(), accessToken, project.__eTag, requestContent);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteProject(string accessToken, int Id, string eTag)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(Id.ToString())
+                .Append(Id)
                 .Append("')");
 
-            HttpResponseMessage response = await this.Delete(requestUri.ToString(), accessToken, eTag);
+            HttpResponseMessage response = await Delete(requestUri.ToString(), accessToken, eTag);
             return response.IsSuccessStatusCode;
 
         }
