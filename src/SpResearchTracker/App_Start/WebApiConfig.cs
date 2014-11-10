@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.OData.Batch;
 using Microsoft.Practices.Unity;
 using SpResearchTracker.Models;
 using System.Web.Http.OData.Builder;
@@ -33,11 +34,11 @@ namespace SpResearchTracker
 
             // OData routes
             config.Routes.MapODataRoute(
-              routeName: "odata", 
-              routePrefix: "odata", 
+              routeName: "odata",
+              routePrefix: "odata",
               model: odataBuilder.GetEdmModel(),
-              batchHandler: new BreezeODataBatchHandler(GlobalConfiguration.DefaultServer));
-
-      }
+              batchHandler: new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer)
+            );
+        }
     }
 }
