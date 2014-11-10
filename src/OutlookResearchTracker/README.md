@@ -31,6 +31,7 @@ Setting | Example
 **Fully Qualified URL of the SharePoint Site** | https://contoso.sharepoint.com/sites/ContosoResearchTracker/
 
 First, login to the Azure Management Portal (https://manage.windowsazure.com).
+
 ##Create Azure Active Directory App
 In the Azure Management Portal, select **Active Directory** from the left-margin menu. Select the linked Azure AD directory that is used by your Office 365 tenant and from the directory’s dashboard, select the **APPLICATIONS** option in the top-navigation:
 
@@ -76,27 +77,22 @@ Now you need to grant the Azure AD application permissions to Office 365. Scroll
 -	Edit or delete items in all site collections
 -	Read items in all site collections
 
-
 ![Configuring Application Permissions](readme_resources/07.png)
 
 Save your changes.
-
- 
 
 At this point the Azure AD application has been created and configured. The next step is to update the ASP.NET Web application.
 
 #Configure the ASP.NET Web Application
 In order for the ASP.NET Web application to run, it must be configured to use the app that was created in AAD in the previous setup.  Once the changes have been performed, the sample ASP.NET Web application can be either deployed to an Azure Web Site to test, or it can be launched from Visual Studio in Debug mode.
 
-All the changes can be done in the **[OutlookResearchTrackerWeb](../OutlookResearchTrackerWeb)** project’s `web.config` for simplicity… the values you saved from the table above to make the following changes:
+All the changes can be done in the **[OutlookResearchTrackerWeb](../OutlookResearchTrackerWeb)** project’s `web.config`. Use the values you filled out in the table above to make the following changes:
 
-##Line 21 – App Setting “ida:ClientID”
-Update the value of the setting to the **Azure AD App Client ID**.
-##Line 22 – App Setting “ida:AppKey”
-Update the value of the setting to the **Azure AD App Key**.
-##Line 23 – App Setting “ida:Password
-Update the value of the setting to the **Azure AD App Key**.
+##Line 19 – App Setting “ida:SiteURL”
+Update the value with the **Fully Qualified URL of the SharePoint Site**.
 ##Line 24 – App Setting “ida:Resource”
-Update the **[[REPLACE]]** with the **Fully Qualified SharePoint Online Resource**.
-##Line 25 – App Setting “ida:SiteURL”
-Update the value of the setting to the **Fully Qualified URL of the SharePoint Site** you will use for testing the app.
+Update the value with the **Fully Qualified SharePoint Online Resource**.
+##Line 25 – App Setting “ida:ClientID”
+Update the value with the **Azure AD App Client ID**.
+##Line 26 – App Setting “ida:AppKey”
+Update the value with the **Azure AD App Key**.
