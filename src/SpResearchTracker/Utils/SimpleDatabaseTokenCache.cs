@@ -4,39 +4,37 @@ using SpResearchTracker.Models;
 namespace SpResearchTracker.Utils
 {
     /// <summary>
-    /// A basic token cache using current session
+    /// A basic token cache backed by a database, keyed on the given CacheId string.
     /// ADAL will automatically save tokens in the cache whenever you obtain them.  
     /// More details here: http://www.cloudidentity.com/blog/2014/07/09/the-new-token-cache-in-adal-v2/
-    /// Warning: If the session is lost, the user will need to sign out and then in again.
     /// </summary>
-    public class SimpleDatabaseCache : TokenCache
+    public class SimpleDatabaseTokenCache : TokenCache
     {
-        private readonly AdCacheDbContext _db;
         private readonly string _cacheId;
 
-        private CacheEntry _entry;
-
-        public SimpleDatabaseCache(string userId)
+        public SimpleDatabaseTokenCache(string cacheId)
         {
-            _db = new AdCacheDbContext();
-            _cacheId = userId;
+            _cacheId = cacheId;
 
             AfterAccess = AfterAccessNotification;
             BeforeAccess = BeforeAccessNotification;
         }
 
-        private CacheEntry GetCacheEntry()
+        private static AdCacheDbContext CreateDb()
         {
-            return _entry ?? (_entry = _db.AdCacheEntries.Find(_cacheId));
+            return new AdCacheDbContext();
         }
 
         public void Load()
         {
-            var entry = GetCacheEntry();
-
-            if (entry != null)
+            using (var db = CreateDb())
             {
-                Deserialize(entry.Data);
+                var entry = db.AdCacheEntries.Find(_cacheId);
+
+                if (entry != null)
+                {
+                    Deserialize(entry.Data);
+                }
             }
         }
 
@@ -48,16 +46,19 @@ namespace SpResearchTracker.Utils
             // Reflect changes in the persistent store
             byte[] data = Serialize();
 
-            var entry = GetCacheEntry();
-
-            if (entry == null)
+            using (var db = CreateDb())
             {
-                entry = new CacheEntry { Id = _cacheId };
-                _db.AdCacheEntries.Add(entry);
-            }
+                var entry = db.AdCacheEntries.Find(_cacheId);
 
-            entry.Data = data;
-            _db.SaveChanges();
+                if (entry == null)
+                {
+                    entry = new CacheEntry { Id = _cacheId };
+                    db.AdCacheEntries.Add(entry);
+                }
+
+                entry.Data = data;
+                db.SaveChanges();
+            }
         }
 
         public override void DeleteItem(TokenCacheItem item)
@@ -73,12 +74,15 @@ namespace SpResearchTracker.Utils
         {
             base.Clear();
 
-            var entry = GetCacheEntry();
-
-            if (entry != null)
+            using (var db = CreateDb())
             {
-                _db.AdCacheEntries.Remove(entry);
-                _db.SaveChanges();
+                var entry = db.AdCacheEntries.Find(_cacheId);
+
+                if (entry != null)
+                {
+                    db.AdCacheEntries.Remove(entry);
+                    db.SaveChanges();
+                }
             }
         }
 

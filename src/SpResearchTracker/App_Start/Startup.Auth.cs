@@ -42,29 +42,27 @@ namespace SpResearchTracker
 
                     Notifications = new OpenIdConnectAuthenticationNotifications {
                         // If there is a code in the OpenID Connect response, redeem it for an access token and refresh token, and store those away. 
-                        AuthorizationCodeReceived = (context) => {
-                            var code = context.Code;
+                        AuthorizationCodeReceived = async context => {
 
-                            ClientCredential credential = new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey);
+                            var serviceCredential = new ClientCredential(AADAppSettings.ClientId, AADAppSettings.AppKey);
+
                             string tenantID = context.AuthenticationTicket.Identity.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid").Value;
-                            string signedInUserID = context.AuthenticationTicket.Identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                            string nameIdentifier = context.AuthenticationTicket.Identity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                             AuthenticationContext authContext = new AuthenticationContext(
                                 string.Format("{0}/{1}", AADAppSettings.AuthorizationUri, tenantID), 
-                                new SimpleDatabaseCache(signedInUserID)
+                                new SimpleDatabaseTokenCache(nameIdentifier)
                             );
 
                             // Get the access token for AAD Graph. Doing this will also initialize the token cache associated with the authentication context
                             // In theory, you could acquire token for any service your application has access to here so that you can initialize the token cache
-                            AuthenticationResult result = authContext.AcquireTokenByAuthorizationCode(
-                                code, 
+                            AuthenticationResult result = await authContext.AcquireTokenByAuthorizationCodeAsync(
+                                context.Code, 
                                 new Uri(context.Request.Uri.GetLeftPart(UriPartial.Path)), 
-                                credential,
+                                serviceCredential,
                                 AADAppSettings.AADGraphResourceId
                             );
-
-                            return Task.FromResult(0);
-                        },                      
+                        },
 
                         RedirectToIdentityProvider = (context) => {
                             // This ensures that the address used for sign in and sign out is picked up dynamically from the request

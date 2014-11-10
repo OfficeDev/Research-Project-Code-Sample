@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
 using SpResearchTracker.Models;
@@ -21,17 +20,12 @@ namespace SpResearchTracker.Controllers
         
         //This interface is used to support dependency injection
         private readonly IProjectsRepository _repository;
-        private AccessTokenProvider _tokenProvider;
+        private readonly TokenProvider _tokenProvider;
 
         public ProjectsController(IProjectsRepository repository)
         {
             _repository = repository;
-        }
-
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            _tokenProvider = new AccessTokenProvider(Request);
+            _tokenProvider = new TokenProvider();
         }
 
         // GET: odata/Projects
@@ -39,7 +33,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetProjects(ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -64,7 +58,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetProject([FromODataUri] int key, ODataQueryOptions<Project> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -89,10 +83,8 @@ namespace SpResearchTracker.Controllers
             {
                 return new StatusCodeResult(HttpStatusCode.NotModified, Request);
             }
-            else
-            {
-                return Ok(project);
-            }
+            
+            return Ok(project);
         }
 
         // PUT: odata/Projects(5)
@@ -106,7 +98,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -128,7 +120,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -157,15 +149,11 @@ namespace SpResearchTracker.Controllers
                 {
                     return StatusCode(HttpStatusCode.NoContent);
                 }
-                else
-                {
-                    return StatusCode(HttpStatusCode.InternalServerError);
-                }
+                
+                return StatusCode(HttpStatusCode.InternalServerError);
             }
-            else
-            {
-                return StatusCode(HttpStatusCode.Conflict);
-            }
+            
+            return StatusCode(HttpStatusCode.Conflict);
         }
 
         // DELETE: odata/Projects(5)
@@ -173,7 +161,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();

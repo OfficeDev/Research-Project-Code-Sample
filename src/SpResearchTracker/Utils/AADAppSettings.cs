@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Security.Claims;
 
 namespace SpResearchTracker.Utils
 {
@@ -17,7 +16,7 @@ namespace SpResearchTracker.Utils
         private const string DISCOVERY_SVC_RESOURCE_ID = "https://api.office.com/discovery/";
         private const string DISCOVERY_SVC_ENDPOINT_URI = "https://api.office.com/discovery/me/";
 
-        public static string Resource { get { return _resource; } }
+        public static string SharePointResourceId { get { return _resource; } }
 
         public static string ClientId { get { return _clientId; } }
 

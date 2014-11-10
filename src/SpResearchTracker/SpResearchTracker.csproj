@@ -248,7 +248,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CacheEntry.cs" />
-    <Compile Include="Utils\AccessTokenProvider.cs" />
+    <Compile Include="Utils\TokenProvider.cs" />
     <Compile Include="Models\ConfigurationInfo.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectsRepository.cs" />
@@ -262,7 +262,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AADAppSettings.cs" />
     <Compile Include="Utils\ExtensionMethods.cs" />
-    <Compile Include="Utils\SimpleDatabaseCache.cs" />
+    <Compile Include="Utils\SimpleDatabaseTokenCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\bookmarklet\add.html" />

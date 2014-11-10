@@ -13,17 +13,12 @@ namespace SpResearchTracker.Controllers
     {
         //This interface is used to support dependency injection
         private readonly IResearchRepository _repository;
-        private AccessTokenProvider _tokenProvider;
+        private readonly TokenProvider _tokenProvider;
 
         public ConfigurationsController(IResearchRepository repository)
         {
             _repository = repository;
-        }
-
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            _tokenProvider = new AccessTokenProvider(Request);
+            _tokenProvider = new TokenProvider();
         }
 
         /// <summary>
@@ -36,7 +31,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Get()
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();

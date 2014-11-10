@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Owin.Security;
+﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using SpResearchTracker.Utils;
@@ -29,12 +28,21 @@ namespace SpResearchTracker.Controllers
         public void SignOut()
         {
             // Remove all cache entries for this user and send an OpenID Connect sign-out request.
-            string usrObjectId = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            if (!Request.IsAuthenticated)
+            {
+                SignIn();
+            }
+            else
+            {
+                string nameIdentifier = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            new SimpleDatabaseCache(usrObjectId).Clear();
+                new SimpleDatabaseTokenCache(nameIdentifier).Clear();
 
-            HttpContext.GetOwinContext().Authentication.SignOut(
-                OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+                HttpContext.GetOwinContext().Authentication.SignOut(
+                    OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                    CookieAuthenticationDefaults.AuthenticationType
+                );
+            }
         }
 
         public ActionResult ConsentApp()
@@ -44,10 +52,10 @@ namespace SpResearchTracker.Controllers
 
             string authorizationRequest = String.Format(
                 "https://login.windows.net/common/oauth2/authorize?response_type=code&client_id={0}&resource={1}&redirect_uri={2}",
-                    Uri.EscapeDataString(AADAppSettings.ClientId),
-                    Uri.EscapeDataString(strResource),
-                    Uri.EscapeDataString(String.Format("{0}/{1}", this.Request.Url.GetLeftPart(UriPartial.Authority), strRedirectController))
-                    );
+                Uri.EscapeDataString(AADAppSettings.ClientId),
+                Uri.EscapeDataString(strResource),
+                Uri.EscapeDataString(String.Format("{0}/{1}", this.Request.Url.GetLeftPart(UriPartial.Authority), strRedirectController))
+            );
 
             return new RedirectResult(authorizationRequest);
         }

@@ -21,17 +21,12 @@ namespace SpResearchTracker.Controllers
 
         //This interface is used to support dependency injection
         private readonly IReferencesRepository _repository;
-        private AccessTokenProvider _tokenProvider;
+        private readonly TokenProvider _tokenProvider;
 
         public ReferencesController(IReferencesRepository repository)
         {
             _repository = repository;
-        }
-
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-            base.Initialize(controllerContext);
-            _tokenProvider = new AccessTokenProvider(Request);
+            _tokenProvider = new TokenProvider();
         }
 
         // GET: odata/References
@@ -39,7 +34,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetReferences(ODataQueryOptions<Reference> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -64,7 +59,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> GetReference([FromODataUri] int key, ODataQueryOptions<Reference> queryOptions)
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -103,7 +98,7 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Post(Reference reference)
         {
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -125,7 +120,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
@@ -184,7 +179,7 @@ namespace SpResearchTracker.Controllers
         {
 
             //Get access token to SharePoint
-            string accessToken = await _tokenProvider.GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
