@@ -1,6 +1,5 @@
 #import "CreateReferenceViewController.h"
 #import "ProjectClient.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @interface CreateReferenceViewController ()
 
@@ -49,15 +48,13 @@
         spinner.hidesWhenStopped = YES;
         [spinner startAnimating];
         
-        ProjectClient* client = [ProjectClient getClient:self.token];
+        ProjectClient* client = [[ProjectClient alloc] init];
         
         NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.referenceUrlTxt.text, self.referenceTitle.text];
-        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, self.referenceDescription.text, [NSString stringWithFormat:@"%@", self.project.Id]] forKeys:@[@"URL", @"Comments", @"Project"]];
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, self.referenceDescription.text, [NSString stringWithFormat:@"%@", [self.project valueForKey:@"Id"]]] forKeys:@[@"URL", @"Comments", @"Project"]];
         
-        ListItem* newReference = [[ListItem alloc] initWithDictionary:dic];
-        
-        NSURLSessionTask* task = [client addReference:newReference callback:^(BOOL success, NSError *error) {
-            if(error == nil && success){
+        NSURLSessionTask* task = [client addReference:dic token:self.token callback:^(NSError *error) {
+            if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
                     [self.navigationController popViewControllerAnimated:YES];

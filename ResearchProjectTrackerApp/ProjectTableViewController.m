@@ -2,16 +2,13 @@
 #import "ProjectDetailsViewController.h"
 #import "ProjectTableViewCell.h"
 #import "ProjectTableViewController.h"
-#import "office365-base-sdk/OAuthentication.h"
-#import "office365-lists-sdk/ListClient.h"
-#import "office365-lists-sdk/ListItem.h"
 
 @implementation ProjectTableViewController
 
 UIView* popUpView;
 UILabel* popUpLabel;
 UIView* blockerPanel;
-ListItem* currentEntity;
+NSDictionary* currentEntity;
 NSURLSessionDownloadTask* task;
 
 //ViewController actions
@@ -72,33 +69,12 @@ NSURLSessionDownloadTask* task;
     UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(x, y, 20, 20)];
     spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:spinner];
-    //spinner.center = self.navigationController.view.center;
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClient* client = [ProjectClient getClient:self.token];
+    ProjectClient* client = [[ProjectClient alloc] init];
     
-   NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
-        
-    //If list doesn't exists, create one with name Research Projects
-   if(list){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self getProjectsFromList:spinner];
-            });
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self createProjectList:spinner];
-            });
-        }
-        
-    }];
-    [task resume];
-}
-
--(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [ProjectClient getClient:self.token];
-    
-    NSURLSessionTask* listProjectsTask = [client getProjectsAndCallback:^(NSMutableArray *listItems, NSError *error) {
+    NSURLSessionTask* listProjectsTask = [client getProjectsWithToken:self.token andCallback:^(NSMutableArray *listItems, NSError *error) {
         if(!error){
             self.projectsList = listItems;
             
@@ -111,18 +87,6 @@ NSURLSessionDownloadTask* task;
     [listProjectsTask resume];
 }
 
-
--(void)createProjectList:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [ProjectClient getClient:self.token];
-    
-    ListEntity* newList = [[ListEntity alloc ] init];
-    [newList setTitle:@"Research Projects"];
-    
-    NSURLSessionTask* createProjectListTask = [client createList:newList :^(ListEntity *list, NSError *error) {
-        [spinner stopAnimating];
-    }];
-    [createProjectListTask resume];
-}
 
 - (IBAction)backToLogin:(id)sender{
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -142,12 +106,12 @@ NSURLSessionDownloadTask* task;
     NSString* identifier = @"ProjectListCell";
     ProjectTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
-    cell.ProjectName.text = [item getTitle];
+    NSDictionary *item = [self.projectsList objectAtIndex:indexPath.row];
+    cell.ProjectName.text = [item valueForKey:@"Title"];
     
-    NSDictionary *editorInfo =[item getData:@"Editor"];
-    NSString *editName = [item getData:@"Modified"];
-    cell.lastModifier.text =[NSString stringWithFormat:@"Last modified by %@ on %@", [editorInfo valueForKey:@"Title"],[editName substringToIndex:10]];
+    NSDictionary *editorInfo =[item valueForKey:@"Editor"];
+    NSString *editDate = [item valueForKey:@"Modified"];
+    cell.lastModifier.text =[NSString stringWithFormat:@"Last modified by %@ on %@", [editorInfo valueForKey:@"Title"],[editDate substringToIndex:10]];
     
     return cell;
 }

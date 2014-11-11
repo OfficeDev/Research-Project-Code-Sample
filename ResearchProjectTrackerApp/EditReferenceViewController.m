@@ -1,7 +1,6 @@
 #import "EditReferenceViewController.h"
 #import "ProjectClient.h"
 #import "ProjectDetailsViewController.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @interface EditReferenceViewController ()
 
@@ -30,12 +29,12 @@
     
     self.navigationController.view.backgroundColor = nil;
     
-    NSDictionary *dic =[self.selectedReference getData:@"URL"];
+    NSDictionary *dic =[self.selectedReference valueForKey:@"URL"];
     
     self.referenceUrlTxt.text = [dic valueForKey:@"Url"];
     
-    if(![[self.selectedReference getData:@"Comments"] isEqual:[NSNull null]]){
-        self.referenceDescription.text = [self.selectedReference getData:@"Comments"];
+    if(![[self.selectedReference valueForKey:@"Comments"] isEqual:[NSNull null]]){
+        self.referenceDescription.text = [self.selectedReference valueForKey:@"Comments"];
     }else{
         self.referenceDescription.text = @"";
     }
@@ -63,18 +62,14 @@
         [spinner startAnimating];
         
         
-        ListItem* editedReference = [[ListItem alloc] init];
-        
         NSDictionary* urlDic = [NSDictionary dictionaryWithObjects:@[self.referenceUrlTxt.text, self.referenceTitle.text] forKeys:@[@"Url",@"Description"]];
         
-        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[urlDic, self.referenceDescription.text, [self.selectedReference getData:@"Project"], self.selectedReference.Id] forKeys:@[@"URL",@"Comments",@"Project",@"Id"]];
-        
-        [editedReference initWithDictionary:dic];
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[urlDic, self.referenceDescription.text, [self.selectedReference valueForKey:@"Project"], [self.selectedReference valueForKey:@"Id"]] forKeys:@[@"URL",@"Comments",@"Project",@"Id"]];
         
 
-        ProjectClient* client = [ProjectClient getClient:self.token];
+        ProjectClient* client = [[ProjectClient alloc] init];
         
-        NSURLSessionTask* task = [client updateReference:editedReference callback:^(BOOL result, NSError *error) {
+        NSURLSessionTask* task = [client updateReference:dic token:self.token callback:^(BOOL result, NSError *error) {
             if(error == nil && result){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
@@ -113,9 +108,9 @@
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClient* client = [ProjectClient getClient:self.token];
+    ProjectClient* client = [[ProjectClient alloc] init];
     
-    NSURLSessionTask* task = [client deleteListItem:@"Research References" itemId:self.selectedReference.Id callback:^(BOOL result, NSError *error) {
+    NSURLSessionTask* task = [client deleteListItem:@"Research%20References" itemId:[self.selectedReference valueForKey:@"Id"] token:self.token callback:^(BOOL result, NSError *error) {
         if(error == nil){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [spinner stopAnimating];

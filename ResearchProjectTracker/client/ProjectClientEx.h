@@ -1,20 +1,8 @@
-//
-//  ProjectClient.h
-//  ResearchProjectTrackerApp
-//
-//  Created by Lucas Damian Napoli on 01/10/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
+#import <Foundation/Foundation.h>
 
-#import "office365-lists-sdk/ListClient.h"
-#import "office365-lists-sdk/ListItem.h"
-#import <office365-base-sdk/LoginClient.h>
+@interface ProjectClientEx : NSObject
 
-@interface ProjectClientEx : ListClient
-
-
-- (NSURLSessionDataTask *)addReference:(ListItem *)reference callback: (void (^)(BOOL success, NSError *error))callback;
-+(ProjectClientEx*)getClient:(NSString *) token;
-+(LoginClient*)getLoginClient;
+- (NSURLSessionDataTask *)addReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(NSError *))callback;
+- (NSURLSessionDataTask *)getProjectsWithToken:(NSString *)token andCallback:(void (^)(NSMutableArray *listItems, NSError *))callback;
 
 @end

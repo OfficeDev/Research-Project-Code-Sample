@@ -28,10 +28,10 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.view.backgroundColor = nil;
     
-    NSDictionary *dic =[self.selectedReference getData:@"URL"];
+    NSDictionary *dic =[self.selectedReference valueForKey:@"URL"];
     
-    if(![[self.selectedReference getData:@"Comments"] isEqual:[NSNull null]]){
-        self.descriptionLbl.text = [self.selectedReference getData:@"Comments"];
+    if(![[self.selectedReference valueForKey:@"Comments"] isEqual:[NSNull null]]){
+        self.descriptionLbl.text = [self.selectedReference valueForKey:@"Comments"];
     }else{
         self.descriptionLbl.text = @"";
     }
@@ -56,7 +56,7 @@
     NSString* identifier = @"referenceDetailsTableCell";
     ReferenceDetailTableCellTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    NSDictionary *dic =[self.selectedReference getData:@"URL"];
+    NSDictionary *dic =[self.selectedReference valueForKey:@"URL"];
     
     cell.urlContentLBL.text = [dic valueForKey:@"Url"];
     
@@ -64,7 +64,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic =[self.selectedReference getData:@"URL"];
+    NSDictionary *dic =[self.selectedReference valueForKey:@"URL"];
     NSURL *url = [NSURL URLWithString:[dic valueForKey:@"Url"]];
     
     if (![[UIApplication sharedApplication] openURL:url]) {

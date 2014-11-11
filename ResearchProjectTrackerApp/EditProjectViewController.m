@@ -2,14 +2,13 @@
 #import "EditProjectViewController.h"
 #import "ProjectClient.h"
 #import "ProjectTableViewController.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @implementation EditProjectViewController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    self.ProjectNameTxt.text = [self.project getTitle];
+    self.ProjectNameTxt.text = [self.project valueForKey:@"Title"];
     self.navigationController.title = @"Edit Project";
 }
 
@@ -31,14 +30,11 @@
         spinner.hidesWhenStopped = YES;
         [spinner startAnimating];
         
-        ListItem* editedProject = [[ListItem alloc] init];
+        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.ProjectNameTxt.text, [self.project valueForKey:@"Id"]] forKeys:@[@"_metadata",@"Title",@"Id"]];
         
-        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.ProjectNameTxt.text, self.project.Id] forKeys:@[@"_metadata",@"Title",@"Id"]];
-        [editedProject initWithDictionary:dic];
+        ProjectClient* client = [[ProjectClient alloc]init];
         
-        ProjectClient* client = [ProjectClient getClient:self.token];
-        
-        NSURLSessionTask* task = [client updateProject:editedProject callback:^(BOOL result, NSError *error) {
+        NSURLSessionTask* task = [client updateProject:dic token:self.token callback:^(BOOL result, NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
@@ -70,9 +66,9 @@
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClient* client = [ProjectClient getClient:self.token];
+    ProjectClient* client = [[ProjectClient alloc] init];
 
-    NSURLSessionTask* task = [client deleteListItem:@"Research Projects" itemId:self.project.Id callback:^(BOOL result, NSError *error) {
+    NSURLSessionTask* task = [client deleteListItem:@"Research%20Projects" itemId:[self.project valueForKey:@"Id"] token:self.token callback:^(BOOL result, NSError *error) {
         if(error == nil){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [spinner stopAnimating];

@@ -1,20 +1,13 @@
-#import "office365-lists-sdk/ListClient.h"
-#import "office365-lists-sdk/ListItem.h"
-#import <office365-base-sdk/LoginClient.h>
+#import <Foundation/Foundation.h>
 
+@interface ProjectClient : NSObject
 
-@interface ProjectClient : ListClient
-
-- (NSURLSessionDataTask *)addProject:(ListItem *)listItem callback: (void (^)(BOOL success, NSError *error))callback;
-- (NSURLSessionDataTask *)getReferencesByProjectId:(NSString *)projectId callback:(void (^)(NSMutableArray *listItems, NSError *error))callback;
-- (NSURLSessionDataTask *)addReference:(ListItem *)reference callback: (void (^)(BOOL success, NSError *error))callback;
-- (NSURLSessionDataTask *)deleteListItem:(NSString *)name itemId:(NSString *)itemId callback:(void (^)(BOOL result, NSError *error))callback;
-- (NSURLSessionDataTask *)updateProject:(ListItem *)project callback:(void (^)(BOOL, NSError *))callback;
-- (NSURLSessionDataTask *)updateReference:(ListItem *)reference callback:(void (^)(BOOL, NSError *))callback;
-- (NSURLSessionDataTask *)getProjectsAndCallback:(void (^)(NSMutableArray *listItems, NSError *))callback;
-
-
-+(ProjectClient*)getClient:(NSString *) token;
-+(LoginClient*)getLoginClient;
+- (NSURLSessionDataTask *)addProject:(NSString *)listName token:(NSString *)token callback:(void (^)(NSError *error))callback;
+- (NSURLSessionDataTask *)updateProject:(NSDictionary *)project token:(NSString *)token callback:(void (^)(BOOL, NSError *))callback;
+- (NSURLSessionDataTask *)updateReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(BOOL, NSError *))callback;
+- (NSURLSessionDataTask *)addReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(NSError *))callback;
+- (NSURLSessionDataTask *)getReferencesByProjectId:(NSString *)projectId token:(NSString *)token callback:(void (^)(NSMutableArray *listItems, NSError *error))callback;
+- (NSURLSessionDataTask *)deleteListItem:(NSString *)name itemId:(NSString *)itemId token:(NSString *)token callback:(void (^)(BOOL result, NSError *error))callback;
+- (NSURLSessionDataTask *)getProjectsWithToken:(NSString *)token andCallback:(void (^)(NSMutableArray *listItems, NSError *))callback;
 
 @end

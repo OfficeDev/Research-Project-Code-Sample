@@ -4,20 +4,16 @@
 #import "ProjectDetailsViewController.h"
 #import "ReferenceDetailsViewController.h"
 #import "ReferencesTableViewCell.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @implementation ProjectDetailsViewController
 
 //ViewController actions
 -(void)viewDidLoad{
-    self.projectName.text = self.project.getTitle;
-    self.navigationItem.title = self.project.getTitle;
+    self.projectName.text = [self.project valueForKey:@"Title"];
+    self.navigationItem.title = [self.project valueForKey:@"Title"];
     self.navigationItem.rightBarButtonItem.title = @"Done";
     self.selectedReference = false;
     self.projectNameField.hidden = true;
-    
-    
-    //[self loadData];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -36,30 +32,15 @@
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClient* client = [ProjectClient getClient:self.token];
+    ProjectClient* client = [[ProjectClient alloc] init];
     
-    NSURLSessionTask* task = [client getList:@"Research References" callback:^(ListEntity *list, NSError *error) {
-        
-        //If list doesn't exists, create one with name Research References
-        if(list){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self getReferences:spinner];
-            });
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self createReferencesList:spinner];
-            });
-        }
-        
-    }];
-    [task resume];
-    
+    [self getReferences:spinner];    
 }
 
 -(void)getReferences:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [ProjectClient getClient:self.token];
+    ProjectClient* client = [[ProjectClient alloc] init];
     
-    NSURLSessionTask* listReferencesTask = [client getReferencesByProjectId:self.project.Id callback:^(NSMutableArray *listItems, NSError *error) {
+    NSURLSessionTask* listReferencesTask = [client getReferencesByProjectId:[self.project valueForKey:@"Id"] token:self.token callback:^(NSMutableArray *listItems, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.references = [listItems copy];
                 [self.refencesTable reloadData];
@@ -71,18 +52,6 @@
     [listReferencesTask resume];
 }
 
--(void)createReferencesList:(UIActivityIndicatorView *) spinner{
-    ProjectClient* client = [ProjectClient getClient:self.token];
-    
-    ListEntity* newList = [[ListEntity alloc ] init];
-    [newList setTitle:@"Research References"];
-    
-    NSURLSessionTask* createProjectListTask = [client createList:newList :^(ListEntity *list, NSError *error) {
-        [spinner stopAnimating];
-    }];
-    [createProjectListTask resume];
-}
-
 
 //Table actions
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,8 +59,8 @@
     NSString* identifier = @"referencesListCell";
     ReferencesTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    ListItem *item = [self.references objectAtIndex:indexPath.row];
-    NSDictionary *dic =[item getData:@"URL"];
+    NSDictionary *item = [self.references objectAtIndex:indexPath.row];
+    NSDictionary *dic =[item valueForKey:@"URL"];
     cell.titleField.text = [dic valueForKey:@"Description"];
     cell.urlField.text = [dic valueForKey:@"Url"];
     

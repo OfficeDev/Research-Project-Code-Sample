@@ -1,26 +1,7 @@
-//
-//  ActionViewController.m
-//  ResearchProjectTracker
-//
-//  Created by Lucas Damian Napoli on 08/10/14.
-//  Copyright (c) 2014 microsoft. All rights reserved.
-//
 #import "ProjectTableExtensionViewCell.h"
-#import "office365-base-sdk/Credentials.h"
-#import <office365-base-sdk/LoginClient.h>
-#import <office365-base-sdk/OAuthentication.h>
-#import "ProjectClientEx.h"
-#import <office365-lists-sdk/ListItem.h>
-#import <office365-lists-sdk/ListEntity.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ActionViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-
-@interface ActionViewController ()
-
-@property(strong,nonatomic) IBOutlet UIImageView *imageView;
-
-@end
 
 @implementation ActionViewController
 
@@ -29,12 +10,25 @@ NSString* authority;
 NSString* redirectUriString;
 NSString* resourceId;
 NSString* clientId;
-Credentials* credentials;
 NSString* token;
-ListItem* currentEntity;
+NSDictionary* currentEntity;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    authority = [NSString alloc];
+    resourceId = [NSString alloc];
+    clientId = [NSString alloc];
+    redirectUriString = [NSString alloc];
+    
+    NSBundle *extensionBundle = [NSBundle bundleWithIdentifier:@"com.intergen.ResearchProjectTrackerApp.ResearchProjectTrackerEx"];
+    NSString* plistPath = [extensionBundle pathForResource:@"Auth" ofType:@"plist"];
+    NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    
+    authority = [content objectForKey:@"authority"];
+    resourceId = [content objectForKey:@"resourceId"];
+    clientId = [content objectForKey:@"clientId"];
+    redirectUriString = [content objectForKey:@"redirectUriString"];
     
     token = [NSString alloc];
     
@@ -67,23 +61,54 @@ ListItem* currentEntity;
 
 - (void) performLogin : (BOOL) clearCache{
     
-    LoginClient *client = [ProjectClientEx getLoginClient];
-    [client login:clearCache completionHandler:^(NSString *t, NSError *e) {
-        if(e == nil)
-        {
-            token = t;
-            
-            [self loadData];
-        }
-        else
-        {
-            self.projectTable.hidden = true;
-            self.selectProjectLbl.hidden = true;
-            self.successMsg.hidden = false;
-            self.successMsg.text = @"Login from the Research Project Tracker App before adding a Reference";
-            self.successMsg.textColor = [UIColor redColor];
-        }
+    [self getToken:FALSE completionHandler:^(NSString *t){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(t != nil)
+            {
+                token = t;
+                
+                [self loadData];
+            }
+            else
+            {
+                self.projectTable.hidden = true;
+                self.selectProjectLbl.hidden = true;
+                self.successMsg.hidden = false;
+                self.successMsg.text = @"Login from the Research Project Tracker App before adding a Reference";
+                self.successMsg.textColor = [UIColor redColor];
+            }
+        });
     }];
+}
+
+-(void) getToken : (BOOL) clearCache completionHandler:(void (^) (NSString*))completionBlock;
+{
+    ADAuthenticationError *error;
+    authContext = [ADAuthenticationContext authenticationContextWithAuthority:authority
+                                                                        error:&error];
+    
+    NSURL *redirectUri = [NSURL URLWithString:redirectUriString];
+    
+    if(clearCache){
+        [authContext.tokenCacheStore removeAllWithError:nil];
+    }
+    
+    [authContext acquireTokenWithResource:resourceId
+                                 clientId:clientId
+                              redirectUri:redirectUri
+                          completionBlock:^(ADAuthenticationResult *result) {
+                              if (AD_SUCCEEDED != result.status){
+                                  // display error on the screen
+                                  self.projectTable.hidden = true;
+                                  self.selectProjectLbl.hidden = true;
+                                  self.successMsg.hidden = false;
+                                  self.successMsg.text = @"Login error";
+                                  self.successMsg.textColor = [UIColor redColor];
+                              }
+                              else{
+                                  completionBlock(result.accessToken);
+                              }
+                          }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,18 +131,16 @@ ListItem* currentEntity;
     spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     
-    ProjectClientEx *client = [ProjectClientEx getClient: token];
+    ProjectClientEx *client = [[ProjectClientEx alloc] init];
     
-    NSURLSessionTask* task = [client getList:@"Research Projects" callback:^(ListEntity *list, NSError *error) {
+    NSURLSessionTask* task = [client getProjectsWithToken:token andCallback:^(NSMutableArray *list, NSError *error) {
         
-        //If list doesn't exists, create one with name Research Projects
-        if(list){
+        if(!error){
+            self.projectsList = list;
+            
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self getProjectsFromList:spinner];
-            });
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self createProjectList:spinner];
+                [self.projectTable reloadData];
+                [spinner stopAnimating];
             });
         }
         
@@ -125,46 +148,6 @@ ListItem* currentEntity;
     [task resume];
 }
 
-
--(void)getProjectsFromList:(UIActivityIndicatorView *) spinner{
-    ProjectClientEx *client = [ProjectClientEx getClient: token];
-    
-    NSURLSessionTask* listProjectsTask = [client getListItems:@"Research Projects" callback:^(NSMutableArray *listItems, NSError *error) {
-        if(!error){
-            self.projectsList = listItems;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.projectTable reloadData];
-                [spinner stopAnimating];
-            });
-        }
-    }];
-    [listProjectsTask resume];
-}
-
-
--(void)createProjectList:(UIActivityIndicatorView *) spinner{
-    ProjectClientEx *client = [ProjectClientEx getClient: token];
-    
-    ListEntity* newList = [[ListEntity alloc ] init];
-    [newList setTitle:@"Research Projects"];
-    
-    NSURLSessionTask* createProjectListTask = [client createList:newList :^(ListEntity *list, NSError *error) {
-        [spinner stopAnimating];
-    }];
-    [createProjectListTask resume];
-}
-
-- (IBAction)Login:(id)sender {
-    [self performLogin:FALSE];
-}
-
-- (IBAction)Clear:(id)sender {
-    NSError *error;
-    LoginClient *client = [[LoginClient alloc] initWithParameters: clientId: redirectUriString:resourceId :authority];
-    
-    [client clearCredentials: &error];
-}
 
 
 
@@ -174,8 +157,8 @@ ListItem* currentEntity;
     NSString* identifier = @"ProjectListCell";
     ProjectTableExtensionViewCell *cell =[tableView dequeueReusableCellWithIdentifier: identifier ];
     
-    ListItem *item = [self.projectsList objectAtIndex:indexPath.row];
-    cell.ProjectName.text = [item getTitle];
+    NSDictionary *item = [self.projectsList objectAtIndex:indexPath.row];
+    cell.ProjectName.text = [item valueForKey:@"Title"];
     
     return cell;
 }
@@ -198,21 +181,18 @@ ListItem* currentEntity;
     currentEntity= [self.projectsList objectAtIndex:indexPath.row];
     
     NSString* obj = [NSString stringWithFormat:@"{'Url':'%@', 'Description':'%@'}", self.urlTxt.text, @""];
-    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, @"", [NSString stringWithFormat:@"%@", currentEntity.Id]] forKeys:@[@"URL", @"Comments", @"Project"]];
-    
-    ListItem* newReference = [[ListItem alloc] initWithDictionary:dic];
+    NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[obj, @"", [NSString stringWithFormat:@"%@", [currentEntity valueForKey:@"Id"]]] forKeys:@[@"URL", @"Comments", @"Project"]];
     
     __weak ActionViewController *sself = self;
+    ProjectClientEx *client = [[ProjectClientEx alloc ] init];
     
-    ProjectClientEx *client = [ProjectClientEx getClient: token];
-    
-    NSURLSessionTask* task =[client addReference:newReference callback:^(BOOL success, NSError *error) {
+    NSURLSessionTask* task =[client addReference:dic token:token callback:^(NSError *error) {
         if(error == nil){
             dispatch_async(dispatch_get_main_queue(), ^{
                 sself.projectTable.hidden = true;
                 sself.selectProjectLbl.hidden = true;
                 sself.successMsg.hidden = false;
-                sself.successMsg.text = [NSString stringWithFormat:@"Reference added successfully to the %@ Project.", [currentEntity getTitle]];
+                sself.successMsg.text = [NSString stringWithFormat:@"Reference added successfully to the %@ Project.", [currentEntity valueForKey:@"Title"]];
                 [spinner stopAnimating];
             });
         }

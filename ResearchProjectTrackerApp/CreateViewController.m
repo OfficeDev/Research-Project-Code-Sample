@@ -1,7 +1,6 @@
 
 #import "CreateViewController.h"
 #import "ProjectClient.h"
-#import "office365-base-sdk/OAuthentication.h"
 
 @implementation CreateViewController
 
@@ -23,14 +22,9 @@
         spinner.hidesWhenStopped = YES;
         [spinner startAnimating];
         
-        ProjectClient* client = [ProjectClient getClient:self.token];
+        ProjectClient* client = [[ProjectClient alloc] init];
         
-        ListItem* newProject = [[ListItem alloc] init];
-        
-        NSDictionary* dic = [NSDictionary dictionaryWithObjects:@[@"Title",self.FileNameTxt.text] forKeys:@[@"_metadata",@"Title"]];
-        [newProject initWithDictionary:dic];
-        
-        NSURLSessionTask* task = [client addProject:newProject callback:^(BOOL success, NSError *error) {
+        NSURLSessionTask* task = [client addProject:self.FileNameTxt.text token:self.token callback:^(NSError *error) {
             if(error == nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [spinner stopAnimating];
