@@ -21,11 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.microsoft.aad:adal:1.0.3'
-    // O365 SharePoint Lists SDK
-    compile (group: 'com.microsoft.services', name: 'list-services', version: '(,1.0)') {
-        //Guava appears to be included explicitly in the list-services.jar
-        //Skip the redundant dependency
-        exclude group: 'com.google.guava'
-    }
+    compile group: 'com.microsoft.aad', name: 'adal', version: '1.0.3'
+    compile group: 'com.microsoft.services', name: 'list-services', version: '(,1.0)'
 }
