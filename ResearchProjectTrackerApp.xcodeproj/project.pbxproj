@@ -10,7 +10,6 @@
 		C4A65D39B7293ED3695D8F29 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 881977540082E35DC5BDDE20 /* libPods.a */; };
 		D912A5F61A10F9F700358BD9 /* NSString_Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = D912A5F51A10F9F700358BD9 /* NSString_Extended.m */; };
 		D9148B001A10EB58009FE1EB /* libPods-ADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9148AFE1A10EB58009FE1EB /* libPods-ADALiOS.a */; };
-		D9148B051A10EB60009FE1EB /* libPods-ADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9148B021A10EB60009FE1EB /* libPods-ADALiOS.a */; };
 		D9148B071A10EB60009FE1EB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9148B041A10EB60009FE1EB /* libPods.a */; };
 		D9148B091A10EBE3009FE1EB /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9148B081A10EBE3009FE1EB /* Auth.plist */; };
 		D9148B111A10EFBD009FE1EB /* ADAL_iPad_Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9148B0A1A10EFBD009FE1EB /* ADAL_iPad_Storyboard.storyboard */; };
@@ -27,6 +26,7 @@
 		D96A5D4219E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */; };
 		D96F2B571A1266AE00E069FB /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9148B081A10EBE3009FE1EB /* Auth.plist */; };
 		D96F2B5B1A12904100E069FB /* NSString_Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = D96F2B5A1A12904100E069FB /* NSString_Extended.m */; };
+		D97C396A1A14CDA0009DD208 /* libPods-ADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D97C39691A14CDA0009DD208 /* libPods-ADALiOS.a */; };
 		D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */; };
 		D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */; };
 		D980170C19DDCE2F00588BD1 /* CreateReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */; };
@@ -50,13 +50,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D996185D1A1130A900C5BEFA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3CC805C11958BA4D00E9590E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3CC805C81958BA4D00E9590E;
-			remoteInfo = ResearchProjectTrackerApp;
-		};
 		D9FC858019E55C9D00C3B15C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3CC805C11958BA4D00E9590E /* Project object */;
@@ -122,6 +115,7 @@
 		D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTableExtensionViewCell.m; sourceTree = "<group>"; };
 		D96F2B591A12904100E069FB /* NSString_Extended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Extended.h; sourceTree = "<group>"; };
 		D96F2B5A1A12904100E069FB /* NSString_Extended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Extended.m; sourceTree = "<group>"; };
+		D97C39691A14CDA0009DD208 /* libPods-ADALiOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-ADALiOS.a"; path = "Pods/build/Debug-iphoneos/libPods-ADALiOS.a"; sourceTree = "<group>"; };
 		D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailsViewController.h; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailsViewController.m; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailTableCellTableViewCell.h; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -168,7 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9148B051A10EB60009FE1EB /* libPods-ADALiOS.a in Frameworks */,
+				D97C396A1A14CDA0009DD208 /* libPods-ADALiOS.a in Frameworks */,
 				D9148B071A10EB60009FE1EB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +354,7 @@
 		ECF2F6E51975A2C800F74623 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D97C39691A14CDA0009DD208 /* libPods-ADALiOS.a */,
 				D9148B021A10EB60009FE1EB /* libPods-ADALiOS.a */,
 				D9148B031A10EB60009FE1EB /* libPods-Office365.a */,
 				D9148B041A10EB60009FE1EB /* libPods.a */,
@@ -406,7 +401,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D996185E1A1130A900C5BEFA /* PBXTargetDependency */,
 			);
 			name = ResearchProjectTracker;
 			productName = ResearchProjectTracker;
@@ -552,11 +546,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D996185E1A1130A900C5BEFA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3CC805C81958BA4D00E9590E /* ResearchProjectTrackerApp */;
-			targetProxy = D996185D1A1130A900C5BEFA /* PBXContainerItemProxy */;
-		};
 		D9FC858119E55C9D00C3B15C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D9FC857619E55C9D00C3B15C /* ResearchProjectTracker */;
@@ -715,7 +704,10 @@
 				);
 				INFOPLIST_FILE = ResearchProjectTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
@@ -734,7 +726,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				INFOPLIST_FILE = ResearchProjectTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
