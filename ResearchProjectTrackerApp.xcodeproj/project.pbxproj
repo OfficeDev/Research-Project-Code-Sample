@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		461750E81A1ADEE100095CAC /* NSString_Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = D912A5F51A10F9F700358BD9 /* NSString_Extended.m */; };
 		46CE85231A1AD09100D60972 /* libPods-ADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CE85211A1AD09100D60972 /* libPods-ADALiOS.a */; };
 		46CE85241A1AD09100D60972 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CE85221A1AD09100D60972 /* libPods.a */; };
 		46CE85271A1AD09800D60972 /* libPods-ADALiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46CE85251A1AD09800D60972 /* libPods-ADALiOS.a */; };
@@ -22,7 +23,6 @@
 		D94CEC6919D5E9ED00A52949 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94CEC6819D5E9ED00A52949 /* ProjectDetailsViewController.m */; };
 		D96A5D4219E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */; };
 		D96F2B571A1266AE00E069FB /* Auth.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9148B081A10EBE3009FE1EB /* Auth.plist */; };
-		D96F2B5B1A12904100E069FB /* NSString_Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = D96F2B5A1A12904100E069FB /* NSString_Extended.m */; };
 		D980170619DD9AFA00588BD1 /* ReferenceDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */; };
 		D980170919DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170819DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.m */; };
 		D980170C19DDCE2F00588BD1 /* CreateReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D980170B19DDCE2F00588BD1 /* CreateReferenceViewController.m */; };
@@ -102,8 +102,6 @@
 		D95E967E1A111DA6006D0D37 /* ProjectClientEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectClientEx.m; sourceTree = "<group>"; };
 		D96A5D4019E57A3700D2C5C4 /* ProjectTableExtensionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTableExtensionViewCell.h; sourceTree = "<group>"; };
 		D96A5D4119E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTableExtensionViewCell.m; sourceTree = "<group>"; };
-		D96F2B591A12904100E069FB /* NSString_Extended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Extended.h; sourceTree = "<group>"; };
-		D96F2B5A1A12904100E069FB /* NSString_Extended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Extended.m; sourceTree = "<group>"; };
 		D980170419DD9AFA00588BD1 /* ReferenceDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailsViewController.h; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.h; sourceTree = SOURCE_ROOT; };
 		D980170519DD9AFA00588BD1 /* ReferenceDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReferenceDetailsViewController.m; path = ResearchProjectTrackerApp/ReferenceDetailsViewController.m; sourceTree = SOURCE_ROOT; };
 		D980170719DDACD900588BD1 /* ReferenceDetailTableCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReferenceDetailTableCellTableViewCell.h; path = ResearchProjectTrackerApp/ReferenceDetailTableCellTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -285,8 +283,6 @@
 		D96A5D4319E58D8600D2C5C4 /* client */ = {
 			isa = PBXGroup;
 			children = (
-				D96F2B591A12904100E069FB /* NSString_Extended.h */,
-				D96F2B5A1A12904100E069FB /* NSString_Extended.m */,
 				D95E967D1A111DA6006D0D37 /* ProjectClientEx.h */,
 				D95E967E1A111DA6006D0D37 /* ProjectClientEx.m */,
 			);
@@ -496,7 +492,7 @@
 			files = (
 				D9FC857D19E55C9D00C3B15C /* ActionViewController.m in Sources */,
 				D996185F1A1130E700C5BEFA /* ProjectClientEx.m in Sources */,
-				D96F2B5B1A12904100E069FB /* NSString_Extended.m in Sources */,
+				461750E81A1ADEE100095CAC /* NSString_Extended.m in Sources */,
 				D96A5D4219E57A3700D2C5C4 /* ProjectTableExtensionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

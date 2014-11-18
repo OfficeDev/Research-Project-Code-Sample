@@ -21,8 +21,7 @@ NSDictionary* currentEntity;
     clientId = [NSString alloc];
     redirectUriString = [NSString alloc];
     
-    NSBundle *extensionBundle = [NSBundle bundleWithIdentifier:@"com.intergen.ResearchProjectTrackerApp.ResearchProjectTrackerEx"];
-    NSString* plistPath = [extensionBundle pathForResource:@"Auth" ofType:@"plist"];
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
     NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     
     authority = [content objectForKey:@"authority"];
