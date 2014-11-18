@@ -7,8 +7,7 @@ const NSString *apiUrl = @"/_api/lists";
 
 - (NSURLSessionDataTask *)addReference:(NSDictionary *)reference token:(NSString *)token callback:(void (^)(NSError *))callback
 {
-    NSBundle *extensionBundle = [NSBundle bundleWithIdentifier:@"com.intergen.ResearchProjectTrackerApp.ResearchProjectTrackerEx"];
-    NSString* plistPath = [extensionBundle pathForResource:@"Auth" ofType:@"plist"];
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
     NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     NSString* shpUrl = [content objectForKey:@"o365SharepointTenantUrl"];
     
@@ -33,11 +32,6 @@ const NSString *apiUrl = @"/_api/lists";
     
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:theRequest completionHandler:^(NSData  *data, NSURLResponse *reponse, NSError *error) {
-        NSDictionary *jsonResult = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options: NSJSONReadingMutableContainers
-                                                                     error:nil];
-        NSString *myString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
         callback(error);
     }];
     
@@ -46,8 +40,7 @@ const NSString *apiUrl = @"/_api/lists";
 
 
 - (NSURLSessionDataTask *)getProjectsWithToken:(NSString *)token andCallback:(void (^)(NSMutableArray *listItems, NSError *))callback{
-    NSBundle *extensionBundle = [NSBundle bundleWithIdentifier:@"com.intergen.ResearchProjectTrackerApp.ResearchProjectTrackerEx"];
-    NSString* plistPath = [extensionBundle pathForResource:@"Auth" ofType:@"plist"];
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"Auth" ofType:@"plist"];
     NSDictionary *content = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     NSString* shpUrl = [content objectForKey:@"o365SharepointTenantUrl"];
     
