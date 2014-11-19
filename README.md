@@ -30,10 +30,11 @@ Research Tracker iOS Client
 4.  Open the `Supporting Files/Auth.plist` configuration file and fill out
     the following values:
 
-    -   `resourceId` -> Your O365 SharePoint URL (hostname)
-    -   `o365SharepointTenantUrl` -> Your O365 SharePoint URL and Site path
-    -   `redurectUriString` -> The Client Redirect Url configured for your App in Azure AD
-    -   `clientId` -> The Client Id obtained for your App in Azure AD
+    -   `resourceId` -> Your O365 SharePoint URL (scheme + hostname), e.g. "https://mydomain.sharepoint.com"
+    -   `o365SharepointTenantUrl` -> Your O365 SharePoint URL and Site path, e.g. "https://mydomain.sharepoing.com/ContosoResearchTracker"
+    -   `redurectUriString` -> The Client Redirect Url configured for your App in Azure AD, e.g. "http://example.com/redirect"
+    -   `clientId` -> The Client Id obtained for your App in Azure AD (in the form of a GUID)
+    -   `authority` -> Use "https://login.windows.net/common"
 
 5.  Use **Product > Run** to start the app in the emulator
 
