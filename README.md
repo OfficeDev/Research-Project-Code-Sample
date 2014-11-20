@@ -93,7 +93,7 @@ The Android Research Tracker app is a complete implementation of the Project Res
 Tracker application for your Android mobile device. The user can create, edit,
 delete and view projects & references that are stored in SharePoint lists.
 
-**Android Studio Projects(s):**
+**Android Studio Project:**
 - [ResearchTracker.Android](/mobile/ResearchTracker.Android)
 
 You will find setup instructions in the **[README](/mobile/ResearchTracker.Android/README.md)**
@@ -107,7 +107,7 @@ The iOS Research Tracker app is a complete implementation of the Project Researc
 Tracker application for your iOS mobile device (iPhone or iPad). The user can create,
 edit, delete and view projects & references that are stored in SharePoint lists.
 
-**XCode Projects(s):**
+**XCode Project:**
 - [ResearchTracker.iOS](/mobile/ResearchTracker.iOS)
 
 You will find setup instructions in the **[README](/mobile/ResearchTracker.iOS/README.md)**
