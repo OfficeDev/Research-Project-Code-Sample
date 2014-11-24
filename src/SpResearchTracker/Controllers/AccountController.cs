@@ -1,42 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.IdentityModel.Services;
-using System.IdentityModel.Services.Configuration;
-using System.Linq;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using SpResearchTracker.Utils;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using SpResearchTracker.Models;
 
 namespace SpResearchTracker.Controllers
 {
     public class AccountController : Controller
     {
-        public ActionResult SignOut()
+        private string GetHomeIndexUrl()
         {
-            WsFederationConfiguration config = FederatedAuthentication.FederationConfiguration.WsFederationConfiguration;
-
-            // Redirect to SignOutCallback after signing out.
-            string callbackUrl = Url.Action("SignOutCallback", "Account", routeValues: null, protocol: Request.Url.Scheme);
-            SignOutRequestMessage signoutMessage = new SignOutRequestMessage(new Uri(config.Issuer), callbackUrl);
-            signoutMessage.SetParameter("wtrealm", IdentityConfig.Realm ?? config.Realm);
-            FederatedAuthentication.SessionAuthenticationModule.SignOut();
-
-            return new RedirectResult(signoutMessage.WriteQueryString());
+            return Url.Action("SPA", "Home", null, Request.Url.Scheme);
         }
 
-        public ActionResult SignOutCallback()
+        public void SignIn()
         {
-            if (Request.IsAuthenticated)
-            {
-                // Redirect to home page if the user is authenticated.
-                return RedirectToAction("Index", "Home");
-            }
+            var homeIndex = GetHomeIndexUrl();
 
-            return View();
+            if (!Request.IsAuthenticated)
+            {
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = homeIndex }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
+            }
+            else
+            {
+                Response.Redirect(homeIndex);
+            }
+        }
+
+        public void SignOut()
+        {
+            // Remove all cache entries for this user and send an OpenID Connect sign-out request.
+            if (!Request.IsAuthenticated)
+            {
+                var homeIndex = GetHomeIndexUrl();
+
+                Response.Redirect(homeIndex);
+            }
+            else
+            {
+                string nameIdentifier = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                new SimpleDatabaseTokenCache(nameIdentifier).Clear();
+
+                HttpContext.GetOwinContext().Authentication.SignOut(
+                    OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                    CookieAuthenticationDefaults.AuthenticationType
+                );
+            }
         }
     }
 }

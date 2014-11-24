@@ -1,13 +1,9 @@
-﻿using SpResearchTracker.Controllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml.Linq;
 using SpResearchTracker.Utils;
 
@@ -28,13 +24,17 @@ namespace SpResearchTracker.Models
             List<Project> projects = new List<Project>();
             
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/items?$select=ID,Title");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken);
             string responseString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
             XElement root = XElement.Parse(responseString);
             
             foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
@@ -48,16 +48,19 @@ namespace SpResearchTracker.Models
         public async Task<Project> GetProject(string accessToken, int Id, string eTag)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(Id.ToString())
+                .Append(Id)
                 .Append("')?$select=ID,Title");
 
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken, eTag);
+            HttpResponseMessage response = await Get(requestUri.ToString(), accessToken, eTag);
             string responseString = await response.Content.ReadAsStringAsync();
-            XElement root = XElement.Parse(responseString);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
 
             return XElement.Parse(responseString).ToProject();
 
@@ -66,16 +69,20 @@ namespace SpResearchTracker.Models
         public async Task<Project> CreateProject(string accessToken, Project project)
         {
             StringBuilder requestUri = new StringBuilder()
-                 .Append(this.SiteUrl)
+                 .Append(SiteUrl)
                  .Append("/_api/web/lists/getbyTitle('")
-                 .Append(this.ProjectsListName)
+                 .Append(ProjectsListName)
                  .Append("')/items");
 
             XElement entry = project.ToXElement();
 
             StringContent requestContent = new StringContent(entry.ToString());
-            HttpResponseMessage response = await this.Post(requestUri.ToString(), accessToken, requestContent);
+            HttpResponseMessage response = await Post(requestUri.ToString(), accessToken, requestContent);
             string responseString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(responseString);
+            }
 
             return XElement.Parse(responseString).ToProject();
 
@@ -84,31 +91,31 @@ namespace SpResearchTracker.Models
         public async Task<bool> UpdateProject(string accessToken, Project project)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(project.Id.ToString())
+                .Append(project.Id)
                 .Append("')");
 
             XElement entry = project.ToXElement();
 
             StringContent requestContent = new StringContent(entry.ToString());
-            HttpResponseMessage response = await this.Patch(requestUri.ToString(), accessToken, project.__eTag, requestContent);
+            HttpResponseMessage response = await Patch(requestUri.ToString(), accessToken, project.__eTag, requestContent);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteProject(string accessToken, int Id, string eTag)
         {
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SiteUrl)
+                .Append(SiteUrl)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/getItemByStringId('")
-                .Append(Id.ToString())
+                .Append(Id)
                 .Append("')");
 
-            HttpResponseMessage response = await this.Delete(requestUri.ToString(), accessToken, eTag);
+            HttpResponseMessage response = await Delete(requestUri.ToString(), accessToken, eTag);
             return response.IsSuccessStatusCode;
 
         }

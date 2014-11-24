@@ -71,7 +71,7 @@ namespace SpResearchTracker {
                 "~/App/projects/list.js",
                 "~/App/projects/detailView.js", 
                 "~/App/projects/detailEdit.js",
-                "~/App/references/list.js",
+                "~/App/references/detailView.js",
                 "~/App/references/detailEdit.js",
                 "~/App/bookmarklet/add.js"));
 
@@ -79,7 +79,8 @@ namespace SpResearchTracker {
       bundles.Add(new ScriptBundle("~/bundles/appservices").Include(
                 "~/App/services/directives.js",
                 "~/App/services/datacontext.angular.js",
-                "~/App/services/datacontext.breeze.js"));
+                "~/App/services/datacontext.breeze.js",
+                "~/App/services/navigation.js"));
 
       // Set EnableOptimizations to false for debugging. For more information,
       // visit http://go.microsoft.com/fwlink/?LinkId=301862

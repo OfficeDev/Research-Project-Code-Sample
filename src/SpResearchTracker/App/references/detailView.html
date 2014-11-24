@@ -1,0 +1,13 @@
+﻿<div data-ng-controller="referenceDetailView as vm">
+    <div class="">
+        <h2 class="purple">{{vm.reference.Title}}</h2>
+        <div class="col-sm-12 reference-link reference-link-padding">
+            <a class="" target="_blank" data-ng-href="{{vm.reference.Url}}">{{vm.reference.Url}}</a>
+        </div>
+        <div class="col-sm-12 reference-link-padding">
+            <em>{{vm.reference.Notes}}</em>
+        </div>
+    </div>
+        <!-- modal dialog used for edit & delete -->
+        <div data-ng-include="'/App/references/detailEdit.html'"></div>
+    </div>

@@ -8,12 +8,17 @@
   // define controller
   var controllerId = 'projectList';
   angular.module('app').controller(controllerId,
-    ['$location', '$timeout', '$modal', 'dataContextBreeze', 'spinner', 'common', projectList]);
+    ['$rootScope', '$location', '$timeout', '$modal', 'dataContextBreeze', 'spinner', 'common', projectList]);
 
   // create controller
-  function projectList($location, $timeout, $modal, datacontext, spinner, common) {
-    var vm = this;
+  function projectList($rootScope, $location, $timeout, $modal, datacontext, spinner, common) {
+      var vm = this;
 
+      $rootScope.$broadcast('navChanged', {
+          showBack: false, items: [
+              { text: 'Add', icon: 'glyphicon glyphicon-plus', action: goNewProject, title: 'Add a new project' },
+              { text: 'Refresh', icon: 'glyphicon glyphicon-refresh', action: goRefresh, title: 'Refreshes the list of projects' }]
+      });
     vm.goNewProject = goNewProject;
     vm.goRefresh = goRefresh;
     vm.goProjectDetail = goProjectDetail;

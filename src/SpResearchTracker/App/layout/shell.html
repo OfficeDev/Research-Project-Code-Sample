@@ -1,21 +1,44 @@
 ﻿<div data-ng-controller="shell as vm">
-  <!-- splash page -->
-  <div id="splash-page" data-ng-show="vm.showSplashPage" class="dissolve-animation">
-    <div class="page-splash">
-      <div class="page-splash-message">
-        Initializing ...
-      </div>
+    <!-- splash page -->
+    <div id="splash-page" data-ng-show="vm.showSplashPage" class="dissolve-animation">
+        <div class="research-tracker-splash page-splash">
+            <!--<div class="page-splash-message">
+              Initializing Sharepoint ...
+            </div>-->
+        </div>
     </div>
-  </div>
-  
-  <!-- main content area -->
-  <section id="content" class="view-container">
-    <!-- working animation when app is busy -->
-    <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
-      <div data-msft-spinner="vm.spinnerOptions"></div>
-      <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
-    </div>
-    <!-- main view container -->
-    <div data-ng-view class="shuffle-animation"></div>
-  </section>
+
+    <!-- main content area -->
+    <section id="content" class="view-container">
+        <!-- working animation when app is busy -->
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <div data-msft-spinner="vm.spinnerOptions"></div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
+        </div>
+        <div class="side-nav col-sm-2 hidden-xs purple-background" data-ng-controller="Navigation">
+            <div class="main-container">
+                <div data-ng-class="{invisible: !nav.showBack}" class="nav-item">
+                    <div data-ng-click="nav.backAction()">
+                        <span class=" glyphicon glyphicon-circle-arrow-left nav-icon" style="color: white;">
+                        </span>
+                        <span class="nav-link">Back</span>
+                    </div>
+                </div>
+                <div data-ng-repeat="item in nav.items">
+                    <div data-ng-click="item.action()" class="nav-item" title="{{item.title}}">
+                        <span class="{{item.icon}} nav-icon" style="color: white;"></span>
+                        <span class="nav-link">{{item.text}}</span>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a title="Install add project reference bookmarklet" data-ng-href="javascript:(function(){ var regex = new RegExp('2F','gi'); var target = '{{vm.rootUrl}}/Home/SPA#/addreference/' + encodeURIComponent(window.location.href).replace(regex,'5C'); var opener = function(){ if (!window.open(target,'prtav1','location=1,links=0,scrollbars=0,toolbar=0,width=800,height=525')) location.href = target; }; opener(); })()">
+                        <span class="glyphicon glyphicon-star-empty nav-icon"></span>
+                        <span class="nav-link">Bookmarklet</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- main view container -->
+        <div data-ng-view class="shuffle-animation col-sm-10 main-container"></div>
+    </section>
 </div>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
@@ -6,25 +7,23 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WordResearchTrackerWeb.Controllers;
+using OutlookResearchTrackerWeb.Utils;
 
 namespace WordResearchTrackerWeb.Models
 {
     public interface IResearchRepository
     {
         Task<List<Project>> GetProjects();
-        Task<List<Reference>> GetReferences();
+        Task<List<Reference>> GetReferences(string projectName);
     }
     /// <summary>
     /// The ResearchRepository is the core data access class
     /// </summary>
     public class ResearchRepository: IResearchRepository
     {
-        public string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
-        public string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
-        public string SharePointResourceId = ConfigurationManager.AppSettings["ida:Resource"];
-        public string SharePointServiceRoot = ConfigurationManager.AppSettings["ida:SiteUrl"];
-        public string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
+        public static readonly string SharePointServiceRoot = ConfigurationManager.AppSettings["ida:SiteUrl"];
+        public static readonly string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
+        public static readonly string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
 
         /// <summary>
         /// Returns a collection of projects
@@ -32,52 +31,55 @@ namespace WordResearchTrackerWeb.Models
         /// <returns>List</returns>
         public async Task<List<Project>> GetProjects()
         {
-            List<Project> projects = new List<Project>();
-
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SharePointServiceRoot)
+                .Append(SharePointServiceRoot)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ProjectsListName)
+                .Append(ProjectsListName)
                 .Append("')/items?$select=ID,Title");
 
-            string accessToken = GetAccessToken();
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await this.Get(requestUri.ToString(), await GetAccessToken());
             string responseString = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error retrieving projects: " + responseString);
+            }
+            
             XElement root = XElement.Parse(responseString);
 
-            foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
-            {
-                projects.Add(entryElem.ToProject());
-            }
-
-            return projects;
+            return root.Elements()
+                       .Where(e => e.Name.LocalName == "entry")
+                       .Select(entryElem => entryElem.ToProject())
+                       .ToList();
         }
 
         /// <summary>
         /// Returns a collection of references
         /// </summary>
+        /// <param name="projectName"></param>
         /// <returns>List</returns>
-        public async Task<List<Reference>> GetReferences()
+        public async Task<List<Reference>> GetReferences(string projectName)
         {
-            List<Reference> references = new List<Reference>();
-
             StringBuilder requestUri = new StringBuilder()
-                .Append(this.SharePointServiceRoot)
+                .Append(SharePointServiceRoot)
                 .Append("/_api/web/lists/getbyTitle('")
-                .Append(this.ReferencesListName)
-                .Append("')/items?$select=ID,Title,URL,Comments,Project");
+                .Append(ReferencesListName)
+                .AppendFormat("')/items?$filter=Project eq '{0}'&$select=ID,Title,URL,Comments,Project", projectName);
 
-            string accessToken = GetAccessToken();
-            HttpResponseMessage response = await this.Get(requestUri.ToString(), accessToken);
+            HttpResponseMessage response = await this.Get(requestUri.ToString(), await GetAccessToken());
             string responseString = await response.Content.ReadAsStringAsync();
-            XElement root = XElement.Parse(responseString);
 
-            foreach (XElement entryElem in root.Elements().Where(e => e.Name.LocalName == "entry"))
+            if (!response.IsSuccessStatusCode)
             {
-                references.Add(entryElem.ToReference());
+                throw new Exception("Error retrieving references: " + responseString);
             }
 
-            return references;
+            XElement root = XElement.Parse(responseString);
+
+            return root.Elements()
+                       .Where(e => e.Name.LocalName == "entry")
+                       .Select(entryElem => entryElem.ToReference())
+                       .ToList();
         }
 
         private async Task<HttpResponseMessage> Get(string requestUri, string accessToken)
@@ -93,9 +95,9 @@ namespace WordResearchTrackerWeb.Models
         /// Retrieves an access token from the OAuth Controller
         /// </summary>
         /// <returns>Access Token</returns>
-        private string GetAccessToken()
+        private Task<string> GetAccessToken()
         {
-            return OAuthController.GetAccessTokenFromCacheOrRefreshToken(this.Tenant, this.SharePointResourceId);
+            return new TokenProvider().GetSharePointAccessToken();
         }
     }
 }

@@ -28,7 +28,7 @@
         vm.pageTitle = "Edit Reference";
         vm.templateMode = 'edit';
       } else {
-        vm.pageTitle = "Add Reference to Project";
+        vm.pageTitle = "Create Reference";
         vm.templateMode = 'new';
       }
 
@@ -106,7 +106,10 @@
           // hide the working animation
           spinner.spinnerHide();
           common.logger.logSuccess('reference deleted');
-        });
+          $location.path('projects/' + vm.project.Id);
+      }).catch(function(error) {
+          spinner.spinnerHide();
+      });
     }
 
   }

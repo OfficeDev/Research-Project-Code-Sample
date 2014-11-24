@@ -42,4 +42,8 @@
     cfg.config.controllerActivateSuccessEvent = config.events.controllerActivateSuccess;
     cfg.config.spinnerToggleEvent = config.events.spinnerToggle;
   }]);
+    // configure angular to allow javascript to be injected into href element without applying unsafe: to the link
+    app.config(['$compileProvider', function($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|javascript):/);
+    }]);
 })();

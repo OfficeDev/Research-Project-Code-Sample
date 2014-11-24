@@ -1,27 +1,23 @@
-﻿using SpResearchTracker.Filters;
-using SpResearchTracker.Models;
+﻿using SpResearchTracker.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+using SpResearchTracker.Utils;
 
 namespace SpResearchTracker.Controllers
 {
     [Authorize]
-    [OAuthExceptionFilter]
     public class ConfigurationsController : ApiController
     {
         //This interface is used to support dependency injection
-        private IResearchRepository _repository;
+        private readonly IResearchRepository _repository;
+        private readonly TokenProvider _tokenProvider;
 
         public ConfigurationsController(IResearchRepository repository)
         {
             _repository = repository;
+            _tokenProvider = new TokenProvider();
         }
 
         /// <summary>
@@ -34,31 +30,31 @@ namespace SpResearchTracker.Controllers
         public async Task<IHttpActionResult> Get()
         {
             //Get access token to SharePoint
-            string accessToken = ((Repository)_repository).GetAccessToken();
+            string accessToken = await _tokenProvider.GetSharePointAccessToken();
             if (accessToken == null)
             {
                 throw new UnauthorizedAccessException();
             }
 
             //Check to see if the lists exist
-            bool projectsListExists = await _repository.ListExists(accessToken, ((Repository)_repository).ProjectsListName);
-            bool referencesListExists = await _repository.ListExists(accessToken, ((Repository)_repository).ReferencesListName);
+            bool projectsListExists = await _repository.ListExists(accessToken, Repository.ProjectsListName);
+            bool referencesListExists = await _repository.ListExists(accessToken, Repository.ReferencesListName);
 
             //Create the "Projects" list, if necessary
             if (!projectsListExists)
             {
-                bool projectsListCreated = await _repository.CreateList(accessToken, ((Repository)_repository).ProjectsListName, "100");
+                bool projectsListCreated = await _repository.CreateList(accessToken, Repository.ProjectsListName, "100");
             }
 
             //Create the "References" list, if necessary
             if (!referencesListExists)
             {
-                bool referencesListCreated = await _repository.CreateList(accessToken, ((Repository)_repository).ReferencesListName, "103");
+                bool referencesListCreated = await _repository.CreateList(accessToken, Repository.ReferencesListName, "103");
 
                 //Add required fields to the list
                 if (referencesListCreated)
                 {
-                    bool projectNameFieldCreated = await _repository.AddFieldToList(accessToken, ((Repository)_repository).ReferencesListName, "Project", "2");
+                    bool projectNameFieldCreated = await _repository.AddFieldToList(accessToken, Repository.ReferencesListName, "Project", "2");
                 }
             }
 

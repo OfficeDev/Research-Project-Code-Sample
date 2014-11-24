@@ -27,7 +27,7 @@
         vm.pageTitle = "Edit Project";
         vm.templateMode = 'edit';
       } else {
-        vm.pageTitle = "Create New Project";
+        vm.pageTitle = "Create Project";
         vm.templateMode = 'new';
       }
 

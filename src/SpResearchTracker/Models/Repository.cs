@@ -1,38 +1,15 @@
-﻿using SpResearchTracker.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
-using SpResearchTracker.Utils;
-using System.Web.Helpers;
 
 namespace SpResearchTracker.Models
 {
     public abstract class Repository
     {
-        public string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
-        public string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
-        public string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
-        public string Resource = ConfigurationManager.AppSettings["ida:Resource"];
-        public string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
-
-        /// <summary>
-        /// Utilizes the OAuthController to get the access token for SharePoint
-        /// in the name of the current user for the given tenancy.
-        /// </summary>
-        /// <returns>string containing the access token</returns>
-        public string GetAccessToken()
-        {
-            string accessToken = OAuthController.GetAccessTokenFromCacheOrRefreshToken(this.Tenant, this.Resource);
-            return accessToken;
-
-        }
+        public static readonly string SiteUrl = ConfigurationManager.AppSettings["ida:SiteUrl"];
+        public static readonly string ProjectsListName = ConfigurationManager.AppSettings["ProjectsListName"];
+        public static readonly string ReferencesListName = ConfigurationManager.AppSettings["ReferencesListName"];
 
         /// <summary>
         /// Implements common GET functionality
@@ -53,9 +30,9 @@ namespace SpResearchTracker.Models
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> Get(string requestUri, string accessToken)
+        public Task<HttpResponseMessage> Get(string requestUri, string accessToken)
         {
-            return await this.Get(requestUri, accessToken, string.Empty);
+            return Get(requestUri, accessToken, string.Empty);
         }
 
         /// <summary>
@@ -71,7 +48,7 @@ namespace SpResearchTracker.Models
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            requestData.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/atom+xml");
+            requestData.Headers.ContentType = MediaTypeHeaderValue.Parse("application/atom+xml");
             request.Content = requestData;
             return await client.SendAsync(request);
         }

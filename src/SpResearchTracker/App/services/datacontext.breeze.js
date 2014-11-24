@@ -27,6 +27,7 @@
       getProjects: getProjects,
       getProjectById: getProjectById,
       getProjectReferences: getProjectReferences,
+      getProjectReferenceById: getProjectReferenceById,
       createProject: createProject,
       createReference: createReference,
 
@@ -87,6 +88,21 @@
         .then(function (data) {
           return data.entity;
         });
+    }
+
+    function getProjectReferenceById(projectId, referenceId) {
+        return breeze.EntityQuery
+         .from('References')
+         .where('Project', 'eq', "'" + projectId + "'")
+         .where('Id', 'eq', "" + referenceId + "")
+         .using(entityManager)
+         .execute()
+         .then(function (data) {
+             return data.results[0];
+         })
+         .catch(function (exception) {
+             common.logger.logError('failed to retrieve references', exception);
+         });
     }
 
     // get all project references by a specific ID

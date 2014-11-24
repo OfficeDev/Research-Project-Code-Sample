@@ -1,43 +1,45 @@
 ﻿<!DOCTYPE html>
 <html data-ng-app="app">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-  <title data-ng-bind="'Project Research Tracker' + pageTitle"></title>
-  @Styles.Render("~/Content/css")
-  @Scripts.Render("~/bundles/jquery")
-  @Scripts.Render("~/bundles/modernizr")
-  @Scripts.Render("~/bundles/thirdparty")
-  @* angular modules *@
-  @Scripts.Render("~/bundles/angular")
-  @* breeze libraries *@
-  @Scripts.Render("~/bundles/breeze")
-  @* custom app modules, services and utilities *@
-  @Scripts.Render("~/bundles/appcore")
-  @Scripts.Render("~/bundles/appcommonmodules")
-  @Scripts.Render("~/bundles/appcontrollers")
-  @Scripts.Render("~/bundles/appservices")
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <title data-ng-bind="'Project Research Tracker' + pageTitle"></title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/thirdparty")
+        @* angular modules *@
+        @Scripts.Render("~/bundles/angular")
+        @* breeze libraries *@
+        @Scripts.Render("~/bundles/breeze")
+        @* custom app modules, services and utilities *@
+        @Scripts.Render("~/bundles/appcore")
+        @Scripts.Render("~/bundles/appcommonmodules")
+        @Scripts.Render("~/bundles/appcontrollers")
+        @Scripts.Render("~/bundles/appservices")
+    </head>
 <body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        @Html.ActionLink("Project Research Tracker App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-      </div>
-      <div class="navbar-collapse collapse">
-        @Html.Partial("_LoginPartial")
-      </div>
+    <div class="office-nav">
+        <div class="single-nav-item" style="width:150px; border-left: 1px solid #fff; border-left-color: rgba(255,255,255,.3); padding: 0 20px;">
+            <a href="https://portal.microsoftonline.com/Home">
+                Office 365
+            </a>
+        </div>
+        <div class="single-nav-item" style="width: 200px; border-left: 1px solid #fff; border-left-color: rgba(255,255,255,.3); padding: 0 20px;">
+            <p style="display: table-cell;">Research Tracker</p>
+        </div>
+        <div class="single-nav-item" style="width: 600px; border-left: 1px solid #fff; border-left-color: rgba(255,255,255,.3); padding: 0 20px;">
+            <p style="display: table-cell;">@Html.Partial("_LoginPartial")</p>
+        </div>
     </div>
-  </div>
-  <div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer>
-      <p>&copy; @DateTime.Now.Year</p>
-    </footer>
-  </div>
-
-</body>
-</html>
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)

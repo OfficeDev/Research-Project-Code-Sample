@@ -20,7 +20,6 @@
     <CspkgPartId>{13d12065-545f-4f72-a5c0-ee8995287d7d}</CspkgPartId>
     <SqlPackagePartId>{ad23d058-95d9-472e-a074-388a4485f388}</SqlPackagePartId>
     <ProjectMode>MailApp</ProjectMode>
-    <ActivePublishProfile>OutlookResearchTracker</ActivePublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
