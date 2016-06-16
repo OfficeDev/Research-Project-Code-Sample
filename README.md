@@ -9,7 +9,7 @@ outside of SharePoint & Office 365.
 A presentation on all samples can be found in the [presentation folder](presentation) 
 within this repository.
 
-![](images/channel9scrnsht.png)
+![screenhot from channel9 showing authentication flow](images/channel9scrnsht.png)
 
 An on-demand web cast recorded by Andrew Connell can be found on [Channel 9][channel-9-research-project].
 
@@ -21,7 +21,7 @@ app has mandatory setup steps in both Microsoft Azure & within the `web.config`
 within the project. The projects within in the Visual Studio solution are as follows:
 
 ### Web App - Single Page Application (SPA)
-![](images/spascrnsht.png)
+![Research Tracker Single Page Application sample main page](images/spascrnsht.png)
 
 The Web App is the primary way to interact with the Project Reference Tracker. It 
 is implemented as an ASP.NET MVC5, WebAPI for the backend & single page app (SPA) 
@@ -37,7 +37,7 @@ file in the **[SpResearchTracker](/src/SpResearchTracker)** project.
 -----------------
 
 ### Office Outlook App
-![](images/outlookscrnsht.png)
+![Research Tracker Outlook Add-in sample application main page](images/outlookscrnsht.png)
 
 The Outlook App installs in the Outlook Web App and automatically activates when 
 it detects a URL within the selected email. The user can then select an exiting 
@@ -54,7 +54,7 @@ file in the **[OutlookResearchTracker](/src/OutlookResearchTracker)** project.
 -----------------
 
 ### Office Word App
-![](images/wordscrnsht.png)
+![Research Tracker Word Add-in sample application content pane](images/wordscrnsht.png)
 
 The Word App installs in the Office Word desktop App as a new task pane. Once the 
 user logs in, they can select an existing project and one or more references to 
@@ -87,7 +87,7 @@ samples.
 -----------------
 
 ### Android App
-![](images/androidscrnsht.png)
+![Research Tracker Android sample application main page](images/androidscrnsht.png)
 
 The Android Research Tracker app is a complete implementation of the Project Research
 Tracker application for your Android mobile device. The user can create, edit,
@@ -101,7 +101,7 @@ You will find setup instructions in the **[README](/mobile/ResearchTracker.Andro
 -----------------
 
 ### iOS App
-![](images/iosscrnsht.png)
+![Research Tracker iOS sample application main page](images/iosscrnsht.png)
 
 The iOS Research Tracker app is a complete implementation of the Project Research
 Tracker application for your iOS mobile device (iPhone or iPad). The user can create,
