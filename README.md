@@ -1,4 +1,4 @@
-Microsoft SharePoint 2013 Cloud App Model Reference Implementation
+[ARCHIVED] Microsoft SharePoint 2013 Cloud App Model Reference Implementation
 ===========
 
 This repository contains three (3) reference implementation applications demonstrating 
